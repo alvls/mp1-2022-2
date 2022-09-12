@@ -3,7 +3,7 @@
 #include <locale.h>
 
 void main() {
-	double x1, y1, x2, y2, radius1, radius2;
+	double x_1, y_1, x_2, y_2, radius1, radius2;
 	double distanceBetweenCenters;	
 
 	// Установка русского языка
@@ -12,14 +12,14 @@ void main() {
 	// Вместо функции scanf используется scanf_s по указанию компилятора Visual Studio 
 
 	printf("Введите координаты и радиус первой точки: ");
-	scanf_s("%lf%lf%lf", &x1, &y1, &radius1);
+	scanf_s("%lf%lf%lf", &x_1, &y_1, &radius1);
 
 	printf("Введите координаты и радиус второй точки: ");
-	scanf_s("%lf%lf%lf", &x2, &y2, &radius2);
+	scanf_s("%lf%lf%lf", &x_2, &y_2, &radius2);
 
 
 	// Расстояние между центрами окружностей
-	distanceBetweenCenters = sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+	distanceBetweenCenters = sqrt(pow(x_1 - x_2, 2) + pow(y_1 - y_2, 2));
 
 
 	// Окружности не имеют общих точек (2 различных случая)
