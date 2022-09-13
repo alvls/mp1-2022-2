@@ -6,7 +6,7 @@ void main() {
 	double x_1, y_1, x_2, y_2, radius1, radius2;
 	double distanceBetweenCenters;	
 
-	// Установка русского языка для корректного отображения
+	// Установка русского языка 
 	setlocale(LC_ALL, "Russian");
 
 	// Вместо функции scanf используется scanf_s по указанию компилятора Visual Studio 
