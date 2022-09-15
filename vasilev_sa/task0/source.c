@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <math.h>
+#include <Windows.h> 
 void main()
 {
+    SetConsoleOutputCP(1251);
     int x1, y1, r1, x2, y2, r2, rmax, rmin;
     double ditance;
     printf("Enter the coordinates and radius of the first circle ");
@@ -23,24 +25,17 @@ void main()
     {
         printf("0 crossings\n");
     }
+    else if ((ditance == 0) && (r1 == r2))
+    {
+        printf("Сoincide\n");
+    }
+    else if ((ditance == rmax + rmin) || (ditance + rmin == rmax))
+    {
+        printf("1 crossing\n");
+    }
     else
     {
-        if ((ditance == 0) && (r1 == r2))
-        {
-            printf("Сoincide\n");
-        }
-        else
-        {
-            if ((ditance == rmax + rmin) || (ditance + rmin == rmax))
-            {
-                printf("1 crossing\n");
-            }
-            else
-            {
-                printf("2 crossings\n");
-            }
-        }
+        printf("2 crossings\n");
     }
     system("pause");
 }
-
