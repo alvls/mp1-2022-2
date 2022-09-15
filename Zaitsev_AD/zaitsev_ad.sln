@@ -17,7 +17,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "task6", "task6\task6.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "task0", "task0\task0.vcxproj", "{B475D131-B21D-4FDE-8540-4BDF9EE1F233}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "task_search", "..\..\..\task_search\Seacrh.vcxproj", "{1163CE80-AFD3-4F41-B3E5-A8572FFA667F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "task_search", "task_search\Seacrh.vcxproj", "{1163CE80-AFD3-4F41-B3E5-A8572FFA667F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
