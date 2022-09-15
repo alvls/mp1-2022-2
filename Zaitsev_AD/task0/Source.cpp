@@ -4,10 +4,13 @@
 #include <math.h>
 
 int main() {
+
 	setlocale(LC_CTYPE, "rus");
+
 	float x1, x2, y1, y2, r1, r2;
-	float diff, amount, length; 
 	// distance - сумма радиусов, length - фактическое расстояние между центрами окружностей
+	float diff, amount, length; 
+
 	printf("Введите через пробел координаты и радиус первой окружности (x1 y1 r1): ");
 	scanf_s("%f %f %f", &x1, &y1, &r1);
 
@@ -38,12 +41,8 @@ int main() {
 	else if (diff < length < amount) {
 		printf("Окружности пересекаются в двух точках");
 	}
-	else if (length = 0 || length < diff) {
-		printf("Одна окружность находится внутри другой");
-	}
 
 	printf("\n\n");
 	system("pause");
-
 	return 1;
 }
