@@ -17,7 +17,7 @@ void main()
 		printf("vneshnee kasanie");
 	else if ((dist < r1 + r2) && (dist > r1 - r2))
 		printf("Dve tochki peresecheniya");
-	else
-		printf("chto-to ne tak");
+	else if (dist = 0)
+		printf("krugi nalojeni drug na druga");
 	system("pause");
 }
