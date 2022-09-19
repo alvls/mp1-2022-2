@@ -17,6 +17,7 @@ void main()
 		if (l > (R1 - R2))
 			printf("intersecting circles");
 		else printf("a circle inside another");
+	getch();
 	}
 
 }
