@@ -28,13 +28,5 @@ void main() {
 		else { printf("2\n"); }
 	}
 	else { printf("You enter wrong radius!"); }
+	system("PAUSE");
 }
-
-
-
-
-
-
-
-
-
