@@ -20,9 +20,10 @@ void main()
 	// объявление переменных
 	float h = 0, w = 0, d = 0, t1 = 0.5, t2 = 1.5 , t3 = 1.5, t4 = 1, t5 = 0;
 	double value_1, value_2, value_3, value_4, value_5, all_value;
-	double material_DSP = 0.00075, material_DVP = 0.0004;
+	double material_DSP = 0.00075, material_DVP = 0.0004, material_wood = 0.00065;
 	int count;
-	// ввод значений
+	// ввод значений с непринятием неверных
+	printf("Необходимо внести параметры изделия:\n(если значения вне диапазона, то программа потребует ввести другие)\n");
 	while ((h < 180)||(h > 220))
 	{
 		printf("Введите высоту от 180 до 220 (в см): ");
@@ -48,12 +49,12 @@ void main()
 	value_1 = h * w * t1;								// задняя стенка из ДВП
 	value_2 = 2 * (h * d * t2);							// боковые стенки из ДСП
 	value_3 = 2 * (w * d * t3);							// крышки из ДСП
-	value_4 = h * w * t4;								// двери из ДСП
+	value_4 = h * w * t4;								// двери из дерева
 	value_5 = (w * d * t5) * count;						// внутренние полки из ДСП
 	// весь объём
-	all_value = material_DVP * (value_1) + material_DSP * (value_2 + value_3  + value_4 + value_5);
+	all_value = material_DVP * (value_1) + material_DSP * (value_2 + value_3 + value_5) + material_wood * (value_4);
 	// вывод ответа
 	printf("\nИтого:\nПолок %d, ", count);
-	printf("вес шкафа %.2lf кг \n(при плостности ДСП = 750 кг/кубометр и ДВП = 400 кг/кубометр)\n\n", all_value);
+	printf("вес шкафа %.2lf кг \n(при плостности ДСП = 750 кг/кубометр, ДВП = 400 кг/кубометр и дерева = 650 кг/кубометр)\n\n", all_value);
 	system("pause");
 }
