@@ -1,7 +1,3 @@
 ﻿  source.c
-C:\Users\kirya\mp1-2022-2\gnitienko_ky\task0\source.c(51,7): warning C4013: system: нет определения; предполагается "extern" с возвратом типа "int"
-C:\Users\kirya\mp1-2022-2\gnitienko_ky\task0\source.c(8,37): warning C4101: xmin: неиспользованная локальная переменная
-C:\Users\kirya\mp1-2022-2\gnitienko_ky\task0\source.c(8,43): warning C4101: ymax: неиспользованная локальная переменная
-C:\Users\kirya\mp1-2022-2\gnitienko_ky\task0\source.c(8,49): warning C4101: ymin: неиспользованная локальная переменная
-C:\Users\kirya\mp1-2022-2\gnitienko_ky\task0\source.c(8,31): warning C4101: xmax: неиспользованная локальная переменная
+C:\Users\kirya\mp1-2022-2\gnitienko_ky\task0\source.c(42,7): warning C4013: system: нет определения; предполагается "extern" с возвратом типа "int"
   task0.vcxproj -> C:\Users\kirya\mp1-2022-2\gnitienko_ky\x64\Debug\task0.exe
