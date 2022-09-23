@@ -18,7 +18,7 @@ void main() {
 	scanf("%lf %lf %lf", &x2, &y2, &r2);
 
     distance = sqrt(pow(x1 - x2,2) + pow(y1 - y2,2));
-	s
+
 	if ((distance < r1 + r2 && distance > r1 - r2) && (distance != 0)) {
 		printf("Окружности имеют 2 общие точки");
 	}
