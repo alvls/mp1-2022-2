@@ -7,6 +7,7 @@
 
 void main() {
 	double x1, x2, y1, y2, r1, r2, distance;
+
 	setlocale(LC_ALL, "Rus");
 
 	printf("Условие: r1 >= r2! Для удобства\n");
