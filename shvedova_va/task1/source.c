@@ -3,36 +3,36 @@
 #include <math.h>
 void main()
 {
-	double height, width, depth, thickness_inside, density_wood, M, m_back, m_side, m_bottom, m_inside,m_doors;
-	int p; //количесво внутренних полок
+	double height, width, depth, thickness_shelf, density_wood, M, m_back, m_side, m_bottom, m_shelves,m_doors;
+	int p; //number of shelves inside
 	const double density_dsp = 700, density_dvp = 800, thickness_back = 0.005, thickness_side = 0.015, thickness_bottom = 0.015, thickness_door=0.01;
 	setlocale(LC_ALL, "Rus");
-	printf("введите высоту шкафа в пределах 180-220 см: ");
+	printf("enter the height within 180-220 cm: ");
 	scanf_s("%lf", &height);
-	printf("введите ширину шкафа в пределах 80-120 см: ");
+	printf("enter the width within 80-120 cm: ");
 	scanf_s("%lf", &width);
-	printf("введите глубину шкафа в пределах 50-90 см: ");
+	printf("enter the depth within 50-90 cm: ");
 	scanf_s("%lf", &depth);
-	printf("введите плотность используемого дерева в кг/м^3: ");
+	printf("enter the density of the wood (kg/m^3): ");
 	scanf_s("%lf", &density_wood);
-	printf("введите толщину внутренних полок в пределах 5-15 мм: ");
-	scanf_s("%lf", &thickness_inside);
-	if ((height >= 180) && (height <= 220) && (width >= 80) && (width <= 120) && (depth >= 50) && (depth <= 90) && (thickness_inside >= 5) && (thickness_inside <= 15))
+	printf("enter the thickness of shelves 5-15 mm: ");
+	scanf_s("%lf", &thickness_shelf);
+	if ((height >= 180) && (height <= 220) && (width >= 80) && (width <= 120) && (depth >= 50) && (depth <= 90) && (thickness_shelf >= 5) && (thickness_shelf <= 15))
 	{
 		p = height / 40;
-		height = height / 100; //высота в метрах
-		width = width / 100; //ширина в метрах
-		depth = depth / 100; //глубина в метрах
-		thickness_inside = thickness_inside / 1000; //толщина внутренних полок в метрах
-		m_back = thickness_back * height * width * density_dvp; //масса задней стенки
-		m_side = thickness_side * height * depth * density_dsp; //масса боковины
-		m_bottom = thickness_bottom * width * depth * density_dsp; //масса нижней/верхней крышки
-		m_inside = thickness_inside * depth * (width - 2 * thickness_side) * density_dsp; //масса внутренней полки
-		m_doors = thickness_door * height * width * density_wood; //масса дверей
-		M = m_back + 2 * m_side + 2 * m_bottom + p * m_inside + m_doors;
-		printf("масса шкафа равна = %lf", M);
+		height = height / 100; //meters
+		width = width / 100; //meters
+		depth = depth / 100; //meters
+		thickness_shelf = thickness_shelf / 1000; //meters
+		m_back = thickness_back * height * width * density_dvp; 
+		m_side = thickness_side * height * depth * density_dsp; 
+		m_bottom = thickness_bottom * width * depth * density_dsp; 
+		m_shelves = thickness_shelf * depth * (width - 2 * thickness_side) * density_dsp; 
+		m_doors = thickness_door * height * width * density_wood; 
+		M = m_back + 2 * m_side + 2 * m_bottom + p * m_shelves + m_doors;
+		printf("The mass is  %lf ", M);
 	}
 	else 
-		printf("введены некорректные данные");
+		printf("Invalid values entered, try again! ");
 	system("pause");
 }
