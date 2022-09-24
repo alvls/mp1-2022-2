@@ -4,17 +4,18 @@
 #include <windows.h>
 void main()
 {
-    //Р·Р°РґР°РµРј РїРµСЂРµРјРµРЅРЅС‹Рµ + Р»РѕРєР°Р»РёР·Р°С†РёСЏ
-    char* locale = setlocale(LC_ALL, "Rus");
+    //задаем переменные + локализация
+    setlocale(LC_ALL, "Rus");
     int x1, y1, x2, y2, r1, r2;
-    int distance, R, r; //СЂР°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ С†РµРЅС‚СЂР°РјРё, Р±РѕР»СЊС€РёР№ Рё РјРµРЅСЊС€РёР№ СЂР°РґРёСѓСЃ
+    int distance, R, r; //расстояние между центрами, больший и меньший радиус
     //
-    //РІРІРѕРґ РґР°РЅРЅС‹С…
-    printf("x1 and y1 are the coordinates of the center of the 1st circle, x2 and y2 are the coordinates of the center of the 2nd circle, r1 and r2 are the radii of the 1st and 2nd circles, respectively\n");
+    //ввод данных
+    printf("Русский текст");
+    //printf("x1 and y1 are the coordinates of the center of the 1st circle, x2 and y2 are the coordinates of the center of the 2nd circle, r1 and r2 are the radii of the 1st and 2nd circles, respectively\n");
     printf("Enter x1,y1,x2,y2,r1,r2 in the appropriate order ");
     scanf("%d,%d,%d,%d,%d,%d", &x1, &y1, &x2, &y2, &r1, &r2);
     //
-    //РЅР°СЃС‚СЂРѕР№РєР° РїРµСЂРµРјРµРЅРЅС‹С…
+    //настройка переменных
     distance = sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2));
     if (r1 > r2)
     {
@@ -27,34 +28,20 @@ void main()
         r = r1;
     }
     //
-    //Р»РѕРіРёС‡РµСЃРєРёРµ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ
+    //логические преобразования
     if (distance > (R + r))
-    {
-        printf("The circles do not intersect, they lie separately from each other\n"); //РћРєСЂСѓР¶РЅРѕСЃС‚Рё РЅРµ РїРµСЂРµСЃРµРєР°СЋС‚СЃСЏ, Р»РµР¶Р°С‚ РѕС‚РґРµР»СЊРЅРѕ РґСЂСѓРі РѕС‚ РґСЂСѓРіР°
-    }
+        printf("The circles do not intersect, they lie separately from each other\n"); //Окружности не пересекаются, лежат отдельно друг от друга
     else if ((distance == 0) && (R == r))
-    {
-        printf("The circles lie on top of each other\n"); //РћРєСЂСѓР¶РЅРѕСЃС‚Рё СЃРѕРІРїР°РґР°СЋС‚ 
-    }
+        printf("The circles lie on top of each other\n"); //Окружности совпадают 
     else if ((distance == (R + r)) && (distance > 0))
-    {
-        printf("The circles lie separately from each other, have 1 intersection point\n"); //РћРєСЂСѓР¶РЅРѕСЃС‚Рё Р»РµР¶Р°С‚ РѕС‚РґРµР»СЊРЅРѕ РґСЂСѓРі РѕС‚ РґСЂСѓРіР°, РёРјРµСЋС‚ 1 С‚РѕС‡РєСѓ РїРµСЂРµСЃРµС‡РµРЅРёСЏ
-    }
+        printf("The circles lie separately from each other, have 1 intersection point\n"); //Окружности лежат отдельно друг от друга, имеют 1 точку пересечения
     else if (distance < (R - r))
-    {
-        printf("One circle lies inside the other, do not intersect\n"); //РћРґРЅР° РѕРєСЂСѓР¶РЅРѕСЃС‚СЊ Р»РµР¶РёС‚ РІРЅСѓС‚СЂРё РґСЂСѓРіРѕР№, РЅРµ РїРµСЂРµСЃРµРєР°СЋС‚СЃСЏ
-    }
+        printf("One circle lies inside the other, do not intersect\n"); //Одна окружность лежит внутри другой, не пересекаются
     else if (distance == (R - r))
-    {
-        printf("One circle lies inside the other, have 1 intersection point\n"); //РћРґРЅР° РѕРєСЂСѓР¶РЅРѕСЃС‚СЊ Р»РµР¶РёС‚ РІРЅСѓС‚СЂРё РґСЂСѓРіРѕР№, 1 РїРµСЂРµСЃРµС‡РµРЅРёРµ
-    }
+        printf("One circle lies inside the other, have 1 intersection point\n"); //Одна окружность лежит внутри другой, 1 пересечение
     else if (((R - r) < distance) && (distance < (R + r)))
-    {
-        printf("The circles intersect at two points\n"); //РћРєСЂСѓР¶РЅРѕСЃС‚Рё РїРµСЂРµСЃРµРєР°СЋС‚СЃСЏ РІ РґРІСѓС… С‚РѕС‡РєР°С…
-    }
+        printf("The circles intersect at two points\n"); //Окружности пересекаются в двух точках
     else
-    {
-        wprintf("Fail\n"); //РћС€РёР±РєР°
-    }
+        wprintf("Fail\n"); //Ошибка
     system("pause");
 }
