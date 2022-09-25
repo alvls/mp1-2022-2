@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <locale.h>
-#include <cstdlib>
+
 
 int main()
 {
@@ -30,7 +30,6 @@ int main()
 	}
 	system("pause");
 }
-
 
 
 
