@@ -3,9 +3,9 @@
 #include <math.h>
 void main()
 {
-	double height, width, depth, thickness_shelf, density_wood, M, m_back, m_side, m_bottom, m_shelves,m_doors;
+	double height, width, depth, density_wood, M, m_back, m_side, m_bottom, m_shelves,m_doors;
 	int p; //number of shelves inside
-	const double density_dsp = 700, density_dvp = 800, thickness_back = 0.005, thickness_side = 0.015, thickness_bottom = 0.015, thickness_door=0.01;
+	const double density_dsp = 700, density_dvp = 800, thickness_back = 0.005, thickness_side = 0.015, thickness_bottom = 0.015, thickness_door=0.01, thickness_shelf=0.015;
 	setlocale(LC_ALL, "Rus");
 	printf("enter the height within 180-220 cm: ");
 	scanf_s("%lf", &height);
@@ -15,15 +15,12 @@ void main()
 	scanf_s("%lf", &depth);
 	printf("enter the density of the wood (kg/m^3): ");
 	scanf_s("%lf", &density_wood);
-	printf("enter the thickness of shelves 5-15 mm: ");
-	scanf_s("%lf", &thickness_shelf);
-	if ((height >= 180) && (height <= 220) && (width >= 80) && (width <= 120) && (depth >= 50) && (depth <= 90) && (thickness_shelf >= 5) && (thickness_shelf <= 15))
+	if ((height >= 180) && (height <= 220) && (width >= 80) && (width <= 120) && (depth >= 50) && (depth <= 90))
 	{
 		p = height / 40;
 		height = height / 100; //meters
 		width = width / 100; //meters
 		depth = depth / 100; //meters
-		thickness_shelf = thickness_shelf / 1000; //meters
 		m_back = thickness_back * height * width * density_dvp; 
 		m_side = thickness_side * height * depth * density_dsp; 
 		m_bottom = thickness_bottom * width * depth * density_dsp; 
