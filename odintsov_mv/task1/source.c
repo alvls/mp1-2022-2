@@ -33,21 +33,10 @@ void main() {
 		ans = ans + counter * R_DSP * w * d * t_DSP;
 		// переведем в килограммы
 		ans = ans * 0.001;
-		printf("Вес=%f", ans);
-		
+		printf("Вес в кг =%f", ans);
 	}
 	else {
 		printf("Неверные данные");
-		
-		}
-
-
-
-
-
-
-
-	
-	
+	}
 system("pause");
 }
