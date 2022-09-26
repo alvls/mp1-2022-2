@@ -20,7 +20,7 @@ void main() {
 	m2 = ((h * d * side_walls_thicknes) * densityDSP) * 2;
 	m3 = ((w * d * top_and_bottom_cover_thicknes) * densityDSP) * 2;
 	m4 = ((h * w * overhead_doors_thicknes) * densityWOOD);
-	if (h < 2000)
+	if (h <= 2000)
 		j = 4;
 	else if (h > 2000)
 		j = 5;
