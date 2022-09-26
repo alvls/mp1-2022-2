@@ -1,0 +1,8 @@
+﻿  source.c
+C:\Users\kirya\mp1-2022-2\gnitienko_ky\task1\source.c(16,3): warning C4013: system: нет определения; предполагается "extern" с возвратом типа "int"
+C:\Users\kirya\mp1-2022-2\gnitienko_ky\task1\source.c(17,3): warning C4098: main: функция типа "void", возвращающая значение
+C:\Users\kirya\mp1-2022-2\gnitienko_ky\task1\source.c(26,3): warning C4098: main: функция типа "void", возвращающая значение
+C:\Users\kirya\mp1-2022-2\gnitienko_ky\task1\source.c(34,3): warning C4098: main: функция типа "void", возвращающая значение
+C:\Users\kirya\mp1-2022-2\gnitienko_ky\task1\source.c(53,30): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+C:\Users\kirya\mp1-2022-2\gnitienko_ky\task1\source.c(63,2): warning C4098: main: функция типа "void", возвращающая значение
+  task1.vcxproj -> C:\Users\kirya\mp1-2022-2\gnitienko_ky\x64\Debug\task1.exe
