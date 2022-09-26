@@ -5,18 +5,18 @@
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-	double   t1, t2, t3, t4, t5, V1, V2, V3, V4, V5, Massa, R1, R2, R3;
+	double   tolshina1, tolshina2, tolshina3, tolshina4, tolshina5, Value1, Value2, Value3, Value4, Value5, Massa, Plotnost1, Plotnost2, Plotnost3;
 	// R - плотность материала
 	int k5, h, w, d;
-	t1 = 0.05;
-	t2 = 0.15;
-	t3 = 0.15;
-	t4 = 1;
-	t5 = 0.15;
+	tolshina1 = 0.5;
+	tolshina2 = 1.5;
+	tolshina3 = 1.5;
+	tolshina4 = 1;
+	tolshina5 = 1.5;
 	// Возьмём примерные плотности материалов
-	R3 = 540;
-	R2 = 450;
-	R1 = 800;
+	Plotnost3 = 540;
+	Plotnost2 = 800;
+	Plotnost1 = 700;
 	// 1 - ДВП, 2 - ДСП, 3 - Дерево
 	// V - объемы соответствующих деталей, k - количество полок в зависимости от высоты
 	printf("Введите размеры задней стенки в см. (высота, ширина)\n");
@@ -37,12 +37,12 @@ int main()
 	else
 		k5 = h / 40;
 	// Вычислим объёмы деталей в зависимости от их кол-ва и размеров
-	V1 = h * w * t1;
-	V2 = 2 * h * d * t2;
-	V3 = 2 * w * d * t3;
-	V4 = 2 * h * w * t4;
-	V5 = k5 * t5 * w * d;
-	Massa = (R1 * V1 + R2 * (V2 + V3 + V5) + R3 * V4) * 0.000001;
+	Value1 = h * w * tolshina1;
+	Value2 = 2 * h * d * tolshina2;
+	Value3 = 2 * w * d * tolshina3;
+	Value4 = 2 * h * w * tolshina4;
+	Value5 = k5 * tolshina5 * w * d;
+	Massa = (Plotnost1 * Value1 + Plotnost2 * (Value2 + Value3 + Value5) + Plotnost3 * Value4) * 0.000001;
 	printf("Масса шкафа равна %lf кг", Massa);
 	system("PAUSE");
 	return 0;
