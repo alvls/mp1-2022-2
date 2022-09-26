@@ -13,13 +13,13 @@ void main()
 	p1 = 800;
 	p2 = 450;
 	p3 = 540;
-	thickness_of_back_wall = 0.05;
-	thickness_of_side_wall = 0.15;
-	thickness_of_upper_and_lower_wall = 0.15;
+	thickness_of_back_wall = 0.5;
+	thickness_of_side_wall = 1.5;
+	thickness_of_upper_and_lower_wall = 1.5;
 	thickness_of_doors = 1;
 	thickness_of_shelf = 1;
 
-	printf("Введите высоту задней стенки в сантиметрах: ");
+	printf("Введите высоту задней стенки (от 180 см до 220 см): ");
 	scanf_s("%d", &h);
 	if ((h < 180) || (h >= 220))
 	{
@@ -27,7 +27,7 @@ void main()
 	}
 	else
 	{
-		printf("Введите ширину задней стенки в сантиметрах: ");
+		printf("Введите ширину задней стенки (от 80 см ло 120 см): ");
 		scanf_s("%d", &w);
 		if ((w < 80) || (w >= 120))
 		{
@@ -35,7 +35,7 @@ void main()
 		}
 		else
 		{
-			printf("Введите глубину шкафа в сантиметрах: ");
+			printf("Введите глубину шкафа (от 50 см до 90 см): ");
 			scanf_s("%d", &depth);
 			if ((depth < 50) || (depth > 90))
 			{
@@ -57,7 +57,7 @@ void main()
 				v4 = 2 * h * w * thickness_of_doors;
 				v5 = num_shelf * thickness_of_shelf * w * depth;
 				mass = (p1 * v1 + p2 * (v2 + v3 + v5) + p3 * v4) * 0.000001;
-				printf("Масса шкафа: %f", mass);
+				printf("Масса шкафа: %f кг.", mass);
 			}
 		}
 	}
