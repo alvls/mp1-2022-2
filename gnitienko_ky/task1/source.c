@@ -13,13 +13,16 @@ void main() {
 	scanf_s("%lf", &h);
 	if (h < 180 || h > 220) {
 		printf("Ошибка\n");
+		system("pause");
 		return 1;
+		
 	}
 
 	printf("Введите ширину шкафа w от 80 до 120 см: ");
 	scanf_s("%lf", &w);
 	if (w < 80 || w > 120) {
 		printf("Ошибка\n");
+		system("pause");
 		return 1;
 	}
 
@@ -27,6 +30,7 @@ void main() {
 	scanf_s("%lf", &d);
 	if (d < 50 || d > 90) {
 		printf("Ошибка\n");
+		system("pause");
 		return 1;
 	}
 
@@ -47,9 +51,9 @@ void main() {
 	printf("Масса дверей из дерева: %.2lf кг\n", m4);
 
 	count_of_shelf = (h * 0.01) / (0.4 + l);
-	v5 = d * 0.01 * w * 0.01 * l * DSP;
+	v5 = d * 0.01 * w * 0.01 * l;
 	printf("Кол-во полок = %i\n", count_of_shelf);
-	m5 = count_of_shelf * v5;
+	m5 = count_of_shelf * v5 * DSP;
 	printf("Масса всех полок: %.2lf\n", m5);
 
 	m_full = m1 + m2 + m3 + m4 + m5;
