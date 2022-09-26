@@ -6,23 +6,17 @@
 
 void main()
 {
-    //локализация
     setlocale(LC_ALL, "Russian");
-    //объявление переменных
-    const int MIN = 1, MAX = 1000;
-    int guess = 0, guesses = 0, answer, local_min = 1, local_max = 1000, mode;
-    char sign, stop;
-    //режимы игры
+    int guess, mode, answer, guesses = 0, local_min = 1, local_max = 1000;
+    char sign, block;
     printf("Введите номер режима игры (1 или 2): ");
     scanf_s("%d", &mode);
-    //первый режим
     if (mode == 1)
     {
-        printf("\nАктивирован режим игры \"Программа загадывает случайное число\"\n\n");
-        //генерация случайного числа между MIN и MAX
+        printf("\nАктивирован режим игры \"Программа загадывает случайное число\"\n");
+        printf("  Правила игры:\nПрограмма загадывает число от 1 до 1000, а вы пытаетесь его угадать. \nПрограмма будет подсказывать больше число или меньше.\n\n");
         srand(time(0));
-        answer = (rand() % MAX) + MIN;
-        //цикл угадывания
+        answer = (rand() % local_max) + local_min;
         do {
             printf("Введите предположение: ");
             scanf_s("%d", &guess);
@@ -35,28 +29,27 @@ void main()
                 printf("Загаданное число больше\n\n");
             }
             else {
-                printf("\n\n\tВерно!\n");
+                printf("\n\nВы угадали\n");
             }
             guesses++;
         } while (guess != answer);
         printf("**********************\n");
-        printf("Ответ: %d\n", answer);
         printf("Количество попыток: %d\n", guesses);
         printf("**********************\n\n");
     }
-    //второй режим
     else if (mode == 2)
     {
-        printf("\nАктивирован режим игры \"Робот угадывает загаданное число\"\n\n");
-        printf("Введите число, которое будет угадывать робот: ");
+        printf("\nАктивирован режим игры \"Программа угадывает загаданное число\"\n");
+        printf("  Правила игры:\nВы загадваете число, а программа пытается его угадать по определенному алгоритму.\nВы должны подсказывать знаком \">\" если загаданное число больше, \"<\" оно меньше и \"=\" если программа угадала\n\n");
+        printf("Введите число, которое будет угадывать программа: ");
         scanf_s("%d", &answer);
         srand(time(0));
         do
         {
             guess = round((local_max - local_min) / 2) + local_min;
-            printf("Ответ робота: %d\n", guess);
-            printf("Введите > или < или =: ");
-            scanf_s("%c", &stop, 1);
+            printf("Ответ программы: %d\n", guess);
+            printf("Введите \">\" или \"<\" или \"=\": ");
+            scanf_s("%c", &block, 1);
             scanf_s("%c", &sign, 1);
             if (sign == '<')
                 local_max = guess;
@@ -64,9 +57,8 @@ void main()
                 local_min = guess;
             guesses++;
         } while (sign != '=');
-        printf("\n\n\tВерно!\n");
+        printf("\n\nПрограмма угадала\n");
         printf("**********************\n");
-        printf("Ответ: %d\n", answer);
         printf("Количество попыток: %d\n", guesses);
         printf("**********************\n\n");
     }
