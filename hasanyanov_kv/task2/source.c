@@ -26,11 +26,11 @@ int main()
 			else if (n < i)
 				printf("Загаданное число больше\n");
 			else if (n == i) {
-				printf("Угадали!!!");
+				printf("Угадали!!!\n");
 				win = 1;
 			}
 		}
-		printf("Вы выиграли, число попыток:" "%d", kpop);
+		printf("Вы выиграли, число попыток:" "%d\n", kpop);
 		system("PAUSE");
 	}
 	else if (mode == 2)
@@ -38,35 +38,42 @@ int main()
 		char znak;
 		int min = 0, max = 1000; // Будем после каждого предположения ограничивать диапазон значения, пока не получим нужный ответ.
 		printf("Загадайте число от 1 до 1000, а я попробую его отгадать\n");
+		system("PAUSE");
 		srand(time(NULL)); // Для перебора значений введём рандомайзер.
 		scanf_s("%c", &znak);
 		while (win != 1)
 		{
 			i = rand() % ((max - min) + 1) + min;
-			printf("%d?\n", i);
+			printf("Это число ""%d?\n", i);
 			scanf_s(" %c", &znak);
-			if (znak == '>')
+			switch (znak)
 			{
-				kpop++;
-				min = i;
-			}
-			else if (znak == '<')
-			{
-				kpop++;
-				max = i;
-			}
-			else if (znak == '=')
-			{
-				kpop++;
-				win = 1;
-			}
-			else
-			{
-				printf("Неверные данные!\n");
-				system("PAUSE");
+				case '>': 
+				{
+					kpop++;
+					min = i;
+					break;
+				}
+				case '<':
+				{
+					kpop++;
+					max = i;
+					break;
+				}
+				case '=':
+				{
+					kpop++;
+					win = 1;
+					break;
+				}
+				default:
+				{
+					printf("Неверные данные!\n");
+					system("PAUSE");
+				}
 			}
 		}
-		printf("Я выиграл!!! Количество попыток:" "%d\n", kpop);
+		printf("Я выиграл!!!\n Количество попыток:" "%d\n", kpop);
 		system("PAUSE");
 	}
 	return 0;
