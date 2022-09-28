@@ -21,6 +21,9 @@
   <ItemGroup>
     <ClCompile Include="source.c" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{913E5B44-6BF5-498C-A0B2-54BC3A464C95}</ProjectGuid>
@@ -85,6 +88,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
