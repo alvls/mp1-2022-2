@@ -72,10 +72,6 @@ void main()
                     guesses--;
                     break;
                 }
-                /*if (sign == '<')
-                    local_max = guess;
-                else if (sign == '>')
-                    local_min = guess;*/
                 guesses++;
             } while (sign != '=');
             printf("\n\nПрограмма угадала\n");
