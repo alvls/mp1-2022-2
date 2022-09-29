@@ -40,11 +40,11 @@ int main()
 		int min = 0, max = 1000, random; // Будем после каждого предположения ограничивать диапазон значения, пока не получим нужный ответ.
 		printf("Загадайте число от 1 до 1000, а я попробую его отгадать\n");
 		system("PAUSE");
-		srand(time(NULL)); // Для перебора значений введём рандомайзер.
+		srand(time(NULL)); // Для перебора значений введём рандомайзер, который будет угадывать число.
 		scanf_s("%c", &znak);
 		while (win != 1)
 		{
-			random = rand() % (max - min + 1) + min;
+			random = rand() % (max - min + 1) + min; //Формула с учётом ограничений сверху и снизу.
 			printf("Это число ""%d?\n", random);
 			scanf_s(" %c", &znak);
 			switch (znak)
@@ -52,7 +52,7 @@ int main()
 				case '>': 
 				{
 					kpop++;
-					min = random;
+					min = random + 1;
 					break;
 				}
 				case '<':
@@ -79,8 +79,8 @@ int main()
 	}
 	else
 	{
-		printf("Неверные данные");
+		printf("Неверные данные\n");
 		system("PAUSE");
-	}
+	} 
 	return 0;
 }
