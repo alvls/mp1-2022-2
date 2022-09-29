@@ -49,38 +49,38 @@ int main()
 			scanf_s(" %c", &znak);
 			switch (znak)
 			{
-				case '>':
+			case '>':
 				{
 					kpop++;
 					min = random + 1;
 					break;
 				}
-				case '<':
+			case '<':
 				{
 					kpop++;
 					max = random - 1;
 					break;
 				}
-				case '=':
+			case '=':
 				{
 					kpop++;
 					win = 1;
 					break;
 				}
-				default:
+			default:
 				{
 					printf("Неверные данные!\n");
 					system("PAUSE");
 				}
-				printf("Я выиграл!!!\n Количество попыток:" "%d\n", kpop);
-				system("PAUSE");
 			}
 		}
+		printf("Я выиграл!!!\n Количество попыток:" "%d\n", kpop);
+		system("PAUSE");
 	}
 	else
 	{
 		printf("Неверные данные\n");
 		system("PAUSE");
-	} 
+	}
 	return 0;
 }
