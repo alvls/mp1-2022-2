@@ -20,7 +20,6 @@ void main()
 	if (who_guesses == 'u')
 	{
 		const int start = 0, end = 1000;
-
 		original_value = random_number(start, end);
 		do
 		{
@@ -39,13 +38,13 @@ void main()
 
 			else
 				printf("The entered value is greater then the original value. Try again!\n");
-		} while (guessed_value != original_value);
+		}
+		while (guessed_value != original_value);
 	}
 	else if (who_guesses == 'm')
 	{
 		char condition;
 		int start = 0, end = 1000;
-
 		printf("\nEnter the original value (int number from 1 to 1000): ");
 		scanf_s("%d", &original_value);
 		do
@@ -71,10 +70,11 @@ void main()
 			else
 				start = guessed_value;
 			
-		} while (condition != '=');
+		}
+		while (condition != '=');
 	}
 	else
 		printf("\n\nYou entered an invalid value!\n\n");
-	
+
 	system("pause");
 }
