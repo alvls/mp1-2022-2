@@ -38,5 +38,5 @@ void main() {
 	else {
 		printf("Неверные данные");
 	}
-system("pause");
+	system("pause");
 }
