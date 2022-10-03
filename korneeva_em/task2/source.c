@@ -48,7 +48,7 @@ void main()
 			try = round((max - min) / 2) + min;
 			printf("«агаданное число %i?\n", try);
 			printf("”кажите знаком загаданное число больше, меньше или равно: \n");
-			scanf_s("%c", &sign);
+			scanf_s("\n%c", &sign);
 			if (sign == '<')
 				max = try;
 			if (sign =='>')
