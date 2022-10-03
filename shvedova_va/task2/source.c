@@ -12,7 +12,7 @@ void main()
 	if (regime == 1)
 	{
 		srand(time(NULL));
-		number = ("%d\n", 1 + rand() % 1000);
+		number = (1 + rand() % 1000);
 		num_ent = 0;
 		count = 0;
 		while (num_ent != number)
