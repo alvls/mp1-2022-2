@@ -5,7 +5,7 @@
 void main()
 {
     int number, num_ent, count, regime, minimum, maximum;
-	char op;
+    char op;
 	setlocale(LC_ALL, "Rus");
 	printf("Выберете режим игры: введите 1 или 2 \n");
 	scanf_s("%i", &regime);
