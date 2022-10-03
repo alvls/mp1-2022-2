@@ -4,7 +4,7 @@
 #include <time.h>
 #include <math.h>
 
-void main()
+void main() 
 {
 	setlocale(LC_ALL, "Rus");
 
@@ -17,21 +17,18 @@ void main()
 	const int RAND_MIN = 1;
 
 
-	if (version == 1)
-	{
+	if (version == 1) {
 		srand(time(0));
 		botnumber = RAND_MIN + (rand() % RANDOM_MAX);
 		//printf("%i", botnumber); проверка числа
 		printf("Попробуйте угадать число)\n");
 		while (usernumber != botnumber) {
 			scanf_s("%i", &usernumber);
-			if (usernumber < botnumber)
-			{
+			if (usernumber < botnumber) {
 				printf("Загаданное число больше\n");
 				count_of_try++;
 			}
-			if (usernumber > botnumber)
-			{
+			if (usernumber > botnumber) {
 				printf("Загаданное число меньше\n");
 				count_of_try++;
 			}
