@@ -4,10 +4,10 @@
 int shelves_count(float h)//функция подсчета количества полок
 {
 	float sh_count = 0, ThicknessUsed = 40;
-	while ((ThicknessUsed+1.5)<=h)
+	while ((ThicknessUsed + 1.5) <= h)
 	{
-		sh_count = sh_count + 1; 
-		ThicknessUsed = ThicknessUsed + 41.5; 
+		sh_count = sh_count + 1;
+		ThicknessUsed = ThicknessUsed + 41.5;
 	}
 	return (int)sh_count;
 }
@@ -15,7 +15,7 @@ void main()
 {
 	setlocale(LC_ALL, "Rus");//локализация
 	//задание переменных и констант 
-	float h = 0, w = 0, d = 0,m; //задаваемые размеры шкафа
+	float h = 0, w = 0, d = 0, m; //задаваемые размеры шкафа
 	float dsp, dvp, wood;//плотности материалов
 	float t_dsp = 1.5, t_dvp = 0.5, t_door = 1; //толщины материалов
 	int sh;//количество полок

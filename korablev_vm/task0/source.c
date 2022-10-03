@@ -10,7 +10,6 @@ void main()
     int distance, R, r; //расстояние между центрами, больший и меньший радиус
     //
     //ввод данных
-    printf("Русский текст");
     //printf("x1 and y1 are the coordinates of the center of the 1st circle, x2 and y2 are the coordinates of the center of the 2nd circle, r1 and r2 are the radii of the 1st and 2nd circles, respectively\n");
     printf("Enter x1,y1,x2,y2,r1,r2 in the appropriate order ");
     scanf("%d,%d,%d,%d,%d,%d", &x1, &y1, &x2, &y2, &r1, &r2);
