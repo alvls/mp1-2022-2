@@ -60,5 +60,5 @@ void main() {
 
 	printf("Масса шкафа: %.2lf кг\n", m_full);
 	system("pause");
-	return 1;
+	//return 1;
 }
