@@ -66,11 +66,11 @@ void mode2()
         }
         else if (ans == '<')
         {
-            end = guess;
+            end = guess - 1;
         }
         else if (ans == '>')
         {
-            begin = guess;
+            begin = guess + 1;
         }
         else
         {
