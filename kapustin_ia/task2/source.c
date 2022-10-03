@@ -47,10 +47,12 @@ void main()
 				break;
 			}
 		} while (1);
+		system("pause");
+		break;
 	case 2:
 		setlocale(LC_ALL, "RUS");
 		min = 0;
-		max = 1000;
+		max = 1001;
 		medium = 500;
 		n = 0;
 		char op;
