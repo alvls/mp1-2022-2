@@ -77,7 +77,7 @@ void main()
 		else
 			printf("\n\nYou entered an invalid value!\n\n");
 
-		printf("\nMaybe we will play one more time? :) (Enter 'c' to continue and 'q' to quit): \n");
+		printf("\nMaybe we will play one more time? :) (Enter any character except 'q' to continue and 'q' to quit): \n");
 		game_condition = getch();
 	} while (game_condition != 'q');
 
