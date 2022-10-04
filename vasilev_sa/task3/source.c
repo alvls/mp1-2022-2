@@ -4,11 +4,13 @@
 #include <math.h>
 
 
-int check_conditions(int input_number, short n)
+int check_conditions(int input_number, short n, short count)
 {
     short array[5] = { 0 };
     if (input_number < 0)
         return 0;
+    if (count < 1)
+        return 1;
     if ((input_number < pow(10, n - 1)) || (input_number >= pow(10, n)))
         return 1;
     for (int k = 0; k < n; k++)
@@ -31,24 +33,19 @@ int check_conditions(int input_number, short n)
 
 void main()
 {
+    const short many = 20;
+    short all_digits[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, robot_array[5] = { 0, 0, 0, 0, 0 }, human_array[5] = { 0, 0, 0, 0, 0 };
+    int generate_number = 0, input_number, attempts = 0;
+    short n, random_place, she_cow_count, he_cow_count, count;
+    char ch;
     setlocale(LC_ALL, "Russian");
-    //обьявление переменных и констант
-    short many = 20;
-    short all_digits[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    short robot_array[5] = { 0, 0, 0, 0, 0 }, human_array[5] = { 0, 0, 0, 0, 0 };
-    int generate_number = 0, input_number;
-    short n, random_place;
-    short she_cow_count, he_cow_count;
-    int attempts = 0;
-
-    // ввод количества цифр
     do
     {
         printf("Введите необходимое количество цифр (от 2 до 5): ");
-        scanf_s("%hd", &n);
-        printf("Вы должны вводить числа так, как того просит программа, иначе она не примет ваши значения. \nЕсли вы хотите закончить попытку, то введите отрицательное число.\n\nНачало игры:\n");
-        } while ((n < 2) || (n > 5));
-    // генерация случайного n-значного числа
+        count = scanf_s("%hd", &n);
+        while (ch = getchar() != '\n');
+    } while ((n < 2) || (n > 5) || (count < 1));
+
     for (int i = 0; i < n; i++)
     {
         srand(time(0));
@@ -72,19 +69,20 @@ void main()
     }
     for (int k = 0; k < n; k++)
         generate_number += robot_array[k] * (int)pow(10, n - k - 1);
-    //цикл игры
+
+    printf("\nПравила игры:\nВы должны вводить числа так, как того просит программа, иначе она не примет ваши значения. \nЕсли вы хотите закончить попытку, то введите отрицательное число.\n\nНачало игры:\n");
     while (1)
     {
-        // обнуление результатов
         he_cow_count = 0;
         she_cow_count = 0;
-        // счётчик попыток
         attempts++;
+
         do
         {
             printf("%d попытка: Введите %d-значное число, где цифры не повторяются: ", attempts, n);
-            scanf_s("%d", &input_number);
-        } while (check_conditions(input_number, n));
+            count = scanf_s("%d", &input_number);
+            while (ch = getchar() != '\n');
+        } while (check_conditions(input_number, n, count));
         if (input_number < 0)
         {
             printf("Ответ: %d\n", generate_number);
@@ -92,7 +90,6 @@ void main()
         }
         else
         {
-            //число человека в массив
             for (int k = 0; k < n; k++)
             {
                 human_array[n - k - 1] = input_number % 10;
