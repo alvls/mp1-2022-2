@@ -39,7 +39,7 @@ void main()
 	{
 		printf("¬ведите загаданное число: \n");
 		scanf_s("%d", &n);
-		max = 1000;
+		max = 1001;
 		min = 1;
 		flag = 0;
 		while (1)
