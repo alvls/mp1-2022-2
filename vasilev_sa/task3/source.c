@@ -4,6 +4,7 @@
 #include <math.h>
 
 
+
 int check_conditions(int input_number, short n)
 {
     short array[5] = { 0 };
