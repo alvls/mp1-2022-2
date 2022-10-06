@@ -8,8 +8,7 @@ void main()
 {
 	setlocale(LC_ALL, "Rus");
 
-	int cnt, num, user_num, v1, v2, user_v;
-	float answ, answ1, dist; //переменные для алгоритма бинарного поиска//
+	int cnt, num, user_num, v1, v2, user_v, answ, answ1, dist;  //переменные для алгоритма бинарного поиска//
 	char user_answ;
 	printf("Добро пожаловать в игру 'Угадай число'!\n\n");
 	printf("В какой вариант игры вы бы хотели сыграть,\nВ первый или во второй?\nВ первом режиме вам нужно будет угадать число,\nа во втором - угадываю я\n(Введите соответствующее число):\n"); //выбор режима игры//
@@ -53,16 +52,12 @@ void main()
 			while (1) //здесь используется алгоритм бинарного поиска, для более быстрого поиска числа//
 			{
 
-				printf("Ваше число: %f?\n", answ);
+				printf("Ваше число: %d\n", answ);
 				scanf_s(" %c", &user_answ);
 				if (user_answ == '>')
 				{
 					dist = abs(answ1 - answ);
 					answ1 = answ;
-					if (answ >= 994)
-					{
-						answ = answ + 1;
-					}
 					answ = answ + (int)(dist / 2);
 					cnt++;
 				}
@@ -70,23 +65,12 @@ void main()
 				{
 					dist = abs(answ1 - answ);
 					answ1 = answ;
-					if (answ <= 6)
-					{
-						answ = answ - 1;
-					}
-					else if ((int)(dist) % 2 == 0)
-					{
-						answ = answ - (int)(dist / 2);
-					}
-					else
-					{
-						answ = (int)(answ - (dist / 2)) + 1;
-					}
+					answ = (int)(answ - (dist / 2));
 					cnt++;
 				}
 				else if (user_answ == '=')
 				{
-					printf("Ура!\nВаше число: %f\nКоличесвто попыток: %d\n", answ, cnt);
+					printf("Ура!\nВаше число: %d\nКоличесвто попыток: %d\n", answ, cnt);
 					break;
 				}
 				else
