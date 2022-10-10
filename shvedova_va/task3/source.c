@@ -5,7 +5,7 @@
 #define c_size 5
 void main()
 {
-	int length, number_enter, check_number, c_digits, n, bulls, cows, match, computer[c_size], digit, i = 1, j = 0, c, end;
+	int length, number_enter, check_number, count_digits, n, bulls, cows, match, computer[c_size], digit, i = 1, j = 0, c, end;
 	setlocale(LC_ALL, "Rus");
 	printf("Введите длину загадываемого числа (2<=n<=5): ");
 	scanf_s("%d", &length);
@@ -31,12 +31,12 @@ void main()
 		printf("\nПопробуйте угадать число заданной длины и введите его (все цифры числа различны): ");
 		scanf_s("%d", &number_enter);
 		check_number = number_enter;
-		c_digits = 0;
+		count_digits = 0;
 		while (check_number > 0) {
-			c_digits ++;
+			count_digits ++;
 			check_number /= 10;
 		}
-		if (c_digits != length) {
+		if (count_digits != length) {
 			printf("Введено число несоответсвующей длины, заданная длина: %d ", length);
 			break;
 		}
