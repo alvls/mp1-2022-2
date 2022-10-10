@@ -5,7 +5,7 @@
 
 #define DIGITS 10
 
-// Function to clear the input sream
+// Function to clear the input stream
 void clean_stdin()
 {
     int c;
