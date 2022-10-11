@@ -3,6 +3,7 @@
 #include <math.h>
 #include <time.h>
 #include <string.h>
+#define ENUM 11
 
 void main()
 {
@@ -20,7 +21,6 @@ void main()
 	}
 
 	int number = 0, digit, count_of_try = 0, surrender = 0;
-	const int enumiration = 11;
 	int digits[] = { 0,1,2,3,4,5,6,7,8,9 }, bot_mas[5] = { 0 }, user_mas[5] = { 0 };
 	for (int i = 0; i < n; i++) {
 		srand(time(0));
@@ -29,11 +29,11 @@ void main()
 		if (digits[digit] < 10) {
 			if ((i == 0) && (digit == 0)) {
 				bot_mas[i] = 1;
-				digits[1] = enumiration;
+				digits[1] = ENUM;
 			}
 			else {
 				bot_mas[i] = digits[digit];
-				digits[digit] = enumiration;
+				digits[digit] = ENUM;
 			}
 		}
 		else
