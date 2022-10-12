@@ -12,7 +12,7 @@ void clean_stdin()
     do
     {
         c = getchar();
-    } while (c != '\n' && c!=EOF);
+    } while (c != '\n' && c != EOF);
 }
 
 // Function to generate a random digit
@@ -83,7 +83,7 @@ void main()
 
                 int temp_guess_number = guess_number;
 
-                for (int i = n - 1; i >= 0; i--)
+                for (int i = n-1; i >= 0; i--)
                 {
                     guess_number_array[i] = temp_guess_number % 10;
                     guess_number_digits[ guess_number_array[i] ] += 1;
@@ -126,7 +126,7 @@ void main()
 
                     int temp_hidden_number = hidden_number;
                     temp_guess_number = guess_number;
-                    for (int i = n - 1; i >= 0; i--)
+                    for (int i = n-1; i >= 0; i--)
                     {
                         hidden_number_array[i] = temp_hidden_number % 10;
                         if (hidden_number_array[i] == guess_number_array[i])
