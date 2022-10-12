@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <locale.h>
 #include <stdlib.h>
+#include <math.h>
 #include <windows.h> //Библиотеки для работы с консолью//
 #include <memory.h>
+
 
 enum TColor {            //Набор цветов//
 	BLACK, BLUE, GREEN, CYAN, RED, MAGENTA, BROWN, LIGHTGRAY,
@@ -60,25 +62,26 @@ void main()
 	setwindow(86, 30); //Применение параметров размера окна//
 
 	setlocale(LC_ALL, "Rus");
+
 	int res = TRUE;
+	const int COUNT = 9, COUNT_word = 8;
+	char ch, yn, word[] = { 'W', 'e', 'l', 'c', 'o', 'm', 'e', '!' };
+
 	while (res == TRUE) //Цикл для повтора игры//
 	{
+		int n = 1, cnt = 0, bul = 0, cow = 0, betw = 0, j = 0, i = 1, hint = 1;
+		int user_num, len_for_user_num = 0, user_numberi = 0, degree, detecter;
+		int computer_num[4], user_numbers[4], numbers[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
 		srand(time(0));
 
-		int cnt = 0, len_for_user_num = 0, i = 1, hint = 1, number0 = 10, number1 = 10, number2 = 10, number3 = 10;
-		int n = 0, detecter, user_num, user_num_clone, user_numberi = 11, bol = 0, cow = 0;
-		const int COUNT = 9, COUNT_word = 8, COUNT_num = 8;
-
-		char ch, yn, array[] = {'W', 'e', 'l', 'c', 'o', 'm', 'e', '!'}; //Создаём массивы//
-		int num[4], user_numbers[] = { 11, 12, 13, 14 }, rand_nums[4];
-
-		printf("               ");
-		for (int j = 0; j < COUNT_word; j++) //Выводим каждый элемент массива по отдельности при этом, меняем цвет элемента//
+		printf("\n               ");
+		for (j = 0; j < COUNT_word; j++) //Выводим каждый элемент массива по отдельности при этом, меняем цвет элемента//
 		{
 			while (i < COUNT)
 			{
 				textcolor(i);
-				printf("%c", array[j]);
+				printf("%c", word[j]);
 				i++;
 				break;
 			}
@@ -99,6 +102,8 @@ void main()
 			printf("Ввведите длину числа (от 2 до 5): ");
 			textattr(WHITE);
 			scanf_s("%d", &n);
+
+			while (ch = getchar() != '\n'); //Отчистка буфера//
 
 			if (n == 0) //Выход из программы//
 			{
@@ -121,36 +126,28 @@ void main()
 			}
 		}
 
-		number0 = 1 + rand() % 9; //Создание случайного числа с не повторяющимися числами, с последующим добавлением в массив//
-		if (n == 2)
+		for (i = 9; i >= 1; i--)  //Перемешиваем массив, тем самым создаем случайное число с неповторяющимеся цифрами//
 		{
-			while ((number1 = rand() % 9) == number0);
-			num[0] = number1;
-			num[1] = number0;
+			j = rand() % (i + 1);
+			betw = numbers[j];
+			numbers[j] = numbers[i];
+			numbers[i] = betw;
 		}
-		else if (n == 3)
+
+		computer_num[0] = numbers[0];
+		computer_num[1] = numbers[1];
+
+		if (computer_num[0] == 0) //Проверка равенства первой цифры нулю//
 		{
-			while (number2 == number0 || number2 == number1 || number0 == number1)
-			{
-				number1 = rand() % 9;
-				number2 = rand() % 9;
-			}
-			num[0] = number2;
-			num[1] = number1;
-			num[2] = number0;
+			computer_num[0] = numbers[4];
 		}
-		else if (n == 4)
+
+		switch (n)
 		{
-			while (number2 == number0 || number2 == number1 || number0 == number1 || number3 == number0 || number3 == number1 || number3 == number2)
-			{
-				number1 = rand() % 9;
-				number2 = rand() % 9;
-				number3 = rand() % 9;
-			}
-			num[0] = number3;
-			num[1] = number2;
-			num[2] = number1;
-			num[3] = number0;
+			case 3: computer_num[2] = numbers[2];
+				break;
+			case 4: computer_num[2] = numbers[2], computer_num[3] = numbers[3];
+				break;
 		}
 
 		textcolor(YELLOW);
@@ -167,6 +164,7 @@ void main()
 			printf("\nВведите вашу догадку: ");
 			textattr(WHITE);
 			scanf_s("%d", &user_num);
+
 			while (ch = getchar() != '\n'); //Отчистка буфера//
 			if (user_num == 0)
 			{
@@ -176,8 +174,10 @@ void main()
 				res = FALSE;
 				break;
 			}
+
 			len_for_user_num = user_num;
 			cnt = 0;
+
 			while (len_for_user_num != 0) //Подсчёт количества цифр в пользовательском числе//
 			{
 				len_for_user_num /= 10;
@@ -189,21 +189,20 @@ void main()
 				printf("\nОшибка!\n");
 				textcolor(YELLOW);
 				printf("Ваше число не соответствует нужной длине!\n");
-				hint++;
 			}
 			else
 			{
-				for (int i = 0; i < 4; i++) //Разбиение пользовательского числа по цифрам//
-				{
-					if (user_num == 0)
-						break;
-					user_numberi = user_num % 10;
-					user_num /= 10;
+				for (i = 0, degree = n - 1; i < n; i++, degree--) //Разбиение пользовательского числа по цифрам, //
+				{												 //с последующим добавлением цифр в массив по порядку//
+					int c = pow(10, degree);
+					user_numberi = user_num  / c;
+					user_num %= c;
 					user_numbers[i] = user_numberi;
 				}
-				for (int i = 0; i < 2; i++) //Проверка на совпадение цифр в пользовательском числе, с помощью 2х циклов for//
+				
+				for (i = 0; i < n - 1; i++) //Проверка на совпадение цифр в пользовательском числе, с помощью 2х циклов for//
 				{
-					for (int j = i + 1; j < 3; j++)
+					for (j = i + 1; j < n; j++)
 					{
 						if (user_numbers[i] == user_numbers[j])
 						{
@@ -212,51 +211,51 @@ void main()
 							textcolor(YELLOW);
 							printf("В Вашем числе не должны встречаться повторяющиеся цифры!\nЧитайте правила внимательней!\n");
 							detecter++;
-							hint++;
 							break;
 						}
 					}
-					break;
 				}
 				if (detecter > 0)
 				{
 				}
 				else
 				{
-					bol = 0;
+					bul = 0;
 					cow = 0;
-					for (int i = 0; i < 4; i++) //Подсчёт "быков"//
+					for (i = 0; i < n; i++) //Подсчёт "быков"//
 					{
-						if (num[i] == user_numbers[i])
-							bol++;
+						if (computer_num[i] == user_numbers[i])
+							bul++;
 					}
 
-					for (int i = 3; i >= 0; i--) //Подсчёт "коров"//
+					for (i = 0; i < n; i++) //Подсчёт "коров"//
 					{
-						for (int j = 3; j >= 0; j--)
+						for (j = 0; j < n; j++)
 						{
-							if (i == j)
+							if (i != j)
 							{
-								if (num[i] == user_numbers[j - 1])
+								if (computer_num[i] == user_numbers[j])
+								{
 									cow++;
-								break;
+								}
 							}
-							if (num[i] == user_numbers[j])
-								cow++;
 						}
 					}
 					textcolor(YELLOW); //Вывод//
 					printf("Количество коров: %d\n", cow);
-					printf("Количество быков: %d\n", bol);
+					printf("Количество быков: %d\n", bul);
 					hint++;
-					if (n == bol) //Проверка на победу//
+					if (n == bul) //Проверка на победу//
 					{
+						hint--;
 						textcolor(YELLOW);
-						printf("\nПобеда!\nВы угадали все число!\nХотите сыграть ещё раз? (Y/N)\n");
+						printf("\nПобеда!\nВы угадали все число!\nКоличество попыток: %d\nХотите сыграть ещё раз? (Y/N) ", hint);
 						textattr(WHITE);
 						scanf_s("\n%c", &yn);
 						if (yn == 'N' || yn == 'n')
 						{
+							textcolor(YELLOW);
+							printf("\nДо свидания!\n");
 							textcolor(WHITE);
 							res = FALSE;
 							break;
