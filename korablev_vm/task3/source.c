@@ -47,6 +47,7 @@ start:
 	newgame = 0;
 	gaveup = 0;
 	do{
+		showcursor();
 		cord_x = (window.Left + window.Right) / 4;
 		gotoxy(28, wherey());
 		printf("Введите длину угадываемого числа (от 2 до 5) ");
@@ -116,7 +117,12 @@ start:
 	attempts++;
 	}
 	if (bulls == LengthOfNumber) {
+		clrscr();
+		cord_x = (window.Left + window.Right) / 3 + 2;
+		gotoxy(cord_x, wherey() + 1);
 		printf("Вы угадали! \n");
+		gotoxy(cord_x, wherey() + 1);
+		printf("Количество попыток: %d \n",attempts);
 	}
 	exit:
 	cord_x = (window.Left + window.Right) / 3-5;
@@ -131,7 +137,7 @@ start:
 		printf("%d", robot[i]);
 	}
 	cord_x = (window.Left + window.Right) / 3-5;
-	gotoxy(cord_x, wherey() + 1);
+	gotoxy(cord_x, wherey() + 5);
 	printf("Хотите ли начать новую игру? 1- да, 2 - нет: ");
 	scanf_s("%d", &newgame);
 	if (newgame == 1){
