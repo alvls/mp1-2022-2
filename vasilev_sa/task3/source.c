@@ -6,7 +6,9 @@
 #include <windows.h>
 #include "Header.h"
 
-#define many 20;
+#define many 20
+#define MAX_ALL_DIGITS 10
+#define MAX_ARRAYS 5
 
 int check_conditions(int input_number, short n, short count)
 {
@@ -37,7 +39,7 @@ int check_conditions(int input_number, short n, short count)
 
 void main()
 {
-  short all_digits[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, robot_array[5] = { 0, 0, 0, 0, 0 }, human_array[5] = { 0, 0, 0, 0, 0 };
+  short all_digits[MAX_ALL_DIGITS] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, robot_array[MAX_ARRAYS] = { 0 }, human_array[MAX_ARRAYS] = { 0 };
   int generate_number = 0, input_number, attempts = 0, time_x, time_y;
   short n, random_place, cows, bulls, count;
   char ch;
@@ -110,7 +112,7 @@ void main()
   for (int k = 0; k < n; k++)
       generate_number += robot_array[k] * (int)pow(10, n - k - 1);
 
-  time_x = (window.Left + window.Right) / 2 - 5;
+  time_x = (window.Left + window.Right) / 2 - 6;
   time_y = (window.Top + window.Bottom) / 2 - 1;
   while (1)
   {
@@ -180,56 +182,3 @@ void main()
   textcolor(BLACK);
   system("pause");
 }
-//int main()
-//{
-//    const int COUNT = 16 * 16;
-//    SMALL_RECT window;
-//    COORD buf;
-//    getwindow(&window, &buf);
-//    hidecursor();
-//    //printf("%d %d %d %d", window.Left, window.Top, window.Right, window.Bottom);
-//    setwindow(120, 250);
-//    getchar();
-//    textattr(LIGHTGRAY);
-//
-//    clrscr();
-//
-//    gotoxy(10, 10);
-//    printf("test\n");
-//
-//    gotoxy(0, 12);
-//    textattr(RED);
-//    printf("abcd");
-//    getchar();
-//
-//    gotoxy(2, 12);
-//    textbackground(BLUE);
-//    printf("cdef");
-//    getchar();
-//
-//    gotoxy(4, 12);
-//    textcolor(BLUE);
-//    textbackground(YELLOW);
-//    printf("efgh");
-//
-//    for (int i = 0; i < COUNT; i++)
-//    {
-//        textcolor(i);
-//        textbackground(i / 16);
-//        printf("a");
-//    }
-//
-//    textattr(LIGHTGRAY);
-//
-//    int page = GetConsoleOutputCP();
-//    printf("page = %d", page);
-//    SetConsoleOutputCP(1251);
-//
-//    printf("press any key");
-//    getchar();
-//    setWindow(window, buf);
-//
-//    showcursor();
-//
-//    return 0;
-//}
