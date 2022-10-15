@@ -13,7 +13,6 @@ void main() {
 
 	x = 0 + rand() % 9;
 	number[0] = a[x];
-	printf("%d", number[0]);
 	a[x] = 999;
 	for (int i = 1; i < n; i++) {
 		x = 0 + rand() % 10;
@@ -28,7 +27,6 @@ void main() {
 			number[i] = a[x];
 			a[x] = 999;
 		}
-		printf("%d", number[i]);
 	}
 	
 	
