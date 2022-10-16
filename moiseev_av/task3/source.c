@@ -70,7 +70,7 @@ void main()
 	while (res == TRUE) //Цикл для повтора игры//
 	{
 		int n = 1, cnt = 0, bul = 0, cow = 0, betw = 0, j = 0, i = 1, hint = 1;
-		int user_num, len_for_user_num = 0, user_numberi = 0, degree, detecter;
+		int user_num, len_for_user_num = 0, user_numberi = 0, degree, detecter, user_num_clone;
 		int computer_num[4], user_numbers[4], numbers[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
 		srand(time(0));
@@ -192,16 +192,21 @@ void main()
 			}
 			else
 			{
+				user_num_clone = user_num;
 				for (i = 0, degree = n - 1; i < n; i++, degree--) //Разбиение пользовательского числа по цифрам, //
 				{												 //с последующим добавлением цифр в массив по порядку//
 					int c = pow(10, degree);
-					user_numberi = user_num  / c;
-					user_num %= c;
+					user_numberi = user_num_clone / c;
+					user_num_clone %= c;
 					user_numbers[i] = user_numberi;
 				}
 				
 				for (i = 0; i < n - 1; i++) //Проверка на совпадение цифр в пользовательском числе, с помощью 2х циклов for//
 				{
+					if (detecter > 0)
+					{
+						break;
+					}
 					for (j = i + 1; j < n; j++)
 					{
 						if (user_numbers[i] == user_numbers[j])
