@@ -15,12 +15,12 @@ void main()
 	textbackground(BLACK);
 	textcolor(GREEN);
 	//переменные и константы
-	int LengthOfNumber,SelectedNumber,cows=0,bulls=0, animals=0; //длина числа, задуманное число, число пользовател€
+	int LengthOfNumber,SelectedNumber,cows,bulls, animals; //длина числа, задуманное число, число пользовател€
 	int c, Guessed_Number; //перебор переменных в массиве
 	int robot[5], human[5];
 	char x,ch;
 	int newgame, gaveup;
-	int cord_x,attempts=0;
+	int cord_x,attempts;
 	//
 	//ход программы
 	cord_x = (window.Left + window.Right)/4-1;
@@ -46,6 +46,10 @@ void main()
 start:
 	newgame = 0;
 	gaveup = 0;
+	attempts = 1;
+	cows = 0;
+	bulls = 0;
+	animals = 0;
 	do{
 		showcursor();
 		cord_x = (window.Left + window.Right) / 4;
@@ -69,7 +73,7 @@ start:
 		{
 			clrscr();
 			cord_x = (window.Left + window.Right) / 3+3;
-			if (attempts > 0) {
+			if (attempts > 1) {
 				gotoxy(cord_x, 11);
 				printf(" оличество коров = %d", cows);
 				gotoxy(cord_x, 12);
@@ -127,6 +131,7 @@ start:
 	exit:
 	cord_x = (window.Left + window.Right) / 3-5;
 	if (gaveup == 1) {
+		clrscr();
 		gotoxy(cord_x, wherey() + 1);
 		printf("Ќе отчаивайтесь! ѕовезет в следующий раз!");
 	}
@@ -145,7 +150,9 @@ start:
 		goto start;
 	}
 	else {
-		gotoxy(cord_x, wherey() + 1);
+		gotoxy(cord_x+8, wherey() + 1);
+		printf("»гра закончена. ”дачного дн€!");
+		gotoxy(cord_x, wherey() + 2);
 		system("pause");
 	}
 }
