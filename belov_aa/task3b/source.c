@@ -13,12 +13,6 @@ void cons_center(int offset_x, int offset_y)
     gotoxy(wndCenterX + offset_x, wndCenterY + offset_y);
 }
 
-void pause()
-{
-    cons_center(-44 / 2, 2);
-    system("PAUSE");
-}
-
 int rand_number(int begin, int end)
 {
     return begin + (rand() % ((end - begin) + 1));
@@ -59,7 +53,7 @@ void play_game(int n)
     int attempts = 0;
     int cows, bulls;
 
-    int guess_digit, ans_digit;
+    int ans_digit;
 
     clrscr();
     while (1)
@@ -67,14 +61,14 @@ void play_game(int n)
         attempts++;
 
         cons_center(-14 / 2, 0);
-        textcolor(LIGHTGRAY);
+        textcolor(YELLOW);
         textbackground(BLACK);
         printf("YOUR ATTEMPT (%d):", attempts);
         Beep(750, 300);
 
         cons_center(-n / 2, 2);
         textcolor(BLUE);
-        textbackground(YELLOW);
+        textbackground(LIGHTGRAY);
         for (i = 0; i < n; i++)
         {
             printf(" ");
@@ -98,7 +92,7 @@ void play_game(int n)
                         bulls++;
                         cons_center((-n / 2) + (n - i - 1), 2);
                         textcolor(GREEN);
-                        textbackground(YELLOW);
+                        textbackground(LIGHTGRAY);
                         printf("%d", ans_digit);
                     }
                     else
@@ -135,9 +129,48 @@ void play_game(int n)
     }
 }
 
+int begin_game()
+{
+    clrscr();
+
+    cons_center(-32 / 2, 0);
+    textattr(LIGHTGREEN);
+
+    int n;
+    printf("Guess a number in range [2; 5]:");
+
+    cons_center(-1 / 2, 2);
+    textcolor(BLUE);
+    textbackground(LIGHTGRAY);
+    printf(" ");
+    cons_center(-1 / 2, 2);
+    scanf_s(" %d", &n);
+
+    clrscr();
+
+    if (!(n >= 2 && n <= 5))
+    {
+        begin_game();
+        return;
+    }
+
+    play_game(n);
+
+    cons_center(-30 / 2, 2);
+    textcolor(LIGHTGRAY);
+    printf("Want to play again? [y/n]: ");
+    char choice;
+    scanf_s(" %c", &choice, 1);
+    if (choice == 'y')
+    {
+        begin_game();
+    }
+}
+
 int main()
 {
     SetConsoleTitle("Bulls and Cows");
+    srand(time(0));
 
     setwindow(80, 30);
     SMALL_RECT window;
@@ -158,28 +191,9 @@ int main()
     textattr(YELLOW);
     printf("COWS");
 
-    //Sleep(1200);
-    pause();
+    cons_center(-44 / 2, 2);
+    textcolor(LIGHTGRAY);
+    system("PAUSE");
 
-    clrscr();
-
-    cons_center(-32 / 2, 0);
-    textattr(LIGHTGREEN);
-
-    int n;
-    printf("Guess a number in range [2; 5]:\n");
-
-    cons_center(-1 / 2, 2);
-    textcolor(BLUE);
-    textbackground(YELLOW);
-    printf(" ");
-    cons_center(-1 / 2, 2);
-    scanf_s(" %d", &n);
-
-    clrscr();
-
-    srand(time(0));
-    play_game(n);
-
-    pause();
+    begin_game();
 }
