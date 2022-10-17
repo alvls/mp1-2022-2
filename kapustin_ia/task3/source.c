@@ -1,4 +1,4 @@
-#include <iostream>
+
 #define CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <locale.h>
@@ -20,7 +20,7 @@ int main()
 	setlocale(LC_ALL, "RUS");
 	int ar[5] = { -1,-3,-4,-5,-6 };
 	int ar1[5] = { -2,-7,-8,-9,-20 };
-	int n, rad, g, i, s, bulls, cows;
+	int n,j, rad, g, i, s, bulls, cows;
     c:
 	printf("Введите число n от 2 - 5, в зависимости от того, какое по значности число хотите угадывать\n");
 	scanf_s("%i", &n);
@@ -83,32 +83,40 @@ int main()
 	bulls = 0;
 	while (i < 5)
 	{
-		for (int j = 0; j < 5; j++)
+		for (j = 0; j < 5; j++)
 			if (ar[i] == ar1[j])
 			{
 				cows = cows + 1;
 				if (i == j)
+				{
 					bulls = bulls + 1;
+					cows = cows - 1;
+				}
 			}
 		i++;
 	}
-	printf("коров = %d\n", cows);
-	printf("быков = %d\n", bulls);
-	if (bulls != n)
-	{
-		printf("Если хотите продолжить отгадывать нажмите 1, иначе 2\n");
-		scanf_s("%d", &g);
-		switch (g)
-		{
-		case 1:
-			goto h;
-		case 2:
-			break;
+		printf("коров = %d\n", cows);
+		printf("быков = %d\n", bulls);
+		if (bulls != n)
+		{l:
+			printf("Если хотите продолжить отгадывать нажмите 1, иначе 2\n");
+			scanf_s("%d", &g);
+			switch (g)
+			{
+			case 1:
+				goto h;
+			case 2:
+				break;
+			default:
+				printf("Неверное значение, попробуйте снова\n");
+				goto l;
+			}
 		}
-	}
-	else
-	{
-		printf("Вы отгадали число!");
-	}
-	return 0;
+		else if (bulls = n)
+		{
+			printf("Вы отгадали число!\n");
+			system("pause");
+		}
+		return 0;
+
 }
