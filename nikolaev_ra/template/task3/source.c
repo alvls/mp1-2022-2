@@ -4,6 +4,7 @@
 #include <math.h>
 
 #define DIGITS 10
+#define MAX_N 5
 
 // Function to clear the input stream
 void clean_stdin()
@@ -25,7 +26,7 @@ int generate_random_digit()
 int generate_hidden_number(int n)
 {
     int number_result = 0;
-    int digits_of_the_hidden_number[n];
+    int digits_of_the_hidden_number[MAX_N] = {0};
     int used_digits_indicator[DIGITS] = {0};
 
     // Generating a number as an array
@@ -79,7 +80,7 @@ void main()
                 // (whether digits are repeated in it)
                 // ---------------------------------------------------------------------------------------------------------------------------------------
                 int guess_number_digits[DIGITS] = {0};
-                int guess_number_array[n];
+                int guess_number_array[MAX_N] = {0};
 
                 int temp_guess_number = guess_number;
 
@@ -122,7 +123,7 @@ void main()
 
                     int number_of_bulls = 0, number_of_cows = 0;
                     int hidden_number_digits[DIGITS] = {0};
-                    int hidden_number_array[n];
+                    int hidden_number_array[MAX_N] = {0};
 
                     int temp_hidden_number = hidden_number;
                     temp_guess_number = guess_number;
@@ -152,3 +153,4 @@ void main()
         continue_game_condition = getchar();
     }
 }
+
