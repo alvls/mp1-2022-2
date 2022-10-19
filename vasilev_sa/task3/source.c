@@ -173,7 +173,7 @@ void main()
   if (input_number >= 0)
   {
     clrscr();
-    gotoxy(time_x - 3, time_y);
+    gotoxy(time_x - 4, time_y);
     textcolor(MAGENTA);
     printf("Вы правы, ответ: %d\n", generate_number);
     gotoxy(time_x - 4, time_y + 1);
