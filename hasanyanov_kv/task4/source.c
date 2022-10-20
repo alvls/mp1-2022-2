@@ -6,17 +6,18 @@
 #include "Header.h"
 #define SIZE 12
 
-const char* KODES[SIZE] = { "1234", "2345", "3456", "4567", "5678", "6789", "7890", "6534", "3556", "0000", "0110", "0123"};
-const char* NAMES[SIZE] = { "Кружка пивная", "Ручка шариковая", "Клавиатура", "Стол письменный","Рюкзак школьный","Портмоне кожаное","Морозильная камера","Монитор IPS", "Мяч волейбольный", "Кроссовки беговые", "Наушники", "Куртка зимняя"};
+const char* KODES[SIZE] = {"1234", "2345", "3456", "4567", "5678", "6789", "7890", "6534", "3556", "0000", "0110", "0123"};
+const char* NAMES[SIZE] = { "Кружка пивная     ", "Ручка шариковая   ", "Клавиатура        ", "Стол письменный   ","Рюкзак школьный   ","Портмоне кожаное  ","Морозильная камера","Монитор IPS       ", "Мяч волейбольный  ", "Кроссовки беговые ", "Наушники          ", "Куртка зимняя     "};
 const int COSTS[SIZE] = { 300, 35, 8200, 12000, 3000, 1550, 18500, 31000, 7800, 5700, 16500, 9000 };
 const int DISCOUNTS[SIZE] = { 10, 5, 20, 15, 10, 5, 25, 30, 35, 50, 40, 45 };
 int kol[SIZE] = { 0 };
 
-int find_ind(int x)
+int find_ind(char* x)
 {
+	
 	for (int i = 0; i < SIZE; i++)
 	{
-		if (KODES[i] == x)
+		if (strcmp(KODES[i],x) == 0)
 		{
 			return i;
 		}
@@ -39,16 +40,16 @@ int main()
 	textcolor(GREEN);
 	textbackground(BLACK);
 
-	setwindow(120, 30);
+	setwindow(120, 40);
 	SMALL_RECT window;
 	COORD buf;
 	getwindow(&window, &buf);
 	hidecursor();
 	gotoxy((window.Left + window.Right) / 2, (window.Top + window.Bottom) / 2);
 	gotoxy(buf.X / 2 - 20, (buf.Y / 2) + 0);
-	int  x, ind, cost, mode = 1, count = 0;
+	int  ind, cost, mode = 1, count = 0;
 	double summ = 0;
-	char name, znak;
+	char  x[5], name, znak; //4 символа и нуль-терминатор
 	
 	printf("Добро пожаловать в онлайн-дискаунтер!!!");
 	gotoxy(0, 0);
@@ -70,7 +71,7 @@ int main()
 		gotoxy(buf.X / 2 - 12, (buf.Y / 2) + 2);
 		printf("Введите цифры штрих-кода:");
 		gotoxy(buf.X / 2 - 2, (buf.Y / 2) + 3);
-		scanf_s(" %d", &x);
+		scanf_s("%s", &x, sizeof(x));
 		ind = find_ind(x);
 		if (ind == -1)
 		{
