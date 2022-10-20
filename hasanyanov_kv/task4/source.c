@@ -4,12 +4,12 @@
 #include <time.h>
 #include <math.h>
 #include "Header.h"
-#define SIZE 10
+#define SIZE 12
 
-const int KODES[SIZE] = { 1234, 2345, 3456, 4567, 5678, 6789, 7890, 6534, 7162, 3556 };
-const char* NAMES[SIZE] = { "Кружка пивная     ", "Ручка шариковая   ", "Клавиатура        ", "Стол письменный   ","Рюкзак школьный   ","Портмоне кожаное  ","Морозильная камера","Монитор IPS       ", "Мяч волейбольный  ", "Кроссовки беговые " };
-const int COSTS[SIZE] = { 300  , 35, 8200, 12000, 3000, 1550, 18500, 31000, 7800, 5700 };
-const int DISCOUNTS[SIZE] = { 10, 5, 20, 15,10, 5, 25, 30, 35, 50 };
+const char* KODES[SIZE] = { "1234", "2345", "3456", "4567", "5678", "6789", "7890", "6534", "3556", "0000", "0110", "0123"};
+const char* NAMES[SIZE] = { "Кружка пивная", "Ручка шариковая", "Клавиатура", "Стол письменный","Рюкзак школьный","Портмоне кожаное","Морозильная камера","Монитор IPS", "Мяч волейбольный", "Кроссовки беговые", "Наушники", "Куртка зимняя"};
+const int COSTS[SIZE] = { 300, 35, 8200, 12000, 3000, 1550, 18500, 31000, 7800, 5700, 16500, 9000 };
+const int DISCOUNTS[SIZE] = { 10, 5, 20, 15, 10, 5, 25, 30, 35, 50, 40, 45 };
 int kol[SIZE] = { 0 };
 
 int find_ind(int x)
@@ -46,15 +46,9 @@ int main()
 	hidecursor();
 	gotoxy((window.Left + window.Right) / 2, (window.Top + window.Bottom) / 2);
 	gotoxy(buf.X / 2 - 20, (buf.Y / 2) + 0);
-	int  x, ind, cost, mass[4], b = 0, mode = 1, count = 0;
-	double discount, summ = 0;
+	int  x, ind, cost, mode = 1, count = 0;
+	double summ = 0;
 	char name, znak;
-	
-	/*for (int i = 0; i < 4; i++, x /= 10)
-	{
-		mass[3 - i] = x % 10;
-		b += mass[i] * (int)pow(10, i);
-	}*/
 	
 	printf("Добро пожаловать в онлайн-дискаунтер!!!");
 	gotoxy(0, 0);
@@ -70,7 +64,7 @@ int main()
 		printf("\n%-25s %-20s %-5s\n", "Штрих-код:", "Наименование:", "Цена(скидка):\n");
 		for (int k = 0; k < SIZE; k++)
 		{
-			printf("%d			  %s   %d(%d%%)\n", KODES[k], NAMES[k], COSTS[k], DISCOUNTS[k]);
+			printf("%s			  %s   %d(%d%%)\n", KODES[k], NAMES[k], COSTS[k], DISCOUNTS[k]);
 		}
 		printf("================================================================================\n");
 		gotoxy(buf.X / 2 - 12, (buf.Y / 2) + 2);
@@ -84,13 +78,14 @@ int main()
 			printf("Продукт не найден\n");
 			gotoxy(0, 0);
 			system("PAUSE");
+			clrscr();
 		}
 		else
 		{
-			kol[ind]++;
+			
 			gotoxy(0, (buf.Y / 2) + 4);
 			printf("Наименование: %s\nЦена: %d\nКол-во: %d\nСкидка(%%): %d\n", NAMES[ind], COSTS[ind], kol[ind], DISCOUNTS[ind]);
-			printf("Нажмите '$'  чтобы распечатать чек, '+' чтобы отсканировать следующий товар, '-' чтобы удалить выбранный товар.\n");
+			printf("Нажмите '$'  чтобы распечатать чек, '+' чтобы добавить товар в чек, '-' чтобы удалить выбранный товар.\n");
 			gotoxy(buf.X / 2 - 0.5, (buf.Y / 2) + 4);
 			scanf_s(" %c", &znak);
 			clrscr();
@@ -98,8 +93,9 @@ int main()
 			if (znak == '$')
 			{
 				mode = 0;
+				kol[ind]++;
 				gotoxy(buf.X / 2 - 33, (buf.Y / 2) + 0);
-				printf("********************************************************************");
+				printf("**********************************************************************");
 				gotoxy(buf.X / 2 - 5.5, (buf.Y / 2) + 1);
 				printf("КАССОВЫЙ ЧЕК");
 				gotoxy(buf.X / 2 - 31.5, (buf.Y / 2) + 2);
@@ -118,13 +114,13 @@ int main()
 
 						gotoxy(buf.X / 2 - 31.5, (buf.Y/2) + count + 2);
 						printf("%d)", count);
-						gotoxy(buf.X/2 - 31.5 + 2, (buf.Y / 2) + count + 2);
+						gotoxy(buf.X/2 - 31.5 + 3, (buf.Y / 2) + count + 2);
 						printf("%s", NAMES[i]);
 						gotoxy(buf.X/2 - 31.5 + 22, (buf.Y / 2) + count + 2);
 
 						printf("%dруб.", COSTS[i]);
 
-						gotoxy(buf.X/2 - 31.5 + 37.5, (buf.Y / 2) + count + 2);
+						gotoxy(buf.X/2 - 31.5 + 38.5, (buf.Y / 2) + count + 2);
 
 						printf("%d", kol[i]);
 
@@ -141,15 +137,15 @@ int main()
 				gotoxy(buf.X / 2 - 31.5, (buf.Y / 2) + 3 + count);
 				printf("ИТОГО К ОПЛАТЕ: %gруб.", summ);
 				gotoxy(buf.X / 2 - 33, (buf.Y / 2) + 4 + count);
-				printf("*********************************************************************");
+				printf("**********************************************************************");
 			}
 			else if(znak == '-')
 			{
-				kol[ind]--;
+				;
 			}
 			else if(znak == '+')
 			{
-				;
+				kol[ind]++;;
 			}
 			else
 			{
