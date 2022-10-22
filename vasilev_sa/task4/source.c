@@ -5,8 +5,14 @@
 #include "header.h"
 
 #define MAX_CHECK 100
-#define TOVAR_COUNT 64
+#define TOVAR_COUNT 30
 #define MAX_LENGTH 44
+
+
+SMALL_RECT window;
+COORD buf;
+
+//----------------------------------------------------
 
 //названия товаров
 char tovar_array[TOVAR_COUNT][MAX_LENGTH] = {
@@ -40,44 +46,9 @@ char tovar_array[TOVAR_COUNT][MAX_LENGTH] = {
 "Сахар песок белый",
 "Сахар демерара коричневый",
 "Сахар рафинад быстрорастворимый",
-"Лапша гречневая",
-"Фунчоза",
-"Мука хлебопекарная в\\с",
-"Мука блинная",
-"Горох желтый колотый",
-"Чечевица красная",
-"Хлопья овсяные Геркулес",
-"Хлопья 4 злака",
-"Кукурузные хлопья с сахаром",
-"Соль каменная помол №1",
-"Соль поваренная Экстра",
-"Крахмал картофельный",
-"Сода пищевая",
-"Чай черный индийский",
-"Чай зеленый ",
-"Кофе растворимый",
-"Кофе в зернах ",
-"Кофе молотый",
-"Колбаса вареная докторская",
-"Колбаса вареная любительская",
-"Сервелат варенокопченый",
-"Колбаса краковская",
-"Сосиски молочные",
-"Сосиски венские",
-"Сосиски куриные",
-"Сардельки",
-"Колбаса сырокопченая салями",
-"Бекон варенокопченый",
-"Бекон сырокопченый",
-"Грудинка копченая",
-"Ветчина в оболочке",
-"Паштет фермерский с грибами",
-"Паштет из куриной печени",
-"Колбаса ливерная ",
 };
-
 //цены товаров
-int price_array[] = {
+int price_array[TOVAR_COUNT] = {
 57,
 75,
 35,
@@ -108,42 +79,7 @@ int price_array[] = {
 38,
 85,
 44,
-240,
-350,
-50,
-65,
-55,
-120,
-50,
-70,
-95,
-15,
-35,
-90,
-40,
-180,
-170,
-330,
-370,
-180,
-200,
-195,
-350,
-180,
-190,
-230,
-160,
-180,
-400,
-470,
-500,
-400,
-220,
-170,
-150,
-350,
 };
-
 //штрих-коды товаров
 short cods_array[TOVAR_COUNT][4] = {
 {2, 0, 7, 5},
@@ -176,58 +112,55 @@ short cods_array[TOVAR_COUNT][4] = {
 {5, 5, 2, 4},
 {1, 7, 6, 3},
 {2, 8, 1, 7},
-{9, 0, 3, 1},
-{2, 8, 3, 8},
-{1, 8, 2, 1},
-{4, 4, 7, 5},
-{4, 5, 7, 6},
-{5, 2, 9, 9},
-{5, 7, 1, 9},
-{2, 6, 7, 4},
-{1, 1, 1, 5},
-{7, 0, 8, 8},
-{4, 9, 0, 3},
-{6, 8, 3, 6},
-{8, 9, 7, 6},
-{5, 1, 6, 5},
-{5, 2, 3, 0},
-{6, 8, 9, 6},
-{8, 5, 3, 4},
-{4, 3, 6, 2},
-{8, 4, 6, 8},
-{2, 7, 8, 9},
-{7, 7, 2, 9},
-{3, 0, 2, 9},
-{9, 5, 4, 8},
-{8, 2, 1, 1},
-{8, 9, 4, 7},
-{4, 4, 3, 4},
-{1, 2, 6, 6},
-{3, 0, 6, 5},
-{8, 9, 5, 8},
-{2, 0, 3, 0},
-{4, 8, 8, 2},
-{7, 9, 9, 0},
-{3, 8, 6, 9},
-{5, 7, 0, 4},
 };
-
 //итоговый чек
 short check[MAX_CHECK];
+
+//----------------------------------------------------
 
 //напечатать информацию о товаре
 void print_info(int index)
 {
+	clrscr();
+	textcolor(MAGENTA);
+	printf("\t\tИнформация о товаре:\n");
+	printf("----------------------------------------------------\n");
 	if (index != -1)
-		printf("%s: %d рублей/шт\n", tovar_array[index], price_array[index]);
+	{
+		textcolor(GREEN);
+		printf("  % s: ", tovar_array[index]);
+		textcolor(WHITE);
+		printf("%d", price_array[index]);
+		textcolor(GREEN);
+		printf(" рублей/шт\n");
+	}
+	textcolor(MAGENTA);
+	printf("----------------------------------------------------\n");
 }
 
 //напечатать список товаров
 void price_list(void)
 {
-	printf("Список доступной продукции:\n");
+	int time_x = (window.Left + window.Right) / 2;
+	textcolor(MAGENTA);
+	printf("\t\tСписок доступной продукции:\n");
+	printf("----------------------------------------------------\n");
+	textcolor(GREEN);
 	for (int i = 0; i < TOVAR_COUNT; i++)
-		printf("%d: %s - %d рублей\n" ,arr_to_int(cods_array[i]), tovar_array[i], price_array[i]);
+	{
+		textcolor(WHITE);
+		printf("%d", arr_to_int(cods_array[i]));
+		textcolor(GREEN);
+		printf(": %s", tovar_array[i]);
+		gotoxy(time_x, wherey());
+		printf("| ");
+		textcolor(WHITE);
+		printf("%d", price_array[i]);
+		textcolor(GREEN);
+		printf(" рублей\n"); 
+	}
+	textcolor(MAGENTA);
+	printf("----------------------------------------------------\n");
 }
 
 //вернуть индекс из массива кодов
@@ -249,7 +182,9 @@ int cod_inp(void)
 	do
 	{
 		clrscr();
+		textcolor(GREEN);
 		printf("Введите штрих-код: ");
+		textcolor(WHITE);
 		count = scanf_s("%d", &answer);
 		while (ch = getchar() != '\n');
 		if (answer <= 0)
@@ -259,7 +194,7 @@ int cod_inp(void)
 }
 
 //массив в число
-int arr_to_int(short arr[4])
+int arr_to_int(short arr[])
 {
 	int answer = 0;
 	int n = 1000;
@@ -272,7 +207,7 @@ int arr_to_int(short arr[4])
 }
 
 //число в массив
-short int_to_arr(int number)
+short* int_to_arr(int number)
 {
 	short answer_arr[4] = { 0 };
 	for (int i = 3; i >= 0; i--)
@@ -288,21 +223,36 @@ void make_check(void)
 {
 	int all_sum_without_sell = 0, all_sell_sum = 0, price, new_price, count = 1, sell = 5;
 	clrscr();
-	printf("Ваш список продуктов:\n");
+	textcolor(MAGENTA);
+	printf("\t\tВаш список продуктов:\n");
+	printf("----------------------------------------------------\n");
+	textcolor(GREEN);
 	for (int i = 0; i < sizeof(check) / sizeof(check[0]); i++)
 	{
+		new_price = 0;
 		if (check[i] != 0)
 		{
 			sell = 950 - (check[i] - 1) * 25;
 			price = check[i] * price_array[i];
-			new_price = (sell * price) / 1000;
+			for (int j = 1; j <= check[i]; j++)
+			{
+				if (j % 10 == 0)
+					sell = price_array[i] / 2;
+				else
+					sell = price_array[i] - (j % 10) * (price_array[i] / 20);
+				new_price += sell;
+			}
 			printf("%d) %s: %d руб./шт * %d шт. | %d рублей\n", count++, tovar_array[i], price_array[i], check[i], price);
 			all_sum_without_sell += price;
 			all_sell_sum += price - new_price;
 		}
 	}
+	textcolor(MAGENTA);
+	printf("----------------------------------------------------\n");
+	textcolor(GREEN);
 	printf("Итого сумма: %d руб.\n", all_sum_without_sell);
 	printf("Итого скидка: %d руб.\n", all_sell_sum);
+	textcolor(WHITE);
 	printf("К оплате: %d руб.\n", all_sum_without_sell - all_sell_sum);
 }
 
@@ -312,9 +262,12 @@ void main()
 	setlocale(LC_ALL, "Russian");
 	clrscr();
 	SetConsoleTitle("Электронная касса");
+	setwindow(80, 35);
+	getwindow(&window, &buf);
 
 	int cod, index, count = 0;
 	price_list();
+	textcolor(RED);
 	system("pause");
 	do
 	{
@@ -329,9 +282,11 @@ void main()
 			else
 			{
 				printf("Not in cods\n");
+				textcolor(RED);
 				system("pause");
 				continue;
 			}
+			textcolor(RED);
 			system("pause");
 			count++;
 		}
@@ -341,5 +296,6 @@ void main()
 			break;
 		}
 	} while (1);
+	textcolor(RED);
 	system("pause");
 }

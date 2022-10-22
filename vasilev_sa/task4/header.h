@@ -182,17 +182,6 @@ void setwindow(int width, int height)
   SetConsoleScreenBufferSize(Console, size);
 }
 
-//Задать положение окна
-void setWindow(SMALL_RECT rect, COORD size)
-{
-  HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
-  if (!Console)
-    return;
-
-  SetConsoleScreenBufferSize(Console, size);
-  SetConsoleWindowInfo(Console, 1, &rect);
-}
-
 //Получить окно
 void getwindow(SMALL_RECT* rect, COORD* size)
 {
