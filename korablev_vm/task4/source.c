@@ -47,34 +47,3 @@ int main()
 	}
 	system("pause");
 }
-
-
-
-
-
-
-
-
-
-
-
-/*int c;
-int h1, h2, h3, h4;
-char barcode[4]="0000", restart[4];
-setlocale(LC_ALL, "Rus");
-ShowHelp(new);
-if (new==1)
-	List();
-new = 0;
-printf("¬ведите код через пробелы: ");
-scanf_s("%d %d %d %d",&h1,&h2,&h3,&h4);*/
-//printf("¬ведите \"cheq\" дл€ формировани€ новой покупки или \"exit\" дл€ выхода: ");
-//scanf_s("%с", &restart);
-//if (restart == "cheq") {
-//		Restart();
-//		main();
-//	}
-	//else if (restart == "cheq") {
-		//printf("\n\t\t”дачного дн€\n\t\t");
-		//system("pause");
-	//}
