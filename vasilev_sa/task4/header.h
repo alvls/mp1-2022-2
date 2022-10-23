@@ -146,23 +146,6 @@ void textbackground(int color)
   gotoxy(pos.X, pos.Y);
 }
 
-//Смена цвета символа где каретка
-void textattr(int color)
-{
-  HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
-  if (!Console)
-    return;
-
-  SetConsoleTextAttribute(Console, color);
-
-  DWORD Count;
-  char ch;
-  COORD pos = wherexy();
-  ReadConsoleOutputCharacter(Console, &ch, 1, pos, &Count);
-  printf("%c", ch);
-  gotoxy(pos.X, pos.Y);
-}
-
 //Задать размеры окна окно
 void setwindow(int width, int height)
 {
@@ -196,42 +179,3 @@ void getwindow(SMALL_RECT* rect, COORD* size)
   size->X = buf.dwSize.X;
   size->Y = buf.dwSize.Y;
 }
-
-//Скрыть курсор
-void hidecursor(void)
-{
-  HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
-  if (!Console)
-    return;
-
-  CONSOLE_CURSOR_INFO buf;
-  GetConsoleCursorInfo(Console, &buf);
-  buf.bVisible = 0;
-  SetConsoleCursorInfo(Console, &buf);
-}
-
-//Показать курсор
-void showcursor(void)
-{
-  HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
-  if (!Console)
-    return;
-
-  CONSOLE_CURSOR_INFO buf;
-  GetConsoleCursorInfo(Console, &buf);
-  buf.bVisible = 1;
-  SetConsoleCursorInfo(Console, &buf);
-}
-
-void textsize(short size)
-{
-  HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
-  if (!Console)
-    return;
-
-  CONSOLE_CURSOR_INFO buf;
-  buf.dwSize = size;
-  SetConsoleCursorInfo(Console, &buf);
-}
-
-//- end of file ---------------------------------------------------------------
