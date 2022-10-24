@@ -79,10 +79,6 @@ double sAle(int* purchase) {
 	return price_with_sale;
 }
 
-void add(int* bar, int* purchases) {
-
-}
-
 
 void main()
 {
