@@ -108,6 +108,7 @@ void main()
 	}
 
 	printf("\n\nСКАНИРУЙТЕ!\n");
+	printf("Для остановки ввода продуктов введите '1'\n");
 	int purchase[4] = { 0 };
 	short user = 0;
 	while (1) {
