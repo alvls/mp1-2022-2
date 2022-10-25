@@ -8,7 +8,6 @@
 #define TOVAR_COUNT 30
 #define MAX_LENGTH 44
 
-
 SMALL_RECT window;
 COORD buf;
 
@@ -67,7 +66,7 @@ int price_array[TOVAR_COUNT] = {
 49,
 90,
 80,
-105,
+100,
 115,
 120,
 50,
@@ -114,52 +113,48 @@ char cods_array[TOVAR_COUNT][5] = {
 //итоговый чек
 short check[MAX_CHECK];
 
-void print_info(int index);
-void price_list(void);
-int check_update(char* cod);
-char* cod_inp(void);
+void product_info(int index);
+void product_list(void);
+int found_index(char* cod);
+char* input_cod(void);
 void make_check(void);
+void print_end(void);
 
-void main()
+void main(void)
 {
-	system("chcp 1251");
-	setlocale(LC_ALL, "Russian");
-	clrscr();
-	SetConsoleTitle("Электронная касса");
 	setwindow(80, 35);
 	getwindow(&window, &buf);
+	system("chcp 1251");
+	setlocale(LC_ALL, "Russian");
+	SetConsoleTitle("Электронная касса");
 
 	int index, count = 0;
 	char cod[5];
 list_print:
 	clrscr();
-	price_list();
-	textcolor(RED);
-	system("pause");
+	product_list();
+	print_end();
 	do
 	{
 		clrscr();
-		strcpy_s(cod, 5, cod_inp());
+		strcpy_s(cod, 5, input_cod());
 		if (strcmp(cod, "exit") != 0)
 		{
 			if (strcmp(cod, "list") == 0)
 				goto list_print;
-			index = check_update(cod);
-			print_info(index);
+			index = found_index(cod);
 			if (index >= 0)
 			{
+				product_info(index);
 				count++;
 				check[index]++;
 			}
 			else
 			{
+				textcolor(MAGENTA);
 				printf("Not in cods\n");
-				textcolor(RED);
-				system("pause");
-				continue;
 			}
-			textcolor(RED);
-			system("pause");
+			print_end();
 		}
 		else
 		{
@@ -169,37 +164,33 @@ list_print:
 				break;
 			}
 			clrscr();
+			textcolor(MAGENTA);
 			printf("Чек пуст, попробуйте ещё раз\n");
-			textcolor(RED);
-			system("pause");
+			print_end();
 		}
 	} while (1);
-	textcolor(RED);
-	system("pause");
+	print_end();
 }
 
 //напечатать информацию о товаре
-void print_info(int index)
+void product_info(int index)
 {
-	if (index != -1)
-	{
-		clrscr();
-		textcolor(MAGENTA);
-		printf("\t\tИнформация о товаре:\n");
-		printf("----------------------------------------------------\n");
-		textcolor(GREEN);
-		printf("  % s: ", tovar_array[index]);
-		textcolor(WHITE);
-		printf("%d", price_array[index]);
-		textcolor(GREEN);
-		printf(" рублей/шт\n");
-		textcolor(MAGENTA);
-		printf("----------------------------------------------------\n");
-	}
+	clrscr();
+	textcolor(MAGENTA);
+	printf("\t\tИнформация о товаре:\n");
+	printf("----------------------------------------------------\n");
+	textcolor(GREEN);
+	printf("  % s: ", tovar_array[index]);
+	textcolor(WHITE);
+	printf("%d", price_array[index]);
+	textcolor(GREEN);
+	printf(" рублей/шт\n");
+	textcolor(MAGENTA);
+	printf("----------------------------------------------------\n");
 }
 
 //напечатать список товаров
-void price_list(void)
+void product_list(void)
 {
 	int time_x = (window.Left + window.Right) / 2;
 	textcolor(MAGENTA);
@@ -223,8 +214,8 @@ void price_list(void)
 	printf("----------------------------------------------------\n");
 }
 
-//вернуть индекс из массива кодов
-int check_update(char* cod)
+//найти индекс штрих-кода
+int found_index(char* cod)
 {
 	for (int i = 0; i < TOVAR_COUNT; i++)
 	{
@@ -235,7 +226,7 @@ int check_update(char* cod)
 }
 
 //ввод штрих-кода
-char* cod_inp(void)
+char* input_cod(void)
 {
 	int count;
 	char answer[5] = { 0 }, ch;
@@ -260,26 +251,17 @@ void make_check(void)
 {
 	int all_sum_without_sell = 0, all_sell_sum = 0, price, new_price, count = 1, sell = 5, time_x1 = (window.Left + window.Right) / 2 - 3, time_x2 = (window.Left + window.Right) / 2 + 20;
 	clrscr();
+	gotoxy(time_x1 - 8, wherey());
 	textcolor(MAGENTA);
-	printf("\t\tВаш список продуктов:\n");
-	printf("----------------------------------------------------\n");
+	printf("Ваш список продуктов:\n");
+	printf("------------------------------------------------------------------------\n");
 	textcolor(GREEN);
 	for (int i = 0; i < sizeof(check) / sizeof(check[0]); i++)
 	{
-		new_price = 0;
 		if (check[i] != 0)
 		{
-			sell = 950 - (check[i] - 1) * 25;
 			price = check[i] * price_array[i];
-			for (int j = 1; j <= check[i]; j++)
-			{
-				if (j % 10 == 0)
-					sell = price_array[i] / 2;
-				else
-					sell = price_array[i] - (j % 10) * (price_array[i] / 20);
-				new_price += sell;
-			}
-			/*printf("%d) %s: %d руб./шт * %d шт. | %d рублей\n", count++, tovar_array[i], price_array[i], check[i], price);*/
+			new_price = (price * (100 - 5 * (((count - 1) % 10) + 1))) / 100;
 			printf("%d) %s:", count++, tovar_array[i]);
 			gotoxy(time_x1, wherey());
 			printf("%d руб./шт. * %d шт.", price_array[i], check[i]);
@@ -290,10 +272,17 @@ void make_check(void)
 		}
 	}
 	textcolor(MAGENTA);
-	printf("----------------------------------------------------\n");
+	printf("------------------------------------------------------------------------\n");
 	textcolor(GREEN);
 	printf("Итого сумма: %d руб.\n", all_sum_without_sell);
 	printf("Итого скидка: %d руб.\n", all_sell_sum);
 	textcolor(WHITE);
 	printf("К оплате: %d руб.\n", all_sum_without_sell - all_sell_sum);
+}
+
+//напечатать конец
+void print_end(void)
+{
+	textcolor(RED);
+	system("pause");
 }
