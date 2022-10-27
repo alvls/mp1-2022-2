@@ -10,11 +10,14 @@
 #define STEP_FOR_DISCOUNT 5
 #define DECIMAL_SHARE 0.01
 
+// To further increase the number of products, we can simply change the value of this macro and add information about the product to the data structures
 #define PRODUCTS_COUNT 7
+
 #define PRODUCT_CODE_LENGTH 4
 #define MAX_PRODUCT_NAME_LENGTH 50
 #define MAX_PRODUCT_DESCRIPTION_LENGTH 100
 
+// Structure for product description
 struct sProduct
 {
     char code[PRODUCT_CODE_LENGTH];
@@ -24,6 +27,7 @@ struct sProduct
     unsigned int discount_value;
 };
 
+// Structure for generating a check
 struct sCheck
 {
     char name[MAX_PRODUCT_NAME_LENGTH];
@@ -40,10 +44,10 @@ Product products_array[PRODUCTS_COUNT] = {
     {"0023", 45, "Bread", "Rye bread, 500g, production date: 13.10.2022, expiration date: 3 days", 0},
     {"1346", 90, "Chocolate", "Bitter chocolate, 100g, production date: 10.09.2022, expiration date: 6 months", 0},
     {"3922", 180, "Juice", "Apple juice, 2l, production date: 05.06.2022, expiration date: 12 months", 0},
-    {"4467", 85, "Milk", "Milk 3.4-6%%, 930g, production date: 27.10.2022, expiration date: 7 days", 0},
+    {"4467", 85, "Milk", "Milk 3.4%, 930g, production date: 27.10.2022, expiration date: 7 days", 0},
     {"6832", 50, "Tea", "Black tea, 25 bags, production date: 01.07.2022, expiration date: 18 months", 0},
     {"8183", 45, "Water", "Mineral sparkling water, 1.5l, production date: 22.10.2022, expiration date: 12 months", 0},
-    {"9915", 67, "Yogurt", "Greek yogurt 9%%, 120g, production date: 27.10.2022, expiration date: 7 days", 0}
+    {"9915", 67, "Yogurt", "Greek yogurt 9%, 120g, production date: 27.10.2022, expiration date: 7 days", 0}
 };
 
 // Function to generate a discount value in a given range with a given step
@@ -63,9 +67,10 @@ void clean_stdin()
     } while (c != '\n' && c != EOF);
 }
 
+// Function to generate the check
 void final_check(Product arr1[], Check arr2[])
 {
-    // Firstly, let's calculate the total amount without discount (for the final discount)
+    // Firstly, let's calculate the total amount without discount
     unsigned int total_amount_without_discount = 0;
     for (int i = 0; i < PRODUCTS_COUNT; i++)
         total_amount_without_discount += arr1[i].price * arr2[i].count_of_products;
@@ -77,12 +82,15 @@ void final_check(Product arr1[], Check arr2[])
         if (arr2[i].count_of_products > 0)
         {
             total_amount_with_discount += arr2[i].total_cost;
-            printf("\"%s\" -> unit price: %d rubles -> count of these products: %d -> amount of all these products: %d rubles \n\n", arr2[i].name, arr2[i].unit_price, arr2[i].count_of_products, arr2[i].total_cost);
+            printf("\"%s\" -> unit price: %d rubles -> discount: %d% -> unit price with discount: %d rubles -> count of these products: %d -> amount of all these products: %d rubles \n", arr2[i].name, arr1[i].price, arr1[i].discount_value, arr2[i].unit_price, arr2[i].count_of_products, arr2[i].total_cost);
         }
     }
     unsigned int total_discount = total_amount_without_discount - total_amount_with_discount;
-    printf("The total amout of discount: %d rubbles\n", total_discount);
-    printf("The total amount for payment is %d rubbles\n\n", total_amount_with_discount);
+    printf("\nThe total amount without discount: %d rubles\n", total_amount_without_discount);
+    printf("The total amount of discount: %d rubles\n", total_discount);
+    printf("The total amount for payment: %d rubles\n", total_amount_with_discount);
+    printf("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+
 }
 
 int main()
@@ -93,13 +101,12 @@ int main()
     for (int i = 0; i < PRODUCTS_COUNT; i++)
         products_array[i].discount_value = discount_generation(MIN_DISCOUNT_VALUE, MAX_DISCOUNT_VALUE, STEP_FOR_DISCOUNT);
 
-    printf("Hello!\nWelcome to the program \"Electronic cash register\"!\n\n");
-    printf("Product codes:\n\"Bread\" -> \"0023\"\n\"Chocolate\" -> \"1346\"\n\"Juice\" -> \"3922\"\n\"Milk\" -> \"4467\"\n\"Tea\" -> \"6832\"\n\"Water\" -> \"8183\"\n\"Yogurt\" -> \"9915\"\n\n");
+    printf("Hello!\nWelcome to the program \"Electronic Cash Register\"!\n\n");
     char cont_work;
     do
     {
         // Generating a template for check generation
-        // ------------------------------------------------------------------------------------------------------------------------------------------------------------
+        // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         Check products_check[PRODUCTS_COUNT] = {
             {"Bread", 45, 0, 0},
             {"Chocolate", 90, 0, 0},
@@ -110,11 +117,13 @@ int main()
             {"Yogurt", 67, 0, 0}
         };
 
-        // Let's change the price value in the products_check array to a discounted value (We will assume that the products are arranged in arrays in alphabetical order)
+        // Let's change the price value in the products_check array to a discounted value (Here and below we will assume that the products are arranged in arrays in alphabetical order)
+        // The task says to work with rubles without kopecks, so I use rounding
         for (int i = 0; i < PRODUCTS_COUNT; i++)
-            products_check[i].unit_price = round(products_array[i].price * products_array[i].discount_value * DECIMAL_SHARE);
-        // ------------------------------------------------------------------------------------------------------------------------------------------------------------
+            products_check[i].unit_price = products_array[i].price - round(products_array[i].price * products_array[i].discount_value * DECIMAL_SHARE);
+        // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+        printf("Product codes:\n\"Bread\" -> \"0023\"\n\"Chocolate\" -> \"1346\"\n\"Juice\" -> \"3922\"\n\"Milk\" -> \"4467\"\n\"Tea\" -> \"6832\"\n\"Water\" -> \"8183\"\n\"Yogurt\" -> \"9915\"\n\n");
         do
         {
             char entered_code[PRODUCT_CODE_LENGTH];
@@ -126,6 +135,7 @@ int main()
                 break;
             else
             {
+                // In this block, we compare the value of the entered code with the product codes
                 unsigned int checkbox = 0;
                 for (int i = 0; i < PRODUCTS_COUNT; i++)
                     if (products_array[i].code[0] == entered_code[0] && products_array[i].code[1] == entered_code[1] && products_array[i].code[2] == entered_code[2] && products_array[i].code[3] == entered_code[3])
@@ -141,7 +151,7 @@ int main()
 
         } while (1);
 
-        // Let's check if there is at least one scanned product (at least one entry in the check)
+        // Let's check if there is at least one scanned product
         unsigned int cond = 0;
         for (int i = 0; i < PRODUCTS_COUNT; i++)
         {
@@ -151,7 +161,7 @@ int main()
         if (cond == 0)
         {
             char act;
-            printf("The check is empty. To exit the program, enter 'e', and to return to scan mode, enter any other character: ");
+            printf("\nThe check is empty. To exit the program, enter 'q', and to return to scan mode, enter any other character: ");
             scanf("%c", &act);
             clean_stdin();
 
@@ -162,15 +172,16 @@ int main()
         }
         else
         {
-            printf("\nFinal check:\n");
+            printf("\n-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+            printf("Final check:\n\n");
             final_check(products_array, products_check);
         }
 
-        printf("To exit the program, enter 'q', and to continue using the electronic cash register, enter any other character: ");
+        printf("\nTo exit the program, enter 'q', and to continue using the electronic cash register, enter any other character: ");
         scanf("%c", &cont_work);
         clean_stdin();
-
+        printf("\n");
     } while (cont_work != 'q');
-    printf("\nThank you for using this program. Come even later :)");
+    printf("Thank you for using this program. Come even later :)\n");
     return 0;
 }
