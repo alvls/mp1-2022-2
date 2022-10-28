@@ -3,8 +3,8 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <time.h>
-#include  <windows.h>
-#include  "Header.h"
+#include <windows.h>
+#include "Header.h"
 
 void main(){
    int n, cows = 0, bulls = 0;
