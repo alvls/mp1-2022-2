@@ -29,7 +29,7 @@ void main(){
       gotoxy(variable_x, wherey() + 2);
       printf("Вам необходимо выбрать длину загадываемого числа,");
       gotoxy(variable_x, wherey() + 1);
-      printf("после чего компьютер загадывает число, которое вам необходимо отгадать");
+      printf("после чего компьютер загадывает число, которое вам необходимо отгадать ");
       gotoxy(variable_x, wherey() + 2);
       printf("Компьютер сообщит: ");
       gotoxy(variable_x + 2, wherey() + 1);
