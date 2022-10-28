@@ -2,14 +2,14 @@
 #include <locale.h>
 #include <string.h>
 void main() {
-	char Code[4];
+	char Code[4],k;
 	int Scan_Code;
-	int i,ans,tmp;
+	int i,j,ans,tmp,flag_1;
 	int flag;
 	char check[10]={0,0,0,0,0,0,0,0,0,0};
 	char *Base_name[10] = {"молоко","хлеб","кефир","бананы","пельмени","квас","сосиски","арбуз","соус","масло"};
 	int Base_cost[10] = { 50,30,70,90,150,80,200,250,110,120 };
-	int Base_code[10] = { 1212,3345,5321,9099,8753,9101,7721,5529,4808,1170 };
+	char Base_code[10][4] = { {'1','2','1','2'},{'3','3','4','5'},{'0','3','2','1'},{'9','0','9','9'},{'8','7','5','3'},{'9','1','0','1'},{'7','7','2','1'},{'5','5','2','9'},{'4','8','0','8'},{'1','1','7','0'}};
 	int Base_discount[10] = { 10,20,5,15,50,40,10,50,10,30 };
 	int final_cost = 0;
 	setlocale(LC_ALL, "Russian");
@@ -20,13 +20,18 @@ void main() {
 		for (i = 0; i < 4; i++) {
 			scanf_s(" %c", &Code[i]);
 		}
-		// перевод кода в число
-		Scan_Code = (int)(Code[0] - '0') * 1000 + (int)(Code[1] - '0') * 100 + (int)(Code[2] - '0') * 10 + (int)(Code[3] - '0');
 		// поиск товара в базе данных
 		tmp = -1;
 		for (i = 0; i < 10; i++) {
-			if (Base_code[i] == Scan_Code) {
+			flag_1 = 1;
+			for (j = 0; j < 4; j++) {
+				k = Base_code[i][j];
+				if ( k != Code[j]) {
+					flag_1 = 0;
+			}
+			if (flag_1 == 1) {
 				tmp = i;
+			}
 			}
 		}
 		if (tmp == -1) {
