@@ -89,8 +89,6 @@ void final_check(Product arr1[], Check arr2[])
     printf("\nThe total amount without discount: %d rubles\n", total_amount_without_discount);
     printf("The total amount of discount: %d rubles\n", total_discount);
     printf("The total amount for payment: %d rubles\n", total_amount_with_discount);
-    printf("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-
 }
 
 int main()
@@ -175,6 +173,7 @@ int main()
             printf("\n-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
             printf("Final check:\n\n");
             final_check(products_array, products_check);
+            printf("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         }
 
         printf("\nTo exit the program, enter 'q', and to continue using the electronic cash register, enter any other character: ");
