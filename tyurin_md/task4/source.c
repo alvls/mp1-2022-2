@@ -102,6 +102,7 @@ int product_count[CNT][MAX] = {
    0,
    0
 };
+int count = 0;
 
 void list_of_products(void);
 char* code_entry(void);
@@ -119,7 +120,7 @@ void main(void) {
    getwindow(&window, &buf);
 
    int variable_x;
-   int ind, count = 0, a;
+   int ind, a;
    char barcod[5];
    clrscr();
    variable_x = (window.Left + window.Right) / 30;
@@ -242,6 +243,8 @@ void info(int ind) {
          scanf_s("%d", &select);
          if (select == 1)
             product_count[0][ind] ++;
+         else
+            count--;
       }
    } while (select < 0 || select > 1);
 }
