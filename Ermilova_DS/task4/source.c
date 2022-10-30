@@ -7,30 +7,44 @@ void main() {
 	int sum = 0;
 	int sum_discount = 0;
 	int sum_with_discount = 0;
-	int a;
+	int a[4];
+	int b, c;
+	int cnt = 0;
 
 
-	int barcode[size] = { 1234, 1256, 1754, 2384, 6963, 9684, 1873 };
+	int barcode[size][4] = { {1,2,3,4}, {1,2,5,6}, {1,7,5,4}, {2,3,8,4}, {6,9,6,3}, {9,6,8,4}, {1,8,7,3}};
 	char* product[size] = { "t-shirt", "jeans", "gloves", "hat", "boots", "sweater", "vest" };
 	int price[size] = { 1500, 2500, 900, 1000, 5000, 1700, 2000 };
 	int discount[size] = { 5, 35, 10, 20, 25, 15, 30 };
 	int count[size] = { 0, 0, 0, 0, 0, 0, 0 };
 
 
-	do {
-		printf("Enter the product barcode (enter 0 to exit):\n");
-		scanf_s("%d", &a);
-		for (int i = 0; i < size; i++) {
-			if (barcode[i] == a)
-			{	
-				count[i] ++;
-				printf("barcode: %d | name: ", barcode[i]);
-				printf(product[i]);
-				printf("  | price: %d rubles | discount: %d %%\n", price[i], discount[i]);
 
+	do {
+	printf("Enter the product barcode (enter 0 to exit):\n");
+	scanf_s("%d", &b);
+	c = b;
+	for (int i = 3; i >= 0; i--) {
+		a[i] = b % 10;
+		b /= 10;
+	}
+
+
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < 4; j++) {
+			if (a[j] == barcode[i][j]) {
+				cnt += 1;
 			}
 		}
-	} while (a != 0);
+		if (cnt == 4) {
+			count[i] ++;
+			printf("barcode: %d | name: ", c);
+			printf(product[i]);
+			printf("  | price: %d rubles | discount: %d %%\n", price[i], discount[i]);
+		}
+		cnt = 0;
+	}
+	} while (c != 0);
 
 
 	for (int i = 0; i < size; i++) {
@@ -41,6 +55,7 @@ void main() {
 
 
 	system("cls");
+
 
 	printf("Check -------------------------------------------\n");
 	printf("poduct   price        amount  total cost         \n");
