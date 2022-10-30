@@ -34,42 +34,29 @@ int main()
 		system("cls");
 		do {
 			system("cls");
-			printf("Хотите ли вы сформировать новый чек? 1- да, 2 - нет: ");
+			printf("Хотите ли вы сформировать новый чек?\n");
+			printf("1- да, 2 - закончить работу, 3 - работа с данным чеком: ");
 			scanf_s("%d", &a);
-		} while (a < 1 || a>2);
-		if (a == 1) {
+		} while (a < 1 || a>3);
+		switch (a) {
+		case 1:
 			Restart();
 			ch = getchar();
-			main();
 			new = 0;
-		}
-		else {
+			main();
+			break;
+		case 2:
 			printf("\nСпасибо за выбор нашей программы! Всего доброго!\n\n");
 			system("pause");
 			return 0;
-		}
-		break;
-	default:
-		break;
-	}
-	if (c == 39) {
-		showCheque();
-		system("cls");
-		do {
-			system("cls");
-			printf("Хотите ли вы сформировать новый чек? 1- да, 2 - нет: ");
-			scanf_s("%d", &a);
-		} while (a < 1 || a>2);
-		if (a == 1) {
-			Restart();
+			break;
+		case 3:
 			ch = getchar();
-			main();
 			new = 0;
-		}
-		else {
-			printf("\nСпасибо за выбор нашей программы! Всего доброго!\n\n");
-			system("pause");
-			return 0;
+			main();
+			break;
+		default:
+			break;
 		}
 	}
 }

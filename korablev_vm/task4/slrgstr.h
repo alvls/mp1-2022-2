@@ -65,7 +65,6 @@ void ShowHelp(new)
 		printf("\tВ данной программе вы формируете чек, вводя 4 символьный код.\n");
 		printf("\tПосле ввода для Вас выводятся данные о введенном Вами товаре.\n");
 		printf("\tПосле этого Вы сможете прочитать штрих-код следующего товара.\n");
-		printf("\tКогда все товары будут внесены в чек, введите в строку \"stop\"\n");
 		printf("\t\tСкидка на товары считается следующим образом:\n");
 		printf("\t\tНачиная от 2 шт. за каждую последующую +5%% скидки\n");
 		printf("\n\tЧтобы еще раз прочитать это сообщение, введите \"info\"\n\t");
@@ -78,25 +77,37 @@ void ShowHelp(new)
 void showCheque() {
 	system("cls");
 	int num = 1, discount;
-	float SalePrice,Summ=0,SaleSumm=0;
-	printf("\t\tТовар\t\t\tКоличество\tЦена\t\tСтоимость(без скидки)\tСтоимость(со скидкой)\n");
-	for (int i = 0; i < PROD-3; i++) {
-		if (P[i].count > 0) {
-			P[i].price = P[i].count * P[i].cost;
-			discount = 5 * (P[i].count - 1);
-			if (P[i].count > 11)
-				discount = 50;
-			SalePrice = (P[i].price / 100) * (100 - discount);
-			printf("%d)\t%s\t*%d шт.\t\t%.2f руб/шт\t %.2f руб.\t\t%.2f руб.\n",num,P[i].name,P[i].count,P[i].cost,P[i].price,SalePrice);
-			SaleSumm = SaleSumm + SalePrice;
-			Summ = Summ + P[i].price;
-			num++;
-		}
+	float SalePrice,Summ=0,SaleSumm=0,count=0;
+	for (int i = 0; i < PROD - 3; i++) {
+		count += P[i].count;
 	}
-	printf("\n\t\t\t\t\t\t\t\t\tСумма: %.2f рублей\n", Summ);
-	printf("\t\t\t\t\t\t\t\t\tСкидка: %.2f рублей\n", Summ-SaleSumm);
-	printf("\t\t\t\t\t\t\t\t\tИтого: %.2f рублей\n\n", SaleSumm);
-	system("pause");
+	if(count>0){
+		printf("\t\tТовар\t\t\tКоличество\tЦена\t\tСтоимость(без скидки)\tСтоимость(со скидкой)\n");
+		for (int i = 0; i < PROD - 3; i++) {
+			if (P[i].count > 0) {
+				P[i].price = P[i].count * P[i].cost;
+				discount = 5 * (P[i].count - 1);
+				if (P[i].count > 11)
+					discount = 50;
+				SalePrice = (P[i].price / 100) * (100 - discount);
+				printf("%d)\t%s\t*%d шт.\t\t%.2f руб/шт\t %.2f руб.\t\t%.2f руб.\n", num, P[i].name, P[i].count, P[i].cost, P[i].price, SalePrice);
+				SaleSumm = SaleSumm + SalePrice;
+				Summ = Summ + P[i].price;
+				num++;
+			}
+		}
+		printf("\n\t\t\t\t\t\t\t\t\tСумма: %.2f рублей\n", Summ);
+		printf("\t\t\t\t\t\t\t\t\tСкидка: %.2f рублей\n", Summ - SaleSumm);
+		printf("\t\t\t\t\t\t\t\t\tИтого: %.2f рублей\n\n", SaleSumm);
+		system("pause");
+	}
+	else {
+		system("cls");
+		printf("Ошибка! Вы не ввели ни одного товара \n");
+		system("pause");
+		main();
+	}
+	
 }
 //вывод списка продуктов (completed)
 void List(int a){
