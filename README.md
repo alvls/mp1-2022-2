@@ -74,3 +74,72 @@
 - добавить данные о товаре в чек, 
 - сформировать чек за покупку, 
 - рассчитать итоговую сумму к оплате.
+
+# Задание 5
+
+Разработать прототип файлового менеджера с функцией показа файлов в заданном каталоге, упорядоченных по возрастанию/убыванию размера.
+
+Входные данные:
+- Путь до директории, в которой необходимо отсортировать содержимое.
+- Метод сортировки.
+
+Выходные данные:
+- Отсортированный список имен файлов с указанием размера.
+- Время сортировки.
+
+Программа должна предоставлять пользователю возможность сменить метод сортировки и повторно формировать выходные данные.
+
+Программа должна реализовывать диалог с пользователем посредством интерфейса, который включает:
+- возможность ввода пути до заданного каталога;
+- возможность выбора метода сортировки;
+- возможность просмотра отсортированного списка файлов с указанием размера.
+
+Cписок методов сортировки:
+1. "пузырьком": http://algolist.manual.ru/sort/bubble_sort.php
+1. "выбором": http://algolist.manual.ru/sort/select_sort.php
+1. "вставками": http://algolist.manual.ru/sort/insert_sort.php
+1. "слиянием": http://algolist.manual.ru/sort/merge_sort.php
+1. "Хоара": http://algolist.manual.ru/sort/quick_sort.php
+1. "Шелла": http://algolist.manual.ru/sort/shell_sort.php
+1. "подсчетом": https://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D1%80%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0_%D0%BF%D0%BE%D0%B4%D1%81%D1%87%D1%91%D1%82%D0%BE%D0%BC
+
+# Работа с файлами в выбранном каталоге
+
+Для выполнения Задания 5 требуется получать информацию об именах и некоторых параметрах файлов в выбранном каталоге.
+Прикладываю программу, которую можно использовать, как пример.
+
+```c++
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>  
+#include <stdlib.h>  
+#include <io.h>  
+#include <time.h>  
+
+int main(void)
+{
+  struct _finddata_t c_file;
+  intptr_t hFile;
+  char path[200];
+  int count = 0;
+
+  // Find first file in directory c:\temp
+  if ((hFile = _findfirst("c:\\temp\\*.*", &c_file)) == -1L)
+    printf("No files in current directory!\n");
+  else
+  {
+    printf("Listing of .c files\n\n");
+    printf("FILE         DATE %24c   SIZE\n", ' ');
+    printf("----         ---- %24c   ----\n", ' ');
+    do {
+      char buffer[30];
+      ctime_s(buffer, _countof(buffer), &c_file.time_write);
+      if (count <= 20)
+        printf("%-12.12s %.24s  %10ld\n", c_file.name, buffer, c_file.size);
+      count++;
+    } while (_findnext(hFile, &c_file) == 0);
+    _findclose(hFile);
+    printf("\ncount of files: %d", count);
+  }
+}
+```
