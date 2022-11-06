@@ -26,13 +26,14 @@ char Menu[SIZE_MENU][10] = {
 	"Пузырьком", "Выбором", "Вставками", "Слиянием", "Хоара", "Шелла", "Подсчётом", "Выход",
 };
 
-void bubble_sort(struct _finddata_t* file_buf, int count);
-void select_sort(struct _finddata_t* file_buf, int count);
-void insert_sort(struct _finddata_t* file_buf, int count);
-void merge_sort(struct _finddata_t* file_buf, int count);
-void hoare_sort(struct _finddata_t* file_buf, int count);
-void shell_sort(struct _finddata_t* file_buf, int count);
-void count_sort(struct _finddata_t* file_buf, int count);
+void print_info(struct _finddata_t* time_buf, int count);
+void bubble_sort(struct _finddata_t* time_buf, int count);
+void select_sort(struct _finddata_t* time_buf, int count);
+void insert_sort(struct _finddata_t* time_buf, int count);
+void merge_sort(struct _finddata_t* time_buf, int count);
+void hoare_sort(struct _finddata_t* time_buf, int count);
+void shell_sort(struct _finddata_t* time_buf, int count);
+void count_sort(struct _finddata_t* time_buf, int count);
 
 void main()
 {
@@ -45,8 +46,11 @@ void main()
 	//---------------------------------------------------------
 	struct _finddata_t c_file;
 	struct _finddata_t* file_buf = malloc(sizeof(c_file));
+	struct _finddata_t* time_buf;
 	intptr_t hFile;
-	int count = -2, buf_count = 1;
+	int buf_count = 1;
+	//---------------------------------------------------------
+	int count = -2;
 	char path[] = "c:\\temp\\*.*";
 	if ((hFile = _findfirst(path, &c_file)) == -1L)
 	{
@@ -86,82 +90,98 @@ void main()
 			else
 				textcolor(LIGHTGRAY);
 			gotoxy(1, i + 1);
-			printf("%d) %s", i + 1, Menu[i]);
+			printf("> %s", Menu[i]);
 		}
 		//------------------------------------------------------------
-
 		ch = _getch();
 		if (ch == -32) 
 			ch = _getch();
 		switch (ch)
 		{
-			case UP:
-				if (active_menu > 0)
-					--active_menu;
+		case UP:
+			if (active_menu > 0)
+				--active_menu;
+			break;
+		case DOWN:
+			if (active_menu < SIZE_MENU - 1)
+				++active_menu;
+			break;
+		case ESCAPE:
+			free(file_buf);
+			exit(0);
+		case RIGHT:
+		case ENTER:
+		case SPACE:
+			time_buf = calloc(count, sizeof(c_file));
+			if (!time_buf)
+			{
+				free(time_buf);
+				return;
+			}
+			for (int i = 0; i < count; i++)
+				time_buf[i] = file_buf[i];
+			switch (active_menu)
+			{
+			case BUBBLE:
+				clrscr();
+				printf("Пузырьковая сортировка\n");
+				bubble_sort(time_buf, count);
 				break;
-			case DOWN:
-				if (active_menu < SIZE_MENU - 1)
-					++active_menu;
+			case SELECT:
+				clrscr();
+				printf("Сортировка выбором\n");
+				select_sort(time_buf, count);
 				break;
-			case ESCAPE:
-				free(file_buf);
+			case INSERTS:
+				clrscr();
+				printf("Сортировка вставками\n");
+				insert_sort(time_buf, count);
+				break;
+			case MERGE:
+				clrscr();
+				printf("Сортировка слиянием\n");
+				merge_sort(time_buf, count);
+				break;
+			case HOARE:
+				clrscr();
+				printf("Сортировка Хоара\n");
+				hoare_sort(time_buf, count);
+				break;
+			case SHELL:
+				clrscr();
+				printf("Сортировка Шелла\n");
+				shell_sort(time_buf, count);
+				break;
+			case COUNT:
+				clrscr();
+				printf("Сортировка подсчётом\n");
+				count_sort(time_buf, count);
+				break;
+			case EXIT:
 				exit(0);
-			case RIGHT:
-			case ENTER:
-			case SPACE:
-				switch (active_menu)
-				{
-					case BUBBLE:
-						bubble_sort(file_buf, count);
-						active_menu = 0;
-						break;
-					case SELECT:
-						select_sort(file_buf, count);
-						active_menu = 0;
-						break;
-					case INSERTS:
-						insert_sort(file_buf, count);
-						active_menu = 0;
-						break;
-					case MERGE:
-						merge_sort(file_buf, count);
-						active_menu = 0;
-						break;
-					case HOARE:
-						hoare_sort(file_buf, count);
-						active_menu = 0;
-						break;
-					case SHELL:
-						shell_sort(file_buf, count);
-						active_menu = 0;
-						break;
-					case COUNT:
-						count_sort(file_buf, count);
-						active_menu = 0;
-						break;
-					case EXIT:
-						exit(0);
-				}
-				break;
+			}
+			print_info(time_buf, count);
+			active_menu = 0;
+			system("pause");
+			clrscr();
+			free(time_buf);
+			break;
 		}
 	}
 }
 
-//пузырьковая сортировка
-void bubble_sort(struct _finddata_t* file_buf, int count)
+//вывести данные отсортированного массива
+void print_info(struct _finddata_t* time_buf, int count)
 {
-	clrscr();
-	printf("Пузырьковая сортировка\n");
-	//--------------------------------------------------
-	struct _finddata_t temp;
-	struct _finddata_t* time_buf = calloc(count, sizeof(temp));
-	if (!time_buf)
-	{
-		free(time_buf);
-		return;
-	}
 	for (int i = 0; i < count; i++)
-		time_buf[i] = file_buf[i];
+	{
+		printf("%d\n", time_buf[i].size);
+	}
+}
+//пузырьковая сортировка
+void bubble_sort(struct _finddata_t* time_buf, int count)
+{
+	struct _finddata_t temp;
 	//--------------------------------------------------
 	for (int i = 0; i < count; i++)
 	{
@@ -175,32 +195,12 @@ void bubble_sort(struct _finddata_t* file_buf, int count)
 			}
 		}
 	}
-	//--------------------------------------------------
-	for (int i = 0; i < count; i++)
-	{
-		printf("%d\n", time_buf[i].size);
-	}
-	free(time_buf);
-	//--------------------------------------------------
-	system("pause");
-	clrscr();
 }
 //сортировка выбором
-void select_sort(struct _finddata_t* file_buf, int count) 
+void select_sort(struct _finddata_t* time_buf, int count) 
 {
-	clrscr();
-	printf("Сортировка выбором\n");
-	//--------------------------------------------------
 	int index;
 	struct _finddata_t temp;
-	struct _finddata_t* time_buf = calloc(count, sizeof(temp));
-	if (!time_buf)
-	{
-		free(time_buf);
-		return;
-	}
-	for (int i = 0; i < count; i++)
-		time_buf[i] = file_buf[i];
 	//--------------------------------------------------
 	for (int i = 0; i < count; i++)
 	{
@@ -217,32 +217,12 @@ void select_sort(struct _finddata_t* file_buf, int count)
 		time_buf[index] = time_buf[i];
 		time_buf[i] = temp;
 	}
-	//--------------------------------------------------
-	for (int i = 0; i < count; i++)
-	{
-		printf("%d\n", time_buf[i].size);
-	}
-	free(time_buf);
-	//--------------------------------------------------
-	system("pause");
-	clrscr();
 }
 //сортировка вставками
-void insert_sort(struct _finddata_t* file_buf, int count)
+void insert_sort(struct _finddata_t* time_buf, int count)
 {
-	clrscr();
-	printf("Сортировка вставками\n");
-	//--------------------------------------------------
 	int j;
 	struct _finddata_t temp;
-	struct _finddata_t* time_buf = calloc(count, sizeof(temp));
-	if (!time_buf)
-	{
-		free(time_buf);
-		return;
-	}
-	for (int k = 0; k < count; k++)
-		time_buf[k] = file_buf[k];
 	//--------------------------------------------------
 	for (int i = 0; i < count; i++)
 	{
@@ -251,121 +231,32 @@ void insert_sort(struct _finddata_t* file_buf, int count)
 			time_buf[j + 1] = time_buf[j];
 		time_buf[j + 1] = temp;
 	}
-	//--------------------------------------------------
-	for (int i = 0; i < count; i++)
-	{
-		printf("%d\n", time_buf[i].size);
-	}
-	free(time_buf);
-	//--------------------------------------------------
-	system("pause");
-	clrscr();
 }
 //сортировка слиянием
-void merge_sort(struct _finddata_t* file_buf, int count)
+void merge_sort(struct _finddata_t* time_buf, int count)
 {
-	clrscr();
-	printf("Сортировка слиянием\n");
-	//--------------------------------------------------
-	struct _finddata_t temp;
-	struct _finddata_t* time_buf = calloc(count, sizeof(temp));
-	if (!time_buf)
-	{
-		free(time_buf);
-		return;
-	}
-	for (int i = 0; i < count; i++)
-		time_buf[i] = file_buf[i];
+	//struct _finddata_t temp;
 	//--------------------------------------------------
 
-	//--------------------------------------------------
-	for (int i = 0; i < count; i++)
-	{
-		printf("%d\n", time_buf[i].size);
-	}
-	free(time_buf);
-	//--------------------------------------------------
-	system("pause");
-	clrscr();
 }
 //сортировка Хоара
-void hoare_sort(struct _finddata_t* file_buf, int count)
+void hoare_sort(struct _finddata_t* time_buf, int count)
 {
-	clrscr();
-	printf("Сортировка Хоара\n");
-	//--------------------------------------------------
-	struct _finddata_t temp;
-	struct _finddata_t* time_buf = calloc(count, sizeof(temp));
-	if (!time_buf)
-	{
-		free(time_buf);
-		return;
-	}
-	for (int i = 0; i < count; i++)
-		time_buf[i] = file_buf[i];
+	//struct _finddata_t temp;
 	//--------------------------------------------------
 
-	//--------------------------------------------------
-	for (int i = 0; i < count; i++)
-	{
-		printf("%d\n", time_buf[i].size);
-	}
-	free(time_buf);
-	//--------------------------------------------------
-	system("pause");
-	clrscr();
 }
 //сортировка Шелла
-void shell_sort(struct _finddata_t* file_buf, int count)
+void shell_sort(struct _finddata_t* time_buf, int count)
 {
-	clrscr();
-	printf("Сортировка Шелла\n");
-	//--------------------------------------------------
-	struct _finddata_t temp;
-	struct _finddata_t* time_buf = calloc(count, sizeof(temp));
-	if (!time_buf)
-	{
-		free(time_buf);
-		return;
-	}
-	for (int i = 0; i < count; i++)
-		time_buf[i] = file_buf[i];
+	//struct _finddata_t temp;
 	//--------------------------------------------------
 
-	//--------------------------------------------------
-	for (int i = 0; i < count; i++)
-	{
-		printf("%d\n", time_buf[i].size);
-	}
-	free(time_buf);
-	//--------------------------------------------------
-	system("pause");
-	clrscr();
 }
 //сортировка подсчётом
-void count_sort(struct _finddata_t* file_buf, int count)
+void count_sort(struct _finddata_t* time_buf, int count)
 {
-	clrscr();
-	printf("Сортировка подсчётом\n");
-	//--------------------------------------------------
-	struct _finddata_t temp;
-	struct _finddata_t* time_buf = calloc(count, sizeof(temp));
-	if (!time_buf)
-	{
-		free(time_buf);
-		return;
-	}
-	for (int i = 0; i < count; i++)
-		time_buf[i] = file_buf[i];
+	//struct _finddata_t temp;
 	//--------------------------------------------------
 
-	//--------------------------------------------------
-	for (int i = 0; i < count; i++)
-	{
-		printf("%d\n", time_buf[i].size);
-	}
-	free(time_buf);
-	//--------------------------------------------------
-	system("pause");
-	clrscr();
 }
