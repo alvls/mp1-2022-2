@@ -2,8 +2,6 @@
 #include <conio.h>
 #include <stdlib.h>
 #include <locale.h>
-#include <windows.h>
-#include <memory.h>
 #include <string.h>
 #include <io.h>  
 #include <time.h>
@@ -13,7 +11,8 @@
 #define SIZE_ARR 20
 #define MAX_STACK 1024
 
-char PATH[200] = "c:/temp/*.*";
+char PATH[200];
+struct _finddata_t* file_buf;
 
 enum KeysEnum 
 {
@@ -36,7 +35,8 @@ char Menu[SIZE_MENU][30] = {
 	"Выход", 
 };
 
-void input_path();
+long found_dir(void);
+void input_path(void);
 void print_info(struct _finddata_t* time_buf, long count);
 void bubble_sort(struct _finddata_t* time_buf, long count);
 void select_sort(struct _finddata_t* time_buf, long count);
@@ -47,55 +47,32 @@ void hoare_sort(struct _finddata_t* time_buf, long count);
 long increment(long inc[], long count);
 void shell_sort(struct _finddata_t* time_buf, long count);
 unsigned long long max_elem(struct _finddata_t* time_buf, long count);
-void count_sort(struct _finddata_t* time_buf, long count);
+void count_sort(struct _finddata_t* time_buf, size_t count);
 
 void main()
 {
 	system("chcp 1251");
 	setlocale(LC_ALL, "Russian");
 	SetConsoleTitle("Сортировка файлов");
-	struct _finddata_t* file_buf = malloc(sizeof(struct _finddata_t));
+
+	clock_t end, start;
 	struct _finddata_t* time_buf;
-	//---------------------------------------------------------
-	struct _finddata_t c_file;
-	intptr_t hFile;
-	long buf_count = 1;
-  long count = 0;
-
-	while(1)
-	{
-		input_path();
-		if ((hFile = _findfirst(PATH, &c_file)) == -1L)
-		{
-			printf("No files in current directory!\n");
-			system("pause");
-			continue;
-		}
-		do
-		{
-			if (c_file.attrib != 16)
-			{
-				struct _finddata_t* tmp = realloc(file_buf, sizeof(struct _finddata_t) * (unsigned long long)(buf_count + count));
-				if (tmp != NULL)
-				{
-					file_buf = tmp;
-					file_buf[count] = c_file;
-					count++;
-				}
-			}
-			
-		} while (_findnext(hFile, &c_file) == 0);
-		_findclose(hFile);
-		break;
-	}
-
-	char ch;
+	long count;
+	char ch, print_path[200];
 	long active_menu = 0;
-	hidecursor();
+	file_buf = malloc(sizeof(struct _finddata_t));
+	if (!file_buf)
+	{
+		free(file_buf);
+		exit(0);
+	}
+	count = found_dir();
 	while (1)
 	{
 		gotoxy(0, 0);
-		textcolor(MAGENTA);
+		textcolor(WHITE);
+		strncpy_s(print_path, 200, PATH, strlen(PATH) - 3);
+		printf("Вы находитесь по адресу: %s\n", print_path);
 		printf("Методы сортировки: ");
 		for (long i = 0; i < SIZE_MENU; i++)
 		{
@@ -103,7 +80,7 @@ void main()
 				textcolor(LIGHTGREEN);
 			else
 				textcolor(LIGHTGRAY);
-			gotoxy(1, i + 1);
+			gotoxy(1, i + 2);
 			printf("> %s", Menu[i]);
 		}
 
@@ -126,7 +103,7 @@ void main()
 		case RIGHT:
 		case ENTER:
 		case SPACE:
-			time_buf = calloc(count, sizeof(c_file));
+			time_buf = calloc(count, sizeof(struct _finddata_t));
 			if (!time_buf)
 			{
 				free(time_buf);
@@ -134,67 +111,134 @@ void main()
 			}
 			for (long i = 0; i < count; i++)
 				time_buf[i] = file_buf[i];
-			clrscr();
+			system("cls");
+			textcolor(LIGHTGREEN);
 			switch (active_menu)
 			{
 			case CH_PATH:
-
+				count = found_dir();
+				continue;
 			case BUBBLE:
 				printf("Пузырьковая сортировка\n");
+				start = clock();
 				bubble_sort(time_buf, count);
+				end = clock();
 				break;
 			case SELECT:
 				printf("Сортировка выбором\n");
+				start = clock();
 				select_sort(time_buf, count);
+				end = clock();
 				break;
 			case INSERTS:
 				printf("Сортировка вставками\n");
+				start = clock();
 				insert_sort(time_buf, count);
+				end = clock();
 				break;
 			case MERGE:
 				printf("Сортировка слиянием\n");
+				start = clock();
 				merge_sort(time_buf, 0, count - 1);
+				end = clock();
 				break;
 			case HOARE:
 				printf("Сортировка Хоара\n");
+				start = clock();
 				hoare_sort(time_buf, count);
+				end = clock();
 				break;
 			case SHELL:
 				printf("Сортировка Шелла\n");
+				start = clock();
 				shell_sort(time_buf, count);
+				end = clock();
 				break;
 			case COUNT:
 				printf("Сортировка подсчётом\n");
+				start = clock();
 				count_sort(time_buf, count);
+				end = clock();
 				break;
 			case EXIT:
 				exit(0);
 			}
 			print_info(time_buf, count);
+			printf("Время сортировки: %lf\n", (double)(end - start) / CLOCKS_PER_SEC);
 			system("pause");
-			clrscr();
+			system("cls");
 			free(time_buf);
 			break;
 		}
 	}
 }
 
-//ввести адрес директории
-void input_path()
+//найти папку по адресу
+long found_dir(void)
 {
-	clrscr();
-	printf("Введите путь до директории: (в формате c:/temp/)\n");
+	struct _finddata_t c_file;
+	struct _finddata_t* tmp;
+	intptr_t hFile;
+	long count = 0, size = 0;
+	showcursor();
+	while (1)
+	{
+		input_path();
+		if ((hFile = _findfirst(PATH, &c_file)) == -1L)
+		{
+			printf("Неверно введены данные!\n");
+			system("pause");
+			continue;
+		}
+		do
+		{
+			if (c_file.size > 0)
+				size++;
+		} while (_findnext(hFile, &c_file) == 0);
+
+		tmp = realloc(file_buf, sizeof(struct _finddata_t) * (unsigned long long)(size));
+		if (tmp != NULL)
+			file_buf = tmp;
+
+		hFile = _findfirst(PATH, &c_file);
+		do
+		{
+			if (c_file.size > 0)
+				file_buf[count++] = c_file;
+		} while (_findnext(hFile, &c_file) == 0);
+
+		_findclose(hFile);
+		break;
+	}
+	hidecursor();
+	return count;
+}
+//ввести адрес директории
+void input_path(void)
+{
+	system("cls");
+	textcolor(WHITE);
+	printf("Введите путь до директории: (в формате c:/temp/)\n >>> ");
+	textcolor(LIGHTGRAY);
 	fgets(PATH, 200, stdin);
 	PATH[strlen(PATH) - 1] = '\0';
 	strcat_s(PATH, 200, "*.*");
-	clrscr();
+	system("cls");
 }
 //вывести данные отсортированного массива
 void print_info(struct _finddata_t* time_buf, long count)
 {
+	textcolor(LIGHTGRAY);
+	gotoxy(2, 1);
+	printf("Название");
+	gotoxy(51, 1);
+	printf("Размер");
 	for (long i = 0; i < count; i++)
 	{
-		printf("%s: %d байт | %d\n", time_buf[i].name, time_buf[i].size, time_buf[i].attrib);
+		gotoxy(1, 2 + i);
+		printf("%s", time_buf[i].name);
+		gotoxy(50, 2 + i);
+		printf("%lld байт\n", (_int64)time_buf[i].size);
 	}
 }
 //пузырьковая сортировка
@@ -408,10 +452,37 @@ unsigned long long max_elem(struct _finddata_t* time_buf, long count)
 	return max;
 }
 //сортировка подсчётом
-void count_sort(struct _finddata_t* time_buf, long count)
+void count_sort(struct _finddata_t* time_buf, size_t count)
 {
-	
-	//struct _finddata_t* temp_buf;
-	for (long i = 0; i < count; i++);
+	_fsize_t max_size = 0;
 
+	for (int i = 0; i < count; i++)
+		if (time_buf[i].size > max_size)
+			max_size = time_buf[i].size;
+
+	_fsize_t* size_buf = calloc((max_size + 1), sizeof(int));
+	if (!size_buf)
+		return;
+
+	for (int i = 0; i < count; i++)
+		size_buf[time_buf[i].size]++;
+
+	for (int i = 1; i <= (int)max_size; i++)
+		size_buf[i] += size_buf[i - 1];
+
+	struct _finddata_t* answer_buf = calloc(count, sizeof(time_buf[0]));
+	if (!answer_buf)
+		return;
+
+	for (int i = (int)count - 1; i >= 0; i--)
+	{
+		answer_buf[size_buf[time_buf[i].size] - 1] = time_buf[i];
+		size_buf[time_buf[i].size]--;
+	}
+
+	for (int i = 0; i < count; i++)
+		time_buf[i] = answer_buf[i];
+
+	free(size_buf);
+	free(answer_buf);
 }
