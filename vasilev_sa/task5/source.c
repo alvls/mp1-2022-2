@@ -1,4 +1,7 @@
+#pragma warning(disable : 5105)
+
 #include <stdio.h>
+#include <omp.h>
 #include <conio.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -6,6 +9,7 @@
 #include <io.h>  
 #include <time.h>
 #include "header.h"
+
 
 #define SIZE_MENU 9
 #define SIZE_ARR 20
@@ -37,7 +41,7 @@ char Menu[SIZE_MENU][30] = {
 
 long found_dir(void);
 void input_path(void);
-void print_info(struct _finddata_t* time_buf, long count);
+void print_info(struct _finddata_t* time_buf, long count, double work_time);
 void bubble_sort(struct _finddata_t* time_buf, long count);
 void select_sort(struct _finddata_t* time_buf, long count);
 void insert_sort(struct _finddata_t* time_buf, long count);
@@ -55,11 +59,12 @@ void main()
 	setlocale(LC_ALL, "Russian");
 	SetConsoleTitle("Сортировка файлов");
 
-	clock_t end, start;
 	struct _finddata_t* time_buf;
 	long count;
 	char ch, print_path[200];
 	long active_menu = 0;
+	double start;
+	double end;
 	file_buf = malloc(sizeof(struct _finddata_t));
 	if (!file_buf)
 	{
@@ -120,51 +125,50 @@ void main()
 				continue;
 			case BUBBLE:
 				printf("Пузырьковая сортировка\n");
-				start = clock();
+				start = omp_get_wtime();
 				bubble_sort(time_buf, count);
-				end = clock();
+				end = omp_get_wtime();
 				break;
 			case SELECT:
 				printf("Сортировка выбором\n");
-				start = clock();
+				start = omp_get_wtime();
 				select_sort(time_buf, count);
-				end = clock();
+				end = omp_get_wtime();
 				break;
 			case INSERTS:
 				printf("Сортировка вставками\n");
-				start = clock();
+				start = omp_get_wtime();
 				insert_sort(time_buf, count);
-				end = clock();
+				end = omp_get_wtime();
 				break;
 			case MERGE:
 				printf("Сортировка слиянием\n");
-				start = clock();
+				start = omp_get_wtime();
 				merge_sort(time_buf, 0, count - 1);
-				end = clock();
+				end = omp_get_wtime();
 				break;
 			case HOARE:
 				printf("Сортировка Хоара\n");
-				start = clock();
+				start = omp_get_wtime();
 				hoare_sort(time_buf, count);
-				end = clock();
+				end = omp_get_wtime();
 				break;
 			case SHELL:
 				printf("Сортировка Шелла\n");
-				start = clock();
+				start = omp_get_wtime();
 				shell_sort(time_buf, count);
-				end = clock();
+				end = omp_get_wtime();
 				break;
 			case COUNT:
 				printf("Сортировка подсчётом\n");
-				start = clock();
+				start = omp_get_wtime();
 				count_sort(time_buf, count);
-				end = clock();
+				end = omp_get_wtime();
 				break;
 			case EXIT:
 				exit(0);
 			}
-			print_info(time_buf, count);
-			printf("Время сортировки: %lf\n", (double)(end - start) / CLOCKS_PER_SEC);
+			print_info(time_buf, count, end - start);
 			system("pause");
 			system("cls");
 			free(time_buf);
@@ -199,7 +203,8 @@ long found_dir(void)
 		tmp = realloc(file_buf, sizeof(struct _finddata_t) * (unsigned long long)(size));
 		if (tmp != NULL)
 			file_buf = tmp;
-
+		else
+			break;
 		hFile = _findfirst(PATH, &c_file);
 		do
 		{
@@ -226,7 +231,7 @@ void input_path(void)
 	system("cls");
 }
 //вывести данные отсортированного массива
-void print_info(struct _finddata_t* time_buf, long count)
+void print_info(struct _finddata_t* time_buf, long count, double work_time)
 {
 	textcolor(LIGHTGRAY);
 	gotoxy(2, 1);
@@ -240,12 +245,13 @@ void print_info(struct _finddata_t* time_buf, long count)
 		gotoxy(50, 2 + i);
 		printf("%lld байт\n", (_int64)time_buf[i].size);
 	}
+	printf("Всего файлов: %ld\n", count);
+	printf("Сортировка заняла %f секунд\n", work_time);
 }
 //пузырьковая сортировка
 void bubble_sort(struct _finddata_t* time_buf, long count)
 {
 	struct _finddata_t temp;
-
 	for (long i = 0; i < count; i++)
 	{
 		for (long j = count - 1; j > i; j--)
@@ -461,7 +467,7 @@ void count_sort(struct _finddata_t* time_buf, size_t count)
 			max_size = time_buf[i].size;
 
 	_fsize_t* size_buf = calloc((max_size + 1), sizeof(int));
-	if (!size_buf)
+	if (size_buf == NULL)
 		return;
 
 	for (int i = 0; i < count; i++)
@@ -471,7 +477,7 @@ void count_sort(struct _finddata_t* time_buf, size_t count)
 		size_buf[i] += size_buf[i - 1];
 
 	struct _finddata_t* answer_buf = calloc(count, sizeof(time_buf[0]));
-	if (!answer_buf)
+	if (answer_buf == NULL)
 		return;
 
 	for (int i = (int)count - 1; i >= 0; i--)
