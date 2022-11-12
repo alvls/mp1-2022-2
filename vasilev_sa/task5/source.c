@@ -12,7 +12,6 @@
 
 
 #define SIZE_MENU 9
-#define SIZE_ARR 20
 #define MAX_STACK 1024
 
 char PATH[200];
@@ -47,11 +46,11 @@ void select_sort(struct _finddata_t* time_buf, long count);
 void insert_sort(struct _finddata_t* time_buf, long count);
 void merge(struct _finddata_t* time_buf, long left, long split, long right);
 void merge_sort(struct _finddata_t* time_buf, long left, long right);
-void hoare_sort(struct _finddata_t* time_buf, long count);
+void quick_sort(struct _finddata_t* time_buf, long count);
 long increment(long inc[], long count);
 void shell_sort(struct _finddata_t* time_buf, long count);
 unsigned long long max_elem(struct _finddata_t* time_buf, long count);
-void count_sort(struct _finddata_t* time_buf, size_t count);
+short count_sort(struct _finddata_t* time_buf, size_t count);
 
 void main()
 {
@@ -63,15 +62,11 @@ void main()
 	long count;
 	char ch, print_path[200];
 	long active_menu = 0;
-	double start;
-	double end;
-	file_buf = malloc(sizeof(struct _finddata_t));
-	if (!file_buf)
-	{
-		free(file_buf);
-		exit(0);
-	}
+	double start, end;
+	short flag;
+
 	count = found_dir();
+
 	while (1)
 	{
 		gotoxy(0, 0);
@@ -88,7 +83,6 @@ void main()
 			gotoxy(1, i + 2);
 			printf("> %s", Menu[i]);
 		}
-
 		ch = _getch();
 		if (ch == -32) 
 			ch = _getch();
@@ -105,19 +99,19 @@ void main()
 		case ESCAPE:
 			free(file_buf);
 			exit(0);
+			break;
 		case RIGHT:
 		case ENTER:
 		case SPACE:
-			time_buf = calloc(count, sizeof(struct _finddata_t));
-			if (!time_buf)
+			do
 			{
-				free(time_buf);
-				return;
-			}
+				time_buf = calloc(count, sizeof(struct _finddata_t));
+			} while (!time_buf);
 			for (long i = 0; i < count; i++)
 				time_buf[i] = file_buf[i];
 			system("cls");
 			textcolor(LIGHTGREEN);
+			flag = 1;
 			switch (active_menu)
 			{
 			case CH_PATH:
@@ -150,7 +144,7 @@ void main()
 			case HOARE:
 				printf("Сортировка Хоара\n");
 				start = omp_get_wtime();
-				hoare_sort(time_buf, count);
+				quick_sort(time_buf, count);
 				end = omp_get_wtime();
 				break;
 			case SHELL:
@@ -162,13 +156,20 @@ void main()
 			case COUNT:
 				printf("Сортировка подсчётом\n");
 				start = omp_get_wtime();
-				count_sort(time_buf, count);
+				flag = count_sort(time_buf, count);
 				end = omp_get_wtime();
 				break;
 			case EXIT:
 				exit(0);
 			}
-			print_info(time_buf, count, end - start);
+			if (flag)
+				print_info(time_buf, count, end - start);
+			else
+			{
+				textcolor(RED);
+				printf("Не удалось выполнить сортировку, возможно данные в папке имеют слишком большой размер\n");
+			}
+			textcolor(WHITE);
 			system("pause");
 			system("cls");
 			free(time_buf);
@@ -190,7 +191,9 @@ long found_dir(void)
 		input_path();
 		if ((hFile = _findfirst(PATH, &c_file)) == -1L)
 		{
+			textcolor(RED);
 			printf("Неверно введены данные!\n");
+			textcolor(WHITE);
 			system("pause");
 			continue;
 		}
@@ -199,8 +202,15 @@ long found_dir(void)
 			if (c_file.size > 0)
 				size++;
 		} while (_findnext(hFile, &c_file) == 0);
-
-		tmp = realloc(file_buf, sizeof(struct _finddata_t) * (unsigned long long)(size));
+		if (size == 0)
+		{
+			textcolor(RED);
+			printf("Папка пуста, либо в ней отсутствуют сортируемые по размеру файлы, выберите другую папку\n");
+			textcolor(WHITE);
+			system("pause");
+			continue;
+		}
+		tmp = calloc(size, sizeof(struct _finddata_t));
 		if (tmp != NULL)
 			file_buf = tmp;
 		else
@@ -208,7 +218,7 @@ long found_dir(void)
 		hFile = _findfirst(PATH, &c_file);
 		do
 		{
-			if (c_file.size > 0)
+			if ((c_file.size > 0) && (count < size))
 				file_buf[count++] = c_file;
 		} while (_findnext(hFile, &c_file) == 0);
 
@@ -270,7 +280,6 @@ void select_sort(struct _finddata_t* time_buf, long count)
 {
 	long index;
 	struct _finddata_t temp;
-
 	for (long i = 0; i < count; i++)
 	{
 		index = i;
@@ -292,7 +301,6 @@ void insert_sort(struct _finddata_t* time_buf, long count)
 {
 	long j;
 	struct _finddata_t temp;
-
 	for (long i = 0; i < count; i++)
 	{
 		temp = time_buf[i];
@@ -318,13 +326,10 @@ void merge(struct _finddata_t* time_buf, long left, long split, long right)
 		else
 			temp_buf[pos3++] = time_buf[pos2++];
 	}
-
 	while (pos2 <= right)
 		temp_buf[pos3++] = time_buf[pos2++];
-
 	while (pos1 <= split)
 		temp_buf[pos3++] = time_buf[pos1++];
-
 	for (pos3 = 0; pos3 < right - left + 1; pos3++)
 		time_buf[left + pos3] = temp_buf[pos3];
 	free(temp_buf);
@@ -341,7 +346,7 @@ void merge_sort(struct _finddata_t* time_buf, long left, long right)
 	}
 }
 //сортировка Хоара
-void hoare_sort(struct _finddata_t* time_buf, long count)
+void quick_sort(struct _finddata_t* time_buf, long count)
 {
 	long i, j;
 	long left, right;
@@ -408,16 +413,11 @@ void hoare_sort(struct _finddata_t* time_buf, long count)
 //подфункция shell_sort
 long increment(long inc[], long count)
 {
-	long p1, p2, p3, s;
-
-	p1 = p2 = p3 = 1;
-	s = -1;
+	long p1 = 1, p2 = 1, p3 = 1, s = -1;
 	do
 	{
 		if (++s % 2)
-		{
 			inc[s] = 8 * p1 - 6 * p2 + 1;
-		}
 		else
 		{
 			inc[s] = 9 * p1 - 9 * p3 + 1;
@@ -458,37 +458,32 @@ unsigned long long max_elem(struct _finddata_t* time_buf, long count)
 	return max;
 }
 //сортировка подсчётом
-void count_sort(struct _finddata_t* time_buf, size_t count)
+short count_sort(struct _finddata_t* time_buf, size_t count)
 {
 	_fsize_t max_size = 0;
-
 	for (int i = 0; i < count; i++)
 		if (time_buf[i].size > max_size)
 			max_size = time_buf[i].size;
-
-	_fsize_t* size_buf = calloc((max_size + 1), sizeof(int));
+	if (max_size > 1500000000)
+		return 0;
+	_fsize_t* size_buf = calloc((unsigned long long)(max_size) + 1, sizeof(long));
 	if (size_buf == NULL)
-		return;
-
+		return 0;
 	for (int i = 0; i < count; i++)
 		size_buf[time_buf[i].size]++;
-
 	for (int i = 1; i <= (int)max_size; i++)
 		size_buf[i] += size_buf[i - 1];
-
 	struct _finddata_t* answer_buf = calloc(count, sizeof(time_buf[0]));
 	if (answer_buf == NULL)
-		return;
-
+		return 0;
 	for (int i = (int)count - 1; i >= 0; i--)
 	{
 		answer_buf[size_buf[time_buf[i].size] - 1] = time_buf[i];
 		size_buf[time_buf[i].size]--;
 	}
-
 	for (int i = 0; i < count; i++)
 		time_buf[i] = answer_buf[i];
-
 	free(size_buf);
 	free(answer_buf);
+	return 1;
 }
