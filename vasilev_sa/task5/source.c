@@ -19,25 +19,30 @@ char PATH[200];
 //массив с файлами из папки
 struct _finddata_t* file_buf;
 //коды клавиш для управления меню
-enum KeysEnum 
+enum KeysEnum
 {
-	ESCAPE = 27, UP = 72, DOWN = 80, LEFT = 75, RIGHT = 77, ENTER = 13, SPACE = 32, DEL = 8,
+	ESCAPE = 27, UP = 72, DOWN = 80, LEFT = 75, RIGHT = 77, ENTER = 13, SPACE = 32, DEL = 8, 
+	NUM_1 = 49, NUM_2 = 50, NUM_3 = 51, NUM_4 = 52, NUM_5 = 53, NUM_6 = 54, NUM_7 = 55, NUM_8 = 56, NUM_9 = 57,
 };
 //для наглядности свича при выборе метода сортировки
 enum MenuEnum
 {
-	CH_PATH = 0, BUBBLE = 1, SELECT = 2, INSERTS = 3, MERGE = 4, HOARE = 5, SHELL = 6, COUNT = 7, EXIT = 8,
+	BUBBLE, SELECT, INSERTS, MERGE, HOARE, SHELL, COUNT, CH_PATH, EXIT,
 };
+//цвета программы
+typedef enum {
+	TITLE = LIGHTMAGENTA, TEXT = LIGHTGRAY, CHOICE = LIGHTGREEN, PAUSE = LIGHTRED, WARNING = RED, TEXT_INP = WHITE
+} ColorSettings;
 //выводящееся на экран меню
 char Menu[SIZE_MENU][30] = { 
-	"Сменить директорий",
 	"Сортировка \"Пузырьком\"", 
 	"Сортировка \"Выбором\"", 
 	"Сортировка \"Вставками\"", 
 	"Сортировка \"Слиянием\"", 
 	"Сортировка \"Хоара\"", 
 	"Сортировка \"Шелла\"", 
-	"Сортировка \"Подсчётом\"", 
+	"Сортировка \"Подсчётом\"",
+	"Сменить директорий",
 	"Выход", 
 };
 
@@ -45,7 +50,7 @@ char Menu[SIZE_MENU][30] = {
 
 long found_dir(void);
 void input_path(void);
-void print_info(struct _finddata_t* time_buf, long count, double work_time);
+void print_info(struct _finddata_t* time_buf, long count, double work_time, long active_menu);
 void bubble_sort(struct _finddata_t* time_buf, long count);
 void select_sort(struct _finddata_t* time_buf, long count);
 void insert_sort(struct _finddata_t* time_buf, long count);
@@ -77,24 +82,52 @@ void main(void)
 	while (1)
 	{
 		gotoxy(0, 0);
-		textcolor(WHITE);
 		strncpy_s(print_path, 200, PATH, strlen(PATH) - 3);
-		printf("Вы находитесь по адресу: %s\n", print_path);
-		printf("Методы сортировки: ");
+		textcolor(TITLE);
+		printf(" Методы сортировки для ");
+		textcolor(CHOICE);
+		printf("|%s|:\n", print_path);
 		for (long i = 0; i < SIZE_MENU; i++)
 		{
 			if (i == active_menu)
-				textcolor(LIGHTGREEN);
+				textcolor(CHOICE);
 			else
-				textcolor(LIGHTGRAY);
-			gotoxy(1, i + 2);
-			printf("> %s", Menu[i]);
+				textcolor(TEXT);
+			gotoxy(1, i + 1);
+			printf("%d) %s", i + 1, Menu[i]);
 		}
 		ch = _getch();
 		if (ch == -32) 
 			ch = _getch();
 		switch (ch)
 		{
+		case NUM_1:
+			active_menu = 0;
+			break;
+		case NUM_2:
+			active_menu = 1;
+			break;
+		case NUM_3:
+			active_menu = 2;
+			break;
+		case NUM_4:
+			active_menu = 3;
+			break;
+		case NUM_5:
+			active_menu = 4;
+			break;
+		case NUM_6:
+			active_menu = 5;
+			break;
+		case NUM_7:
+			active_menu = 6;
+			break;
+		case NUM_8:
+			active_menu = 7;
+			break;
+		case NUM_9:
+			active_menu = 8;
+			break;
 		case UP:
 			if (active_menu > 0)
 				--active_menu;
@@ -117,51 +150,45 @@ void main(void)
 			for (long i = 0; i < count; i++)
 				time_buf[i] = file_buf[i];
 			system("cls");
-			textcolor(LIGHTGREEN);
+			textcolor(CHOICE);
 			flag = 1;
 			switch (active_menu)
 			{
 			case CH_PATH:
 				count = found_dir();
+				active_menu = 0;
 				continue;
 			case BUBBLE:
-				printf("Пузырьковая сортировка\n");
 				start = omp_get_wtime();
 				bubble_sort(time_buf, count);
 				end = omp_get_wtime();
 				break;
 			case SELECT:
-				printf("Сортировка выбором\n");
 				start = omp_get_wtime();
 				select_sort(time_buf, count);
 				end = omp_get_wtime();
 				break;
 			case INSERTS:
-				printf("Сортировка вставками\n");
 				start = omp_get_wtime();
 				insert_sort(time_buf, count);
 				end = omp_get_wtime();
 				break;
 			case MERGE:
-				printf("Сортировка слиянием\n");
 				start = omp_get_wtime();
 				merge_sort(time_buf, 0, count - 1);
 				end = omp_get_wtime();
 				break;
 			case HOARE:
-				printf("Сортировка Хоара\n");
 				start = omp_get_wtime();
 				quick_sort(time_buf, count);
 				end = omp_get_wtime();
 				break;
 			case SHELL:
-				printf("Сортировка Шелла\n");
 				start = omp_get_wtime();
 				shell_sort(time_buf, count);
 				end = omp_get_wtime();
 				break;
 			case COUNT:
-				printf("Сортировка подсчётом\n");
 				start = omp_get_wtime();
 				flag = count_sort(time_buf, count);
 				end = omp_get_wtime();
@@ -170,13 +197,13 @@ void main(void)
 				exit(0);
 			}
 			if (flag)
-				print_info(time_buf, count, end - start);
+				print_info(time_buf, count, end - start, active_menu);
 			else
 			{
 				textcolor(RED);
 				printf("Не удалось выполнить сортировку, возможно данные в папке имеют слишком большой размер\n");
 			}
-			textcolor(WHITE);
+			textcolor(PAUSE);
 			system("pause");
 			system("cls");
 			free(time_buf);
@@ -199,9 +226,9 @@ long found_dir(void)
 		input_path();
 		if ((hFile = _findfirst(PATH, &c_file)) == -1L)
 		{
-			textcolor(RED);
+			textcolor(WARNING);
 			printf("Неверно введены данные!\n");
-			textcolor(WHITE);
+			textcolor(PAUSE);
 			system("pause");
 			continue;
 		}
@@ -212,9 +239,9 @@ long found_dir(void)
 		} while (_findnext(hFile, &c_file) == 0);
 		if (size == 0)
 		{
-			textcolor(RED);
+			textcolor(WARNING);
 			printf("Папка пуста, либо в ней отсутствуют сортируемые по размеру файлы, выберите другую папку\n");
-			textcolor(WHITE);
+			textcolor(PAUSE);
 			system("pause");
 			continue;
 		}
@@ -239,30 +266,52 @@ long found_dir(void)
 void input_path(void)
 {
 	system("cls");
-	textcolor(WHITE);
-	printf("Введите путь до директории: (в формате c:/temp/)\n >>> ");
-	textcolor(LIGHTGRAY);
+	textcolor(TITLE);
+	printf("Введите путь до директории: ");
+	textcolor(CHOICE);
+	printf("(в формате c:/папка/папка/)");
+	textcolor(TEXT_INP);
+	printf("\n >>> ");
 	fgets(PATH, 200, stdin);
 	PATH[strlen(PATH) - 1] = '\0';
 	strcat_s(PATH, 200, "*.*");
 	system("cls");
 }
-void print_info(struct _finddata_t* time_buf, long count, double work_time)
+void print_info(struct _finddata_t* time_buf, long count, double work_time, long active_menu)
 {
-	textcolor(LIGHTGRAY);
+	textcolor(CHOICE);
+	printf("\t\t\t%s", Menu[active_menu]);
+	textcolor(TITLE);
 	gotoxy(2, 1);
 	printf("Название");
-	gotoxy(51, 1);
-	printf("Размер");
+	gotoxy(53, 1);
+	printf("Размер\n");
+	printf(" --------------------------------------------------------------");
 	for (long i = 0; i < count; i++)
 	{
-		gotoxy(1, 2 + i);
+		gotoxy(1, 3 + i);
+		textcolor(TITLE);
+		printf("|");
+		textcolor(TEXT);
 		printf("%s", time_buf[i].name);
-		gotoxy(50, 2 + i);
-		printf("%lld байт\n", (_int64)time_buf[i].size);
+		gotoxy(45, 3 + i);
+		textcolor(TITLE);
+		printf("|");
+		textcolor(TEXT);
+		printf("%12lld байт", (_int64)time_buf[i].size);
+		textcolor(TITLE);
+		printf("|");
 	}
-	printf("Всего файлов: %ld\n", count);
-	printf("Сортировка заняла %f секунд\n", work_time);
+	textcolor(TITLE);
+	printf("\n --------------------------------------------------------------\n");
+	printf(" Всего файлов: ");
+	textcolor(CHOICE);
+	printf("%ld шт.\n", count);
+	textcolor(TITLE);
+	printf(" Сортировка заняла: ");
+	textcolor(CHOICE);
+	printf("%f сек.\n", work_time);
+	
 }
 void bubble_sort(struct _finddata_t* time_buf, long count)
 {
