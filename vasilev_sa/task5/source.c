@@ -1,5 +1,4 @@
 #pragma warning(disable : 5105)
-
 #include <stdio.h>
 #include <omp.h>
 #include <conio.h>
@@ -10,22 +9,26 @@
 #include <time.h>
 #include "header.h"
 
-
+//количество элементов в меню
 #define SIZE_MENU 9
+//максимальный размер стэка для сортировки Хоара
 #define MAX_STACK 1024
 
+//адрес папки
 char PATH[200];
+//массив с файлами из папки
 struct _finddata_t* file_buf;
-
+//коды клавиш для управления меню
 enum KeysEnum 
 {
 	ESCAPE = 27, UP = 72, DOWN = 80, LEFT = 75, RIGHT = 77, ENTER = 13, SPACE = 32, DEL = 8,
 };
+//для наглядности свича при выборе метода сортировки
 enum MenuEnum
 {
 	CH_PATH = 0, BUBBLE = 1, SELECT = 2, INSERTS = 3, MERGE = 4, HOARE = 5, SHELL = 6, COUNT = 7, EXIT = 8,
 };
-
+//выводящееся на экран меню
 char Menu[SIZE_MENU][30] = { 
 	"Сменить директорий",
 	"Сортировка \"Пузырьком\"", 
@@ -37,6 +40,8 @@ char Menu[SIZE_MENU][30] = {
 	"Сортировка \"Подсчётом\"", 
 	"Выход", 
 };
+
+//----------------------------Начало-объявления----------------------------
 
 long found_dir(void);
 void input_path(void);
@@ -52,7 +57,9 @@ void shell_sort(struct _finddata_t* time_buf, long count);
 unsigned long long max_elem(struct _finddata_t* time_buf, long count);
 short count_sort(struct _finddata_t* time_buf, size_t count);
 
-void main()
+//----------------------------Конец-объявления----------------------------
+
+void main(void)
 {
 	system("chcp 1251");
 	setlocale(LC_ALL, "Russian");
@@ -178,7 +185,8 @@ void main()
 	}
 }
 
-//найти папку по адресу
+//----------------------------Начало-реализации-функций----------------------------
+
 long found_dir(void)
 {
 	struct _finddata_t c_file;
@@ -228,7 +236,6 @@ long found_dir(void)
 	hidecursor();
 	return count;
 }
-//ввести адрес директории
 void input_path(void)
 {
 	system("cls");
@@ -240,7 +247,6 @@ void input_path(void)
 	strcat_s(PATH, 200, "*.*");
 	system("cls");
 }
-//вывести данные отсортированного массива
 void print_info(struct _finddata_t* time_buf, long count, double work_time)
 {
 	textcolor(LIGHTGRAY);
@@ -258,7 +264,6 @@ void print_info(struct _finddata_t* time_buf, long count, double work_time)
 	printf("Всего файлов: %ld\n", count);
 	printf("Сортировка заняла %f секунд\n", work_time);
 }
-//пузырьковая сортировка
 void bubble_sort(struct _finddata_t* time_buf, long count)
 {
 	struct _finddata_t temp;
@@ -275,8 +280,7 @@ void bubble_sort(struct _finddata_t* time_buf, long count)
 		}
 	}
 }
-//сортировка выбором
-void select_sort(struct _finddata_t* time_buf, long count) 
+void select_sort(struct _finddata_t* time_buf, long count)
 {
 	long index;
 	struct _finddata_t temp;
@@ -296,7 +300,6 @@ void select_sort(struct _finddata_t* time_buf, long count)
 		time_buf[i] = temp;
 	}
 }
-//сортировка вставками
 void insert_sort(struct _finddata_t* time_buf, long count)
 {
 	long j;
@@ -309,7 +312,6 @@ void insert_sort(struct _finddata_t* time_buf, long count)
 		time_buf[j + 1] = temp;
 	}
 }
-//подфункция к merge_sort
 void merge(struct _finddata_t* time_buf, long left, long split, long right)
 {
 	long pos1, pos2, pos3;
@@ -334,7 +336,6 @@ void merge(struct _finddata_t* time_buf, long left, long split, long right)
 		time_buf[left + pos3] = temp_buf[pos3];
 	free(temp_buf);
 }
-//сортировка слиянием
 void merge_sort(struct _finddata_t* time_buf, long left, long right)
 {
 	if (left < right)
@@ -345,7 +346,6 @@ void merge_sort(struct _finddata_t* time_buf, long left, long right)
 		merge(time_buf, left, split, right);
 	}
 }
-//сортировка Хоара
 void quick_sort(struct _finddata_t* time_buf, long count)
 {
 	long i, j;
@@ -356,7 +356,7 @@ void quick_sort(struct _finddata_t* time_buf, long count)
 	struct _finddata_t temp, elem;
 	lstack[1] = 0;
 	rstack[1] = count - 1;
-	
+
 	do
 	{
 		left = lstack[stackpos];
@@ -410,7 +410,6 @@ void quick_sort(struct _finddata_t* time_buf, long count)
 		} while (left < right);
 	} while (stackpos != 0);
 }
-//подфункция shell_sort
 long increment(long inc[], long count)
 {
 	long p1 = 1, p2 = 1, p3 = 1, s = -1;
@@ -428,7 +427,6 @@ long increment(long inc[], long count)
 	} while (3 * inc[s] < count);
 	return s > 0 ? --s : 0;
 }
-//сортировка Шелла
 void shell_sort(struct _finddata_t* time_buf, long count)
 {
 	long inc, i, j, seq[40];
@@ -446,7 +444,6 @@ void shell_sort(struct _finddata_t* time_buf, long count)
 		}
 	}
 }
-//подфункция count_sort
 unsigned long long max_elem(struct _finddata_t* time_buf, long count)
 {
 	unsigned long long max = 0;
@@ -457,7 +454,6 @@ unsigned long long max_elem(struct _finddata_t* time_buf, long count)
 	}
 	return max;
 }
-//сортировка подсчётом
 short count_sort(struct _finddata_t* time_buf, size_t count)
 {
 	_fsize_t max_size = 0;
@@ -487,3 +483,5 @@ short count_sort(struct _finddata_t* time_buf, size_t count)
 	free(answer_buf);
 	return 1;
 }
+
+//----------------------------Конец-реализации-функций----------------------------
