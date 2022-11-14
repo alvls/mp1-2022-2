@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <io.h>
-#include <time.h>
+#include "omp.h"
 #include <stdbool.h>
 
 
@@ -94,7 +94,6 @@ void insert(myStruct* A, int N)
     }
 }
 
-
 void merge_sort(int i, int j, myStruct a[], myStruct aux[])
 {
     if (j <= i) {
@@ -139,7 +138,6 @@ void merge_sort(int i, int j, myStruct a[], myStruct aux[])
     }
 }
 
-
 void quickSort(myStruct* numbers, int left, int right)
 {
     myStruct pivot;
@@ -177,7 +175,6 @@ void quickSort(myStruct* numbers, int left, int right)
         quickSort(numbers, pivot.size + 1, right);
 }
 
-
 void shell_sort(myStruct* array, int size)
 {
     for (int s = size / 2; s > 0; s /= 2)
@@ -197,8 +194,6 @@ void shell_sort(myStruct* array, int size)
         }
     }
 }
-
-
 void countingSort(myStruct* array, int n, int k) {
     myStruct* c = (myStruct*)malloc((k + 1) * sizeof(*array));
     memset(c, 0, sizeof(*array) * (k + 1));
@@ -219,8 +214,6 @@ void countingSort(myStruct* array, int n, int k) {
 
     free(c);
 }
-
-
 int main()
 {
     struct _finddata_t c_file;
@@ -232,7 +225,7 @@ int main()
     int count = 0;
     int choice;
     int maxSize = 0;
-    printf("Enter the path to the directory:\n");
+    printf("Enter the path to the directory:");
     scanf("%s", &path);
     if ((hFile = _findfirst(path, &c_file)) == -1L)
     {
@@ -268,7 +261,6 @@ int main()
     printf("press 7 for count sort \n");
     printf("press 0 for exit \n");
     scanf("%d", &choice);
-
     while (choice != 0)
     {
         for (int i = 0; i < count; i++)
@@ -276,9 +268,7 @@ int main()
             arr[i].size = arr_copy[i].size;
             strcpy(arr[i].name, arr_copy[i].name);
         }
-        time_t t0 = time(0);
-
-
+        double t1 = omp_get_wtime();
         switch (choice)
         {
         case 1:
@@ -305,12 +295,9 @@ int main()
         default:
             break;
         }
-
-        time_t t1 = time(0);
-        double time_in_seconds = difftime(t1, t0);
-        printf("Sort time %f \n", time_in_seconds);
-
-
+        
+        double t2 = omp_get_wtime();
+        printf("Sort time %f \n", t2-t1);
         for (int i = 0; i < count; i++)
         {
             printf("%s  %d \n", arr[i].name, arr[i].size);
