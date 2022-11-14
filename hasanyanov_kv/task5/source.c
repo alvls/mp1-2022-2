@@ -6,7 +6,7 @@
 #include <time.h>
 #include <locale.h>
 #include "C.h"
-#include "Windows.h"
+#include "omp.h"
 
 #define ESCAPE 27
 #define UP 72
@@ -222,7 +222,7 @@ void directive(char* path, int sort, int variant_sort) // Введем функцию, котора
     char timebuf[21], target[200 + 4];
     struct tm timeinfo;
     int count = 0;
-    clock_t end, start;
+    double end, start;
 
     strcpy(target, path);
     strcat(target, "\\*.*");
@@ -263,7 +263,7 @@ void directive(char* path, int sort, int variant_sort) // Введем функцию, котора
         printf("---------------------------------------------------------------\n");
         _findclose(hFile);
 
-        start = clock();
+        start = omp_get_wtime();
         switch (sort)
         {
         case 0:
@@ -303,7 +303,7 @@ void directive(char* path, int sort, int variant_sort) // Введем функцию, котора
         }
         
         }
-        end = clock();
+        end = omp_get_wtime();
         if (variant_sort == 0)
         {
             for (int i = 0; i < count; i++)
@@ -327,7 +327,7 @@ void directive(char* path, int sort, int variant_sort) // Введем функцию, котора
             }
         }
         printf("\nКоличество файлов: %lu\n", count);
-        printf("Время сортировки: %ldms\n", (end - start));
+        printf("Время сортировки: %lf сек.\n", (end - start));
     }
 }
 
@@ -374,6 +374,33 @@ void main()
                 ch = _getch();
             switch (ch)
             {
+            case '1':
+                active_menu = 0;
+                break;
+            case '2':
+                active_menu = 1;
+                break;
+            case '3':
+                active_menu = 2;
+                break;
+            case '4':
+                active_menu = 3;
+                break;
+            case '5':
+                active_menu = 4;
+                break;
+            case '6':
+                active_menu = 5;
+                break;
+            case '7':
+                active_menu = 6;
+                break;
+            case '8':
+                active_menu = 7;
+                break;
+            case '9':
+                active_menu = 8;
+                break;
             case UP:
                 if (active_menu > 0)
                     --active_menu;
@@ -418,6 +445,12 @@ void main()
                         ch2 = _getch();
                     switch (ch2)
                     {
+                    case '1':
+                        active_menu2 = 0;
+                        break;
+                    case '2':
+                        active_menu2 = 1;
+                        break;
                     case UP:
                         if (active_menu2 > 0)
                             --active_menu2;
