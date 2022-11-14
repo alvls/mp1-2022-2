@@ -3,7 +3,7 @@
 #include <locale.h>
 #include <string.h>
 #include <windows.h>
-#include <time.h>
+#include <omp.h>
 #include <io.h>
 
 #define MAXSTACK 2048
@@ -30,7 +30,7 @@ HWND CB;
 HWND CB2;
 
 int i = 0, j = 0, cnt = 0, min_or_max = 0, user_chose = 0, sizes[20];
-float time_spent = 0.0;
+double t1, t2, time_spent;
 char dir[100], c[100], ch;
 char* names[20];
 
@@ -50,9 +50,9 @@ int results()
                 char text[20];
                 sprintf_s(text, 20, "%lu", sizes[i] / 100);
 
-                cap3_1 = CreateWindow("static", names[j], WS_VISIBLE | WS_CHILD, 545, 65 + i * 20, 150, 20, hwnd, NULL, NULL, NULL);
-                cap3_2 = CreateWindow("static", text, WS_VISIBLE | WS_CHILD, 675, 65 + i * 20, 100, 20, hwnd, NULL, NULL, NULL);
-                cap3_3 = CreateWindow("static", "Кбит", WS_VISIBLE | WS_CHILD, 755, 65 + i * 20, 35, 20, hwnd, NULL, NULL, NULL);
+                cap3_1 = CreateWindow("static", names[j], WS_VISIBLE | WS_CHILD, 570, 65 + i * 20, 150, 20, hwnd, NULL, NULL, NULL);
+                cap3_2 = CreateWindow("static", text, WS_VISIBLE | WS_CHILD, 700, 65 + i * 20, 100, 20, hwnd, NULL, NULL, NULL);
+                cap3_3 = CreateWindow("static", "Кбит", WS_VISIBLE | WS_CHILD, 780, 65 + i * 20, 40, 20, hwnd, NULL, NULL, NULL);
                 break;
             }
         }
@@ -61,17 +61,16 @@ int results()
     int sizes = calloc(20, 1);
 
     char text[20];
-    sprintf_s(text, 20, "%0.3f", time_spent - 0.001);
+    sprintf_s(text, 20, "%0.15f", time_spent);
 
-    cap5 = CreateWindow("static", "секунд", WS_VISIBLE | WS_CHILD, 590, 480, 50, 20, hwnd, NULL, NULL, NULL);
-    cap5 = CreateWindow("static", text, WS_VISIBLE | WS_CHILD, 540, 480, 50, 20, hwnd, NULL, NULL, NULL);
+    cap5 = CreateWindow("static", "секунд", WS_VISIBLE | WS_CHILD, 672, 480, 65, 20, hwnd, NULL, NULL, NULL);
+    cap5 = CreateWindow("static", text, WS_VISIBLE | WS_CHILD, 530, 480, 138, 20, hwnd, NULL, NULL, NULL);
 }
 
 void bublle_max_min()
 {
+    t1 = omp_get_wtime();
     int x;
-    time_spent = 0.0;
-    clock_t begin = clock();
 
     for (i = 0; i < cnt; i++)
     {
@@ -85,18 +84,16 @@ void bublle_max_min()
             }
         }
     }
-    Sleep(1);
-    clock_t end = clock();
-    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
 
+    t2 = omp_get_wtime();
+    time_spent = t2 - t1;
     results();
 }
 
 void bublle_min_max()
 {
     int x;
-    time_spent = 0.0;
-    clock_t begin = clock();
+    t1 = omp_get_wtime();
 
     for (i = 0; i < cnt; i++)
     {
@@ -110,18 +107,16 @@ void bublle_min_max()
             }
         }
     }
-    Sleep(1);
-    clock_t end = clock();
-    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
 
+    t2 = omp_get_wtime();
+    time_spent = t2 - t1;
     results();
 }
 
 void chose_max_min()
 {
+    t1 = omp_get_wtime();
     int k, x;
-    time_spent = 0.0;
-    clock_t begin = clock();
 
     for (i = 0; i < cnt; i++)
     {
@@ -137,18 +132,16 @@ void chose_max_min()
         sizes[k] = sizes[i];
         sizes[i] = x;
     }
-    Sleep(1);
-    clock_t end = clock();
-    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
 
+    t2 = omp_get_wtime();
+    time_spent = t2 - t1;
     results();
 }
 
 void chose_min_max()
 {
+    t1 = omp_get_wtime();
     int k, x;
-    time_spent = 0.0;
-    clock_t begin = clock();
 
     for (i = 0; i < cnt; i++)
     {
@@ -164,19 +157,17 @@ void chose_min_max()
         sizes[k] = sizes[i];
         sizes[i] = x;
     }
-    Sleep(1);
-    clock_t end = clock();
-    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
 
+    t2 = omp_get_wtime();
+    time_spent = t2 - t1;
     results();
 }
 
 void insert_max_min()
 {
-    int x;
+    t1 = omp_get_wtime();
     long i, j;
-    time_spent = 0.0;
-    clock_t begin = clock();
+    int x;
 
     for (i = 0; i < cnt; i++)
     {
@@ -187,19 +178,17 @@ void insert_max_min()
         }
         sizes[j + 1] = x;
     }
-    Sleep(1);
-    clock_t end = clock();
-    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
 
+    t2 = omp_get_wtime();
+    time_spent = t2 - t1;
     results();
 }
 
 void insert_min_max()
 {
-    int x;
+    t1 = omp_get_wtime();
     long i, j;
-    time_spent = 0.0;
-    clock_t begin = clock();
+    int x;
 
     for (i = 0; i < cnt; i++)
     {
@@ -210,10 +199,9 @@ void insert_min_max()
         }
         sizes[j + 1] = x;
     }
-    Sleep(1);
-    clock_t end = clock();
-    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
 
+    t2 = omp_get_wtime();
+    time_spent = t2 - t1;
     results();
 }
 
@@ -389,10 +377,8 @@ void hoara_max_min(int* s_arr, int first, int last)
 
 void shell_min_max()
 {
-    int step;
-    int tmp;
-    time_spent = 0.0;
-    clock_t begin = clock();
+    t1 = omp_get_wtime();
+    int step, tmp;
 
     for (step = cnt / 2; step > 0; step /= 2)
     {
@@ -413,19 +399,16 @@ void shell_min_max()
             sizes[j] = tmp;
         }
     }
-    Sleep(1);
-    clock_t end = clock();
-    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
 
+    t2 = omp_get_wtime();
+    time_spent = t2 - t1;
     results();
 }
 
 void shell_max_min()
 {
-    int step;
-    int tmp;
-    time_spent = 0.0;
-    clock_t begin = clock();
+    t1 = omp_get_wtime();
+    int step, tmp;
 
     for (step = cnt / 2; step > 0; step /= 2)
     {
@@ -446,18 +429,16 @@ void shell_max_min()
             sizes[j] = tmp;
         }
     }
-    Sleep(1);
-    clock_t end = clock();
-    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
 
+    t2 = omp_get_wtime();
+    time_spent = t2 - t1;
     results();
 }
 
 void countingSort_min_max() 
 {
+    t1 = omp_get_wtime();
     int mx = 0;
-    time_spent = 0.0;
-    clock_t begin = clock();
 
     for (i = 0; i < cnt; i++)
     {
@@ -485,18 +466,16 @@ void countingSort_min_max()
         }
     }
     free(c);
-    Sleep(1);
-    clock_t end = clock();
-    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
 
+    t2 = omp_get_wtime();
+    time_spent = t2 - t1;
     results();
 }
 
 void countingSort_max_min()
 {
+    t1 = omp_get_wtime();
     int mx = 0;
-    time_spent = 0.0;
-    clock_t begin = clock();
 
     for (i = 0; i < cnt; i++)
     {
@@ -524,10 +503,9 @@ void countingSort_max_min()
         }
     }
     free(c);
-    Sleep(1);
-    clock_t end = clock();
-    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
 
+    t2 = omp_get_wtime();
+    time_spent = t2 - t1;
     results();
 }
 
@@ -567,56 +545,44 @@ void chose_for_switch()
 
     case 3: if (min_or_max == 0)
             {
-                time_spent = 0.0;
-                clock_t begin = clock();
+                t1 = omp_get_wtime();
 
                 mergeSort_min_max(sizes, 0, cnt - 1);
 
-                Sleep(1);
-                clock_t end = clock();
-                time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
-
+                t2 = omp_get_wtime();
+                time_spent = t2 - t1;
                 results();
             }
             else
             {
-                time_spent = 0.0;
-                clock_t begin = clock();
+                t1 = omp_get_wtime();
 
                 mergeSort_max_min(sizes, 0, cnt - 1);
 
-                Sleep(1);
-                clock_t end = clock();
-                time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
-
+                t2 = omp_get_wtime();
+                time_spent = t2 - t1;
                 results();
             }
             break;
 
     case 4: if (min_or_max == 0)
             {
-                time_spent = 0.0;
-                clock_t begin = clock();
+                t1 = omp_get_wtime();
                 
                 hoara_min_max(sizes, 0, cnt - 1);
 
-                Sleep(1);
-                clock_t end = clock();
-                time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
-
+                t2 = omp_get_wtime();
+                time_spent = t2 - t1;
                 results();
             }
             else
             {
-                time_spent = 0.0;
-                clock_t begin = clock();
+                t1 = omp_get_wtime();
                 
                 hoara_max_min(sizes, 0, cnt - 1);
 
-                Sleep(1);
-                clock_t end = clock();
-                time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
-
+                t2 = omp_get_wtime();
+                time_spent = t2 - t1;
                 results();
             }
             break;
@@ -655,7 +621,7 @@ void file()
         if (len1 == 0)
         {
             SetWindowText(cap3, "");
-            cap5 = CreateWindow("static", " Время сортировки:", WS_VISIBLE | WS_CHILD, 400, 480, 250, 20, hwnd, NULL, NULL, NULL);
+            cap5 = CreateWindow("static", " Время сортировки:", WS_VISIBLE | WS_CHILD, 360, 480, 377, 20, hwnd, NULL, NULL, NULL);
             SetWindowText(cap2, "Не выбрана директория\nПовторите попытку ввода!\n");
             return;
         }
@@ -673,7 +639,7 @@ void file()
             if ((hFile = _findfirst(result, &c_file)) == -1L)
             {
                 SetWindowText(cap3, "");
-                cap5 = CreateWindow("static", " Время сортировки:", WS_VISIBLE | WS_CHILD, 400, 480, 250, 20, hwnd, NULL, NULL, NULL);
+                cap5 = CreateWindow("static", " Время сортировки:", WS_VISIBLE | WS_CHILD, 360, 480, 377, 20, hwnd, NULL, NULL, NULL);
                 SetWindowText(cap2, "Папка пуста или не верно выбрана директория\nПовторите попытку ввода!\n");
                 free(result);
                 return;
@@ -704,7 +670,7 @@ void file()
 
                         cap2_1 = CreateWindow("static", names[cnt], WS_VISIBLE | WS_CHILD, 265, 65 + cnt * 20, 150, 20, hwnd, NULL, NULL, NULL);
                         cap2_2 = CreateWindow("static", text, WS_VISIBLE | WS_CHILD, 395, 65 + cnt * 20, 100, 20, hwnd, NULL, NULL, NULL);
-                        cap2_3 = CreateWindow("static", "Кбит", WS_VISIBLE | WS_CHILD, 475, 65 + cnt * 20, 35, 20, hwnd, NULL, NULL, NULL);
+                        cap2_3 = CreateWindow("static", "Кбит", WS_VISIBLE | WS_CHILD, 475, 65 + cnt * 20, 40, 20, hwnd, NULL, NULL, NULL);
 
                         cnt++;
                     }
@@ -772,6 +738,8 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 
 void main()
 {
+    ShowWindow(GetConsoleWindow(), SW_HIDE);
+
     setlocale(LC_ALL, "Rus");
 
     WNDCLASSA wcl;
@@ -782,11 +750,11 @@ void main()
  
     RegisterClassA(&wcl);
 
-    hwnd = CreateWindow("Window", "Sorts", WS_OVERLAPPEDWINDOW, 10, 10, 820, 550, NULL, NULL, NULL, NULL); //создание окна
+    hwnd = CreateWindow("Window", "Sorts", WS_OVERLAPPEDWINDOW, 10, 10, 870, 557, NULL, NULL, NULL, NULL); //создание окна
 
     ShowWindow(hwnd, SW_SHOWNORMAL);
 
-    bt_done = CreateWindow("button", "Отсортировать!", WS_VISIBLE | WS_CHILD, 70, 450, 120, 50, hwnd, bt_done_id, NULL, NULL);
+    bt_done = CreateWindow("button", "Отсортировать!", WS_VISIBLE | WS_CHILD, 65, 450, 130, 50, hwnd, bt_done_id, NULL, NULL, TEXT("Arial"));
 
     HWND edt;
     edt = CreateWindow("edit", "example: C:\\", WS_VISIBLE | WS_CHILD | WS_BORDER | ES_LEFT | ES_MULTILINE, 50, 90, 170, 20, hwnd, edt1_id, NULL, NULL, NULL);
@@ -795,13 +763,13 @@ void main()
     name = CreateWindow("static", "SORTs", WS_VISIBLE | WS_CHILD | SS_CENTER, 75, 20, 120, 32, hwnd, NULL, NULL, NULL);
 
     HWND cap4;
-    cap4 = CreateWindow("static", "Выберете способ:", WS_VISIBLE | WS_CHILD, 50, 150, 170, 20, hwnd, NULL, NULL, NULL);
+    cap4 = CreateWindow("static", "Выберете способ:", WS_VISIBLE | WS_CHILD, 50, 150, 170, 17, hwnd, NULL, NULL, NULL, TEXT("Arial"));
 
     HWND cap5;
-    cap5 = CreateWindow("static", " Время сортировки:", WS_VISIBLE | WS_CHILD, 400, 480, 250, 20, hwnd, NULL, NULL, NULL);
+    cap5 = CreateWindow("static", " Время сортировки:", WS_VISIBLE | WS_CHILD, 360, 480, 377, 20, hwnd, NULL, NULL, NULL);
 
     HWND cap6;
-    cap6 = CreateWindow("static", "Выберете метод:", WS_VISIBLE | WS_CHILD, 50, 250, 170, 20, hwnd, NULL, NULL, NULL);
+    cap6 = CreateWindow("static", "Выберете метод:", WS_VISIBLE | WS_CHILD, 50, 250, 170, 17, hwnd, NULL, NULL, NULL, TEXT("Arial"));
 
     HWND style_for_name;
     style_for_name = CreateFont(30, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, TEXT("Comic Sans MS"));
@@ -809,9 +777,9 @@ void main()
     HWND font_for_main_text;
     font_for_main_text = CreateFont(15, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, TEXT("Arial"));
    
-    cap1 = CreateWindow("static", "Введите путь к папке:", WS_VISIBLE | WS_CHILD, 50, 65, 170, 20, hwnd, NULL, NULL, NULL);
+    cap1 = CreateWindow("static", "Введите путь к папке:", WS_VISIBLE | WS_CHILD, 50, 65, 170, 17, hwnd, NULL, NULL, NULL, TEXT("Arial"));
     
-    cap2 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 260, 20, 250, 450, hwnd, NULL, NULL, NULL);
+    cap2 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 260, 20, 275, 450, hwnd, NULL, NULL, NULL);
     
     cap2_1 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 265, 65, 150, 20, hwnd, NULL, NULL, NULL);
 
@@ -819,13 +787,13 @@ void main()
 
     cap2_3 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 475, 65, 35, 20, hwnd, NULL, NULL, NULL);
 
-    cap3 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 540, 20, 250, 450, hwnd, NULL, NULL, NULL);
+    cap3 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 565, 20, 275, 450, hwnd, NULL, NULL, NULL);
 
-    cap3_1 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 545, 65, 150, 20, hwnd, NULL, NULL, NULL);
+    cap3_1 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 570, 65, 150, 20, hwnd, NULL, NULL, NULL);
 
-    cap3_2 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 675, 65, 100, 20, hwnd, NULL, NULL, NULL);
+    cap3_2 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 700, 65, 100, 20, hwnd, NULL, NULL, NULL);
 
-    cap3_3 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 755, 65, 35, 20, hwnd, NULL, NULL, NULL);
+    cap3_3 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 780, 65, 35, 20, hwnd, NULL, NULL, NULL);
 
     CB = CreateWindow("combobox", "", WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST, 50, 275, 170, 200, hwnd, cb1_id, NULL, NULL);
 
@@ -834,7 +802,10 @@ void main()
 
     SendMessage(name, WM_SETFONT, style_for_name, TRUE);
     SendMessage(edt, WM_SETFONT, font_for_main_text, TRUE);
-
+    SendMessage(cap1, WM_SETFONT, font_for_main_text, TRUE);
+    SendMessage(cap4, WM_SETFONT, font_for_main_text, TRUE);
+    SendMessage(cap6, WM_SETFONT, font_for_main_text, TRUE);
+    SendMessage(bt_done, WM_SETFONT, font_for_main_text, TRUE);   
     SendMessage(CB, WM_SETFONT, font_for_main_text, TRUE);
     SendMessage(CB2, WM_SETFONT, font_for_main_text, TRUE);
   
@@ -860,3 +831,5 @@ void main()
         DispatchMessage(&msg);   //передаем сообщение окну
     }
 }
+
+//Примечание: большие отступы в интерфейсе сделаны для того, чтобы текст корректно отображался на разных версиях windows
