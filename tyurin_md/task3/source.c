@@ -3,8 +3,8 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <time.h>
-#include  <windows.h>
-#include  "Header.h"
+#include <windows.h>
+#include "Header.h"
 
 void main(){
    int n, cows = 0, bulls = 0;
@@ -29,7 +29,7 @@ void main(){
       gotoxy(variable_x, wherey() + 2);
       printf("Вам необходимо выбрать длину загадываемого числа,");
       gotoxy(variable_x, wherey() + 1);
-      printf("после чего компьютер загадывает число, которое вам необходимо отгадать");
+      printf("после чего компьютер загадывает число, которое вам необходимо отгадать ");
       gotoxy(variable_x, wherey() + 2);
       printf("Компьютер сообщит: ");
       gotoxy(variable_x + 2, wherey() + 1);
