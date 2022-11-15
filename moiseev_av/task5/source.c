@@ -7,7 +7,8 @@
 #include <io.h>
 
 #define MAXSTACK 2048
-#define NUMBERS 8
+#define MAXSTRING 55
+#define FILESMAX 20
 #define bt_done_id 2
 #define edt1_id 3
 #define cb1_id 4
@@ -29,10 +30,10 @@ HWND cap5;
 HWND CB;
 HWND CB2;
 
-int i = 0, j = 0, cnt = 0, min_or_max = 0, user_chose = 0, sizes[20];
+int i = 0, j = 0, cnt = 0, min_or_max = 0, user_chose = 0, sizes[FILESMAX];
 double t1, t2, time_spent;
-char dir[100], c[100], ch;
-char* names[20];
+char dir[MAXSTRING], c[MAXSTRING], ch;
+char* names[FILESMAX];
 
 int results()
 {
@@ -656,7 +657,7 @@ void file()
                 
                 do
                 {
-                    if (c_file.size / 1024 > 0 && cnt < 20)
+                    if (c_file.size / 1024 > 0 && cnt < FILESMAX) //Если файл весит меньше 1 Кбита, то мы его не учитываем
                     {
                         
                         sizes[cnt] = c_file.size / 1024 * 100 + cnt;
@@ -697,7 +698,7 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
         if (LOWORD(wparam) == edt1_id)
         {
             int nc = HIWORD(wparam);
-            GetWindowText(lparam, c, 100);
+            GetWindowText(lparam, c, MAXSTRING);
             if (nc == EN_UPDATE)
             {
                 SetWindowText(cap1, c);
@@ -738,7 +739,7 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 
 void main()
 {
-    ShowWindow(GetConsoleWindow(), SW_HIDE);
+    ShowWindow(GetConsoleWindow(), SW_HIDE); //SW_HIDE - спрятать консоль SW_SHOW - показать консоль
 
     setlocale(LC_ALL, "Rus");
 
@@ -753,6 +754,7 @@ void main()
     hwnd = CreateWindow("Window", "Sorts", WS_OVERLAPPEDWINDOW, 10, 10, 870, 557, NULL, NULL, NULL, NULL); //создание окна
 
     ShowWindow(hwnd, SW_SHOWNORMAL);
+
 
     bt_done = CreateWindow("button", "Отсортировать!", WS_VISIBLE | WS_CHILD, 65, 450, 130, 50, hwnd, bt_done_id, NULL, NULL, TEXT("Arial"));
 
@@ -777,6 +779,7 @@ void main()
     HWND font_for_main_text;
     font_for_main_text = CreateFont(15, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, TEXT("Arial"));
    
+
     cap1 = CreateWindow("static", "Введите путь к папке:", WS_VISIBLE | WS_CHILD, 50, 65, 170, 17, hwnd, NULL, NULL, NULL, TEXT("Arial"));
     
     cap2 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 260, 20, 275, 450, hwnd, NULL, NULL, NULL);
@@ -833,3 +836,4 @@ void main()
 }
 
 //Примечание: большие отступы в интерфейсе сделаны для того, чтобы текст корректно отображался на разных версиях windows
+//В отчете (в разделе "Для программиста") будет полное описание создания данного интерфейса
