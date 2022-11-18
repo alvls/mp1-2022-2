@@ -22,6 +22,7 @@ void CountSort(struct _finddata_t* arr, long size);
 char GetPath();
 int GetMode();
 void GetSorted(struct _finddata_t* arr, long size);
+void GetResorted(struct _finddata_t* arr, long size);
 enum ModeSort
 {
     Bubble = 1, Select = 2, Insert = 3, Merge = 4, Quick = 5, Shell = 6, Count = 7, ChangeDir = 8, ExProg = 9
@@ -121,7 +122,27 @@ void main(void)
         }
         stop = omp_get_wtime();
         if (mode != ChangeDir) {
-            GetSorted(time_arr, size);
+            system("cls");
+            printf("Вы хотите отсортировать массив по возрастанию или убыванию?\n");
+            printf("1. Сортировка по возрастанию\n");
+            printf("2. Сортировка по убыванию\n");
+            next = getch();
+            switch (next)
+            {
+            case '1':
+                system("cls");
+                GetSorted(time_arr,size);
+                break;
+            case '2':
+                system("cls");
+                GetResorted(time_arr,size);
+                break;
+            default:
+                system("cls");
+                printf("Выбрана неверная опция, вовзращаем вас к выбору сортировки.\n");
+                goto newsort;
+                break;
+            }
             printf("Время сортировки: %lf\n", stop - start);
             system("pause");
             system("cls");
@@ -130,7 +151,8 @@ void main(void)
             printf("2. Сменить директорию\n");
             printf("3. Выйти из программы\n");
             next = getch();
-            switch (next) {
+            switch (next) 
+            {
             case '1':
                 system("cls");
                 goto newsort;
@@ -161,6 +183,12 @@ void main(void)
 void GetSorted(struct _finddata_t* arr, long size) {
     printf("Название файла\t\t    Размер файла\n\n");
     for (int i = 0; i < size; i++) {
+        printf("%-25.10s   %-5lld\n", arr[i].name, arr[i].size);
+    }
+}
+void GetResorted(struct _finddata_t* arr, long size) {
+    printf("Название файла\t\t    Размер файла\n\n");
+    for (int i = size-1; i > -1; i--) {
         printf("%-25.10s   %-5lld\n", arr[i].name, arr[i].size);
     }
 }
