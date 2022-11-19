@@ -143,7 +143,7 @@ void main(void)
                 goto newsort;
                 break;
             }
-            printf("Время сортировки: %lf\n", stop - start);
+            printf("Время сортировки: %.4lf мс\n", (stop - start)*1000);
             system("pause");
             system("cls");
             printf("Выберите дальнейшее действие\n\n");
