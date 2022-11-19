@@ -821,7 +821,7 @@ void main()
     SendMessage(CB, CB_ADDSTRING, 0, "Подсчетом");
     SendMessage(CB, CB_SETCURSEL, 0, 0);
 
-    SendMessage(CB2, CB_ADDSTRING, 0, "По возврастанию");
+    SendMessage(CB2, CB_ADDSTRING, 0, "По возрастанию");
     SendMessage(CB2, CB_ADDSTRING, 0, "По убыванию");
     SendMessage(CB2, CB_SETCURSEL, 0, 0);
 
