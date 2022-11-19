@@ -213,24 +213,24 @@ void main() {
 	}
 	size = size - 2;
 	a = (int*)malloc(size * sizeof(struct _finddata_t));
-	// заполнение массива а
-	tmp = 0;
-	if ((hFile = _findfirst(path, &c_file)) != -1L){
-		tmp = 0;
-		count = 0;
-		do {
-			if (count <= 20){
-				tmp += 1;
-				if (tmp > 2) {
-					a[tmp - 3] = c_file.size;
-				}
-			}
-			count++;
-		} while (_findnext(hFile, &c_file) == 0);
-		_findclose(hFile);
-	}
 	// меню и сортировка
 	while(flag){
+		// заполнение массива а
+		tmp = 0;
+		if ((hFile = _findfirst(path, &c_file)) != -1L) {
+			tmp = 0;
+			count = 0;
+			do {
+				if (count <= 20) {
+					tmp += 1;
+					if (tmp > 2) {
+						a[tmp - 3] = c_file.size;
+					}
+				}
+				count++;
+			} while (_findnext(hFile, &c_file) == 0);
+			_findclose(hFile);
+		}
 		printf("Введите номер нужного вам действия\n");
 		printf("1 - сортировка пузырьком \n");
 		printf("2 - сортировка выбором \n");
