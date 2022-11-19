@@ -172,7 +172,6 @@ void pr(int a[], int size, char path[]) {
 				}
 			}
 		}
-
 	}
 }
 // переворачивание массива
