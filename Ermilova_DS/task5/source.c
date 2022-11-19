@@ -223,10 +223,12 @@ int main()
     myStruct buf[STR_NUM];
     myStruct arr_copy[STR_NUM];
     int count = 0;
-    int choice;
+    int choice, sort;
     int maxSize = 0;
-    printf("Enter the path to the directory:");
+    printf("Enter the path to the directory:\n");
     scanf("%s", &path);
+    printf("press 1 for ascending sort\npress 2 for descending sort\n");
+    scanf("%d", &sort);
     if ((hFile = _findfirst(path, &c_file)) == -1L)
     {
         printf("Error");
@@ -247,7 +249,6 @@ int main()
     }
     for (int i = 0; i < count; i++)
     {
-        printf("%s  %d \n", arr[i].name, arr[i].size);
         arr_copy[i].size = arr[i].size;
         strcpy(arr_copy[i].name, arr[i].name);
     }
@@ -298,10 +299,21 @@ int main()
         
         double t2 = omp_get_wtime();
         printf("Sort time %f \n", t2-t1);
-        for (int i = 0; i < count; i++)
-        {
-            printf("%s  %d \n", arr[i].name, arr[i].size);
+
+
+        if (sort == 1) {
+            for (int i = 0; i < count; i++)
+            {
+                printf("%s  %d \n", arr[i].name, arr[i].size);
+            }
         }
+        if (sort == 2) {
+            for (int i = count-1; i >=0; i--)
+            {
+                printf("%s  %d \n", arr[i].name, arr[i].size);
+            }
+        }
+
         scanf("%d", &choice);
     }
 
