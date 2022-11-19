@@ -205,9 +205,9 @@ int main()
 	int count = 0, k = 0, f;
 	double t1 = 0, t2 = 0;
 	system("chcp 1251");
-	system("cls");
 	while (1)
 	{
+		system("cls");
 		printf("Введите путь до заданного каталога в формате c:\\...\\... : ");
 		scanf_s("%s", catalog, 100);
 		system("cls");
@@ -226,13 +226,13 @@ int main()
 		else
 		{
 			printf("\t\t\tСПИСОК ФАЙЛОВ:\n");
-			printf("FILE                      DATE %24c   SIZE\n", ' ');
-			printf("----                      ---- %24c   ----\n", ' ');
+			printf("FILE                           DATE %24c   SIZE\n", ' ');
+			printf("----                           ---- %24c   ----\n", ' ');
 			do
 			{
 				char buffer[30];
 				ctime_s(buffer, _countof(buffer), &c_file.time_write);
-				printf("%-25.25s %.24s  %10ld\n", c_file.name, buffer, c_file.size);
+				printf("%-30.30s %.24s  %10ld\n", c_file.name, buffer, c_file.size);
 				count++;
 			} while (_findnext(hFile, &c_file) == 0);
 			printf("\nКол-во файлов: %d\n", count);
@@ -251,7 +251,7 @@ int main()
 			while (1)
 			{
 				//выбор метода сортировки
-				printf("\n\tВыберете метод сортировки:\n1 - сортировка пузырьком\n2 - сортировка выбором\n3 - сортировка вставками\n4 - сортировка слиянием\n5 - быстрая сортировка\n6 - сортировка Шелла\n7 - сортировка подсчетом\nВведите номер выбранного метода сортировки: ");
+				printf("\tВыберете метод сортировки:\n1 - сортировка пузырьком\n2 - сортировка выбором\n3 - сортировка вставками\n4 - сортировка слиянием\n5 - быстрая сортировка\n6 - сортировка Шелла\n7 - сортировка подсчетом\nВведите номер выбранного метода сортировки: ");
 				scanf_s("%d", &sort_type);
 				system("cls");
 				//создание копии
@@ -302,20 +302,43 @@ int main()
 				}
 				if (f == 0)
 				{
-					printf("\t\tОТСОРТИРОВАННЫЙ СПИСОК ФАЙЛОВ:\n");
-					printf("FILE                      DATE %24c   SIZE\n", ' ');
-					printf("----                      ---- %24c   ----\n", ' ');
-					for (int i = 0;i < count;i++)
+					printf("Как отсортировать файлы?\n1 - по возрастанию размера\n2 - по убыванию размера\n");
+					scanf_s("%d", &answer);
+					system("cls");
+					if (answer == 1)
 					{
-						char buffer1[30];
-						ctime_s(buffer1, _countof(buffer1), &sort[i].time_write);
-						printf("%-25.25s %.24s  %10ld\n", sort[i].name, buffer1, sort[i].size);
+						printf("\t\tОТСОРТИРОВАННЫЙ СПИСОК ФАЙЛОВ:\n");
+						printf("FILE                           DATE %24c   SIZE\n", ' ');
+						printf("----                           ---- %24c   ----\n", ' ');
+						for (int i = 0;i < count;i++)
+						{
+							char buffer1[30];
+							ctime_s(buffer1, _countof(buffer1), &sort[i].time_write);
+							printf("%-30.30s %.24s  %10ld\n", sort[i].name, buffer1, sort[i].size);
+						}
+						printf("\nВремя сортировки: %lf (с)\n", t2 - t1);
 					}
-					printf("\nВремя сортировки: %lf (с)\n", t2 - t1);
+					else if (answer == 2)
+					{
+						printf("\t\tОТСОРТИРОВАННЫЙ СПИСОК ФАЙЛОВ:\n");
+						printf("FILE                           DATE %24c   SIZE\n", ' ');
+						printf("----                           ---- %24c   ----\n", ' ');
+						for (int i = count - 1;i >= 0;i--)
+						{
+							char buffer1[30];
+							ctime_s(buffer1, _countof(buffer1), &sort[i].time_write);
+							printf("%-30.30s %.24s  %10ld\n", sort[i].name, buffer1, sort[i].size);
+						}
+						printf("\nВремя сортировки: %lf (с)\n", t2 - t1);
+					}
+					else
+						printf("Введены недопустимые данные\n");
 					printf("\nОтсортировать другим методом? 1 - да/0 - нет: ");
 					scanf_s("%d", &answer);
 					if (answer != 1)
 						break;
+					else
+						system("cls");
 				}
 				
 			}
