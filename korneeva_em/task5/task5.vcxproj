@@ -82,6 +82,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -111,7 +112,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bubble_sort.c" />
+    <ClCompile Include="count_sort.c" />
+    <ClCompile Include="insert_sort.c" />
+    <ClCompile Include="merge_sort.c" />
+    <ClCompile Include="quick_sort.c" />
+    <ClCompile Include="select_sort.c" />
+    <ClCompile Include="increment_sort.c" />
     <ClCompile Include="source.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="console_utils.h" />
+    <ClInclude Include="sort_algorithms.h" />
+    <ClInclude Include="sort_methods.h" />
+    <ClInclude Include="sort_orders.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
