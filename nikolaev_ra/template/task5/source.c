@@ -381,37 +381,37 @@ void working_with_directory()
                 switch (sorting_method)
                 {
                 case '1': t1 = omp_get_wtime();
-                    bubble_sort(files_array, count);
-                    t2 = omp_get_wtime();
-                    break;
+                          bubble_sort(files_array, count);
+                          t2 = omp_get_wtime();
+                          break;
                 case '2': t1 = omp_get_wtime();
-                    selection_sort(files_array, count);
-                    t2 = omp_get_wtime();
-                    break;
+                          selection_sort(files_array, count);
+                          t2 = omp_get_wtime();
+                          break;
                 case '3': t1 = omp_get_wtime();
-                    insertion_sort(files_array, count);
-                    t2 = omp_get_wtime();
-                    break;
+                          insertion_sort(files_array, count);
+                          t2 = omp_get_wtime();
+                          break;
                 case '4': t1 = omp_get_wtime();
-                    merge_sort(files_array, 0, count);
-                    t2 = omp_get_wtime();
-                    break;
+                          merge_sort(files_array, 0, count);
+                          t2 = omp_get_wtime();
+                          break;
                 case '5': t1 = omp_get_wtime();
-                    quick_sort(files_array, count);
-                    t2 = omp_get_wtime();
-                    break;
+                          quick_sort(files_array, count);
+                          t2 = omp_get_wtime();
+                          break;
                 case '6': t1 = omp_get_wtime();
-                    shell_sort(files_array, count);
-                    t2 = omp_get_wtime();
-                    break;
+                          shell_sort(files_array, count);
+                          t2 = omp_get_wtime();
+                          break;
                 case '7': t1 = omp_get_wtime();
-                    counting_sort(files_array, count, max_file_size(files_array, count));
-                    t2 = omp_get_wtime();
-                    break;
+                          counting_sort(files_array, count, max_file_size(files_array, count));
+                          t2 = omp_get_wtime();
+                          break;
                 default:  printf("\nUnexpected program error\n");
-                    system("pause");
-                    exit(EXIT_FAILURE);
-                    break;
+                          system("pause");
+                          exit(EXIT_FAILURE);
+                          break;
                 }
                 double sorting_time = t2 - t1;
                 printf("The files have been sorted\nSorting time: %lf seconds\n", sorting_time);
@@ -466,15 +466,15 @@ void main_menu()
         switch (act)
         {
         case '1': information_about_the_program();
-            break;
+                  break;
         case '2': working_with_directory();
-            break;
+                  break;
         case '3': minute_of_a_joke();
-            break;
+                  break;
         case '4': exit_the_program();
-            break;
+                  break;
         default:  printf("\nAnd what did you mean by that?\nCheck the entered data and try again!\n");
-            break;
+                  break;
         }
     }
 }
