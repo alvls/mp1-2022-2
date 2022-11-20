@@ -51,7 +51,7 @@ void enumerate_dir(const char* path, int sort_id, int is_descending)
     char search[MAX_PATH_FILTER + 1];
     strcpy_s(search, sizeof(search), path);
     strcat_s(search, sizeof(search), FILTER_ALL);
-    search[MAX_PATH_FILTER - 1] = '\0';
+    search[MAX_PATH_FILTER] = '\0';
 
     if ((hFile = _findfirst(search, &c_file)) == -1L)
     {
@@ -66,7 +66,7 @@ void enumerate_dir(const char* path, int sort_id, int is_descending)
 
     size_t bufsize = INITIAL_BUFFER_SIZE;
     struct _finddata_t* arr = malloc(sizeof(struct _finddata_t) * bufsize);
-    struct _finddata_t* newarr = malloc(sizeof(struct _finddata_t) * bufsize);
+    struct _finddata_t* newarr;
 
     if (!arr)
     {
@@ -203,11 +203,11 @@ void print_header()
     printf("Алгоритмы сортировки:");
     if (has_last_data())
     {
-        print_option(wnd.X / 6 - 28 / 2, 0, " ", sort_methods[last_sort_id].name, " ");
+        print_option(wnd.X / 6 - 28 / 2, 0, " ", sort_methods[last_sort_id].name);
     }
     for (i = 0; i < AVAILABLE_SORT_METHODS; i++)
     {
-        print_option(wnd.X / 6 - 28 / 2, i + 1, " ", sort_methods[i].name, " ");
+        print_option(wnd.X / 6 - 28 / 2, i + 1, " ", sort_methods[i].name);
     }
 
     gotoxy(0, wherey() + 2);
@@ -239,7 +239,7 @@ void handle_command(int sort_id, int order_id, const char* path)
             strcpy_s(buf, sizeof(buf), last_path);
             strcat_s(buf, sizeof(buf), "\\");
             strcat_s(buf, sizeof(buf), path);
-            buf[_MAX_PATH - 1] = '\0';
+            buf[_MAX_PATH] = '\0';
 
             path = buf;
         }
