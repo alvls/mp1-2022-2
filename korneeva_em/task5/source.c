@@ -14,10 +14,28 @@
 
 #define INITIAL_BUFFER_SIZE 8
 
+#define MAX_MENU_ROW AVAILABLE_SORT_METHODS
+
 COORD wnd;
+int yTarget;
+
+enum KEYCODES {
+    NUMLOCK = -32,
+    ENTER = 13,
+    UP = 72,
+    RIGHT = 75,
+    LEFT = 77,
+    DOWN = 80
+};
+enum COLUMNS {
+    ALGORITHMS = 0,
+    ORDERS = 1
+};
 
 char last_path[_MAX_PATH + 1] = "\0";
-int last_sort_id, last_order_id;
+int last_sort_id = 0, last_order_id = 0;
+
+int focus_col = 0;
 
 int has_last_data()
 {
@@ -43,7 +61,7 @@ void print_file(struct _finddata_t c_file, int is_dir)
     }
 }
 
-void enumerate_dir(const char* path, int sort_id, int is_descending)
+int enumerate_dir(const char* path, int sort_id, int is_descending)
 {
     struct _finddata_t c_file;
     intptr_t hFile;
@@ -59,7 +77,7 @@ void enumerate_dir(const char* path, int sort_id, int is_descending)
         textcolor(LIGHTMAGENTA);
         gotoxy(wnd.X / 2 - 16 / 2, wherey() + 1);
         printf("Каталог пуст :(");
-        return;
+        return 0;
     }
 
     size_t count = 0, subdir_count = 0;
@@ -102,7 +120,7 @@ void enumerate_dir(const char* path, int sort_id, int is_descending)
                 textcolor(RED);
                 printf("Недостаточно памяти :(\n");
                 free(arr);
-                return;
+                return 0;
             }
             arr = newarr;
         }
@@ -117,7 +135,8 @@ void enumerate_dir(const char* path, int sort_id, int is_descending)
     {
         textcolor(RED);
         printf("Недостаточно памяти (iarr) :(\n");
-        return;
+        free(arr);
+        return 0;
     }
     for (i = 0; i < count; i++)
     {
@@ -128,7 +147,7 @@ void enumerate_dir(const char* path, int sort_id, int is_descending)
     sort_methods[sort_id].func(arr, iarr, count, !is_descending);
     double t_end = omp_get_wtime();
 
-    double time = t_end- t_begin;
+    double time = t_end - t_begin;
 
     for (i = 0; i < count; i++)
     {
@@ -140,17 +159,19 @@ void enumerate_dir(const char* path, int sort_id, int is_descending)
     printf("Сортировка: %s", sort_methods[sort_id].name);
     gotoxy(wnd.X / 2 - (8 + strlen(sort_orders[is_descending])) / 2, wherey() + 1);
     printf("Метод: %s", sort_orders[is_descending]);
-    gotoxy(wnd.X / 2 - 16 / 2, wherey() + 1);
+    gotoxy(wnd.X / 2 - 12 / 2, wherey() + 1);
     printf("Каталоги : %d", subdir_count);
-    gotoxy(wnd.X / 2 - 10 / 2, wherey() + 1);
+    gotoxy(wnd.X / 2 - 9 / 2, wherey() + 1);
     printf("Файлы : %d", count);
 
     textcolor(YELLOW);
-    gotoxy(wnd.X / 2 - 16 / 2, wherey() + 1);
+    gotoxy(wnd.X / 2 - 16 / 2, wherey() + 2);
     printf("%.8lf сек.", time);
 
     free(arr);
     free(iarr);
+
+    return 1;
 }
 
 void print_input_error(const char* text)
@@ -162,17 +183,22 @@ void print_input_error(const char* text)
     textcolor(LIGHTGRAY);
 }
 
-void print_option(int x, int id, const char* prefix, const char* text)
+void print_option(int x, int is_selected, int is_focused, const char* text)
 {
     gotoxy(x, wherey() + 1);
     textcolor(YELLOW);
-    printf(" %s[%d] ", prefix, id);
-    textcolor(LIGHTGREEN);
+    printf(" [%c] ", is_selected ? '+' : ' ');
+    if (!is_selected || !is_focused)
+    {
+        textcolor(LIGHTGREEN);
+    }
     printf("%s", text);
 }
 
 void print_header()
 {
+    hidecursor();
+
     gotoxy(0, 0);
 
     textcolor(CYAN);
@@ -184,83 +210,28 @@ void print_header()
     printf("===========================");
     gotoxy(0, wherey() + 1);
 
-    int i, baseY = wherey();
+    int i, yBegin = wherey() + 1;
 
-    gotoxy(wnd.X / 2 + 28, baseY + 1);
+    gotoxy(wnd.X / 2 + 28, yBegin);
     textcolor(GREEN);
     printf("Методы сортировки:");
-    if (has_last_data())
-    {
-        print_option(wnd.X / 2 + 28, 0, " ", sort_orders[last_order_id]);
-    }
     for (i = 0; i < AVAILABLE_SORT_ORDERS; i++)
     {
-        print_option(wnd.X / 2 + 28, i + 1, " ", sort_orders[i]);
+        print_option(wnd.X / 2 + 28, i == last_order_id, focus_col == ORDERS, sort_orders[i]);
     }
 
-    gotoxy(wnd.X / 6 - 28 / 2, baseY + 1);
+    gotoxy(wnd.X / 6 - 28 / 2, yBegin);
     textcolor(GREEN);
     printf("Алгоритмы сортировки:");
-    if (has_last_data())
-    {
-        print_option(wnd.X / 6 - 28 / 2, 0, " ", sort_methods[last_sort_id].name);
-    }
     for (i = 0; i < AVAILABLE_SORT_METHODS; i++)
     {
-        print_option(wnd.X / 6 - 28 / 2, i + 1, " ", sort_methods[i].name);
+        print_option(wnd.X / 6 - 28 / 2, i == last_sort_id, focus_col == ALGORITHMS, sort_methods[i].name);
     }
 
     gotoxy(0, wherey() + 2);
     textcolor(LIGHTGRAY);
-}
 
-void handle_command(int sort_id, int order_id, const char* path)
-{
-    if (sort_id < 0 || sort_id - 1 > AVAILABLE_SORT_METHODS)
-    {
-        print_input_error("Введён некорректный номер алгоритма сортировки");
-        return;
-    }
-    if (order_id < 0 || order_id - 1 > AVAILABLE_SORT_ORDERS)
-    {
-        print_input_error("Введён некорректный номер метода сортировки");
-        return;
-    }
-
-    if (!path)
-    {
-        path = last_path;
-    }
-    else
-    {
-        if (strlen(path) > 2 && path[1] != ':')
-        {
-            char buf[_MAX_PATH + 1];
-            strcpy_s(buf, sizeof(buf), last_path);
-            strcat_s(buf, sizeof(buf), "\\");
-            strcat_s(buf, sizeof(buf), path);
-            buf[_MAX_PATH] = '\0';
-
-            path = buf;
-        }
-
-        strcpy_s(last_path, sizeof(last_path), path);
-    }
-
-    if (sort_id == 0)
-        sort_id = last_sort_id;
-    else
-        last_sort_id = --sort_id;
-
-    if (order_id == 0)
-        order_id = last_order_id;
-    else
-        last_order_id = --order_id;
-
-    clrscr();
-    print_header();
-
-    enumerate_dir(path, sort_id, order_id);
+    showcursor();
 }
 
 void main()
@@ -273,46 +244,120 @@ void main()
     getwindow(&rect, &wnd);
 
     print_header();
+    yTarget = wherey();
 
-    char input[_MAX_PATH + 4 + 1];
-    int sort_id, order_id;
-    char path[_MAX_PATH + 1];
-    int read;
+    char path[_MAX_PATH + 1], buf[_MAX_PATH + 1];
+    size_t path_len;
+
+    int row = 0, delta_x;
+    char ch = 0;
 
     while (1)
     {
         textcolor(LIGHTCYAN);
-        gotoxy(wnd.X / 2 - 69 / 2, wherey() + 1);
-        printf("Введите через пробел номер алгоритма сортировки, номер метода и путь");
+        gotoxy(wnd.X / 2 - 66 / 2, yTarget + 1);
+        printf("Выберите параметры сортировки с помощью стрелочек и нажмите ENTER");
+
+        while (ch != ENTER)
+        {
+            ch = getch();
+            if (ch == NUMLOCK)
+            {
+                ch = _getch();
+            }
+
+            delta_x = 0;
+
+            switch (ch)
+            {
+            case UP:
+                delta_x = -1;
+                break;
+            case DOWN:
+                delta_x = 1;
+                break;
+            case LEFT:
+            case RIGHT:
+                focus_col = (focus_col + 1) % 2;
+                if (focus_col == ORDERS)
+                {
+                    row = last_order_id;
+                }
+                else
+                {
+                    row = last_sort_id;
+                }
+                break;
+            }
+
+            if (delta_x != 0)
+            {
+                row += delta_x;
+                if (row < 0)
+                {
+                    row = MAX_MENU_ROW - 1;
+                }
+                else if (row >= MAX_MENU_ROW)
+                {
+                    row = 0;
+                }
+                if (focus_col == ORDERS)
+                {
+                    last_order_id = row % AVAILABLE_SORT_ORDERS;
+                }
+                else
+                {
+                    last_sort_id = row % AVAILABLE_SORT_METHODS;
+                }
+            }
+
+            print_header();
+        }
+
+        gotoxy(wnd.X / 2 - 66 / 2, yTarget + 1);
+        printf("%66c", ' ');
+
+        textcolor(LIGHTCYAN);
+        gotoxy(wnd.X / 2 - 39 / 2, wherey());
+        printf("Введите путь к каталогу для сортировки");
         if (has_last_data())
         {
-            gotoxy(wnd.X / 2 - 83 / 2, wherey() + 1);
-            printf("(Если вы не хотите изменять метод сортировки или путь, оставьте эти поля пустыми)");
+            gotoxy(wnd.X / 2 - 56 / 2, wherey() + 1);
+            printf("(Если вы не хотите изменять путь, оставьте поле пустым)");
         }
+
         gotoxy(0, wherey() + 1);
         textcolor(LIGHTGRAY);
 
-        gets_s(input, sizeof(input));
-
-        read = sscanf_s(input, "%d %d %[^\n]", &sort_id, &order_id, &path, sizeof(path));
-        if (read < 3 && !has_last_data())
+        gets_s(path, sizeof(path));
+        path_len = strlen(path);
+        if (path_len == 0 && !has_last_data())
         {
-            print_input_error("Пожалуйста, введите начальные параметры сортировки и путь");
+            print_input_error("Пожалуйста, введите начальный путь");
             continue;
         }
 
-        switch (read)
+        clrscr();
+        print_header();
+
+        if (path_len > 2 && path[1] != ':')
         {
-        case 1:
-            handle_command(sort_id, 0, 0);
-            break;
-        case 2:
-            handle_command(sort_id, order_id, 0);
-            break;
-        case 3:
-            handle_command(sort_id, order_id, path);
-            break;
+            strcpy_s(buf, sizeof(buf), last_path);
+            strcat_s(buf, sizeof(buf), "\\");
+            strcat_s(buf, sizeof(buf), path);
+            buf[_MAX_PATH] = '\0';
+
+            strcpy_s(last_path, sizeof(last_path), buf);
         }
+        else if (path_len > 0)
+        {
+            strcpy_s(last_path, sizeof(last_path), path);
+        }
+
+        enumerate_dir(last_path, last_sort_id, last_order_id);
+        yTarget = wherey() + 1;
+
+        ch = 0;
 
         gotoxy(0, wherey() + 1);
     }
