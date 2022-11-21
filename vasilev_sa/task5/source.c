@@ -10,31 +10,32 @@
 #include "header.h"
 
 //количество элементов в меню
-#define SIZE_MENU 9
+#define SIZE_MENU 10
 //максимальный размер стэка для сортировки Хоара
 #define MAX_STACK 1024
 
 //адрес папки
 char PATH[200];
+//порядок сортировки: 1 - по возрастанию, 0 - по убыванию
+short sort_key = 1;
 //массив с файлами из папки
 struct _finddata_t* file_buf;
 //коды клавиш для управления меню
 enum KeysEnum
 {
 	ESCAPE = 27, UP = 72, DOWN = 80, LEFT = 75, RIGHT = 77, ENTER = 13, SPACE = 32, DEL = 8, 
-	NUM_1 = 49, NUM_2 = 50, NUM_3 = 51, NUM_4 = 52, NUM_5 = 53, NUM_6 = 54, NUM_7 = 55, NUM_8 = 56, NUM_9 = 57,
 };
 //для наглядности свича при выборе метода сортировки
 enum MenuEnum
 {
-	BUBBLE, SELECT, INSERTS, MERGE, HOARE, SHELL, COUNT, CH_PATH, EXIT,
+	BUBBLE, SELECT, INSERTS, MERGE, HOARE, SHELL, COUNT, CH_PATH, CHANGE, EXIT,
 };
 //цвета программы
 typedef enum {
 	TITLE = LIGHTMAGENTA, TEXT = LIGHTGRAY, CHOICE = LIGHTGREEN, PAUSE = LIGHTRED, WARNING = RED, TEXT_INP = WHITE
 } ColorSettings;
 //выводящееся на экран меню
-char Menu[SIZE_MENU][30] = { 
+char Menu[SIZE_MENU][40] = { 
 	"Сортировка \"Пузырьком\"", 
 	"Сортировка \"Выбором\"", 
 	"Сортировка \"Вставками\"", 
@@ -43,11 +44,13 @@ char Menu[SIZE_MENU][30] = {
 	"Сортировка \"Шелла\"", 
 	"Сортировка \"Подсчётом\"",
 	"Сменить директорий",
+	"Сменить порядок сортировки",
 	"Выход", 
 };
 
 //----------------------------Начало-объявления----------------------------
 
+void reverse_arr(struct _finddata_t* time_buf, long count);
 long found_dir(void);
 void input_path(void);
 void print_info(struct _finddata_t* time_buf, long count, double work_time, long active_menu);
@@ -84,9 +87,12 @@ void main(void)
 		gotoxy(0, 0);
 		strncpy_s(print_path, 200, PATH, strlen(PATH) - 3);
 		textcolor(TITLE);
-		printf(" Методы сортировки для ");
+		if (sort_key)
+			printf(" Сортировка по возрастанию ");
+		else
+			printf(" Сортировка по убыванию ");
 		textcolor(CHOICE);
-		printf("|%s|:\n", print_path);
+		printf("(%s):\n", print_path);
 		for (long i = 0; i < SIZE_MENU; i++)
 		{
 			if (i == active_menu)
@@ -94,47 +100,24 @@ void main(void)
 			else
 				textcolor(TEXT);
 			gotoxy(1, i + 1);
-			printf("%d) %s", i + 1, Menu[i]);
+			printf(">>> %s", Menu[i]);
 		}
 		ch = _getch();
 		if (ch == -32) 
 			ch = _getch();
 		switch (ch)
 		{
-		case NUM_1:
-			active_menu = 0;
-			break;
-		case NUM_2:
-			active_menu = 1;
-			break;
-		case NUM_3:
-			active_menu = 2;
-			break;
-		case NUM_4:
-			active_menu = 3;
-			break;
-		case NUM_5:
-			active_menu = 4;
-			break;
-		case NUM_6:
-			active_menu = 5;
-			break;
-		case NUM_7:
-			active_menu = 6;
-			break;
-		case NUM_8:
-			active_menu = 7;
-			break;
-		case NUM_9:
-			active_menu = 8;
-			break;
 		case UP:
-			if (active_menu > 0)
-				--active_menu;
+			if (active_menu == 0)
+				active_menu = SIZE_MENU - 1;
+			else
+				active_menu--;
 			break;
 		case DOWN:
-			if (active_menu < SIZE_MENU - 1)
-				++active_menu;
+			if (active_menu == SIZE_MENU - 1)
+				active_menu = 0;
+			else
+				active_menu++;
 			break;
 		case ESCAPE:
 			free(file_buf);
@@ -193,11 +176,27 @@ void main(void)
 				flag = count_sort(time_buf, count);
 				end = omp_get_wtime();
 				break;
+			case CHANGE:
+				if (sort_key)
+					sort_key = 0;
+				else
+					sort_key = 1;
+				system("cls");
+				textcolor(TITLE);
+				printf("Вы сменили порядок сортировки\n");
+				textcolor(PAUSE);
+				system("pause");
+				system("cls");
+				active_menu = 0;
+				continue;
 			case EXIT:
 				exit(0);
 			}
 			if (flag)
+			{
+				reverse_arr(time_buf, count);
 				print_info(time_buf, count, end - start, active_menu);
+			}
 			else
 			{
 				textcolor(RED);
@@ -214,6 +213,19 @@ void main(void)
 
 //----------------------------Начало-реализации-функций----------------------------
 
+void reverse_arr(struct _finddata_t* time_buf, long count)
+{
+	if (!sort_key)
+	{
+		struct _finddata_t* temp = calloc(count, sizeof(struct _finddata_t));
+		if (temp == NULL)
+			return;
+		for (int i = 0; i < count; i++)
+			temp[count - i - 1] = time_buf[i];
+		for (int i = 0; i < count; i++)
+			time_buf[i] = temp[i];
+	}
+}
 long found_dir(void)
 {
 	struct _finddata_t c_file;
@@ -234,7 +246,7 @@ long found_dir(void)
 		}
 		do
 		{
-			if (c_file.size > 0)
+			if (c_file.attrib != 32)
 				size++;
 		} while (_findnext(hFile, &c_file) == 0);
 		if (size == 0)
@@ -253,7 +265,7 @@ long found_dir(void)
 		hFile = _findfirst(PATH, &c_file);
 		do
 		{
-			if ((c_file.size > 0) && (count < size))
+			if ((c_file.attrib != 32) && (count < size))
 				file_buf[count++] = c_file;
 		} while (_findnext(hFile, &c_file) == 0);
 

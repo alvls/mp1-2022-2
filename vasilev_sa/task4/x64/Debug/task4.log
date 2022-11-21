@@ -1,0 +1,4 @@
+﻿  source.c
+C:\Git_repository\mp1-2022-2\vasilev_sa\task4\source.c(243): warning C4172: возвращение адреса локальной или временной переменной : answer
+C:\Git_repository\mp1-2022-2\vasilev_sa\task4\source.c(246): warning C4172: возвращение адреса локальной или временной переменной : answer
+  task4.vcxproj -> C:\Git_repository\mp1-2022-2\vasilev_sa\x64\Debug\task4.exe

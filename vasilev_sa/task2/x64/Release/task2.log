@@ -1,0 +1,18 @@
+﻿  source.c
+C:\Git_repository\mp1-2022-2\vasilev_sa\task2\source.c(21,15): warning C4244: функция: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Git_repository\mp1-2022-2\vasilev_sa\task2\source.c(51,15): warning C4244: функция: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Git_repository\mp1-2022-2\vasilev_sa\task2\source.c(54,56): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+C:\Git_repository\mp1-2022-2\vasilev_sa\task2\source.c(57,21): warning C4473: "scanf_s": передано недостаточно аргументов для строки формата
+C:\Git_repository\mp1-2022-2\vasilev_sa\task2\source.c(57,21): message : заполнители и их параметры ожидают переменное число аргументов в количестве 2, но было предоставлено 1
+C:\Git_repository\mp1-2022-2\vasilev_sa\task2\source.c(57,21): message : отсутствующий вариативный аргумент "2" требуется для строки форматирования "%c"
+C:\Git_repository\mp1-2022-2\vasilev_sa\task2\source.c(57,21): message : этот аргумент используется в качестве размера буфера
+C:\Git_repository\mp1-2022-2\vasilev_sa\task2\source.c(58,21): warning C4473: "scanf_s": передано недостаточно аргументов для строки формата
+C:\Git_repository\mp1-2022-2\vasilev_sa\task2\source.c(58,21): message : заполнители и их параметры ожидают переменное число аргументов в количестве 2, но было предоставлено 1
+C:\Git_repository\mp1-2022-2\vasilev_sa\task2\source.c(58,21): message : отсутствующий вариативный аргумент "2" требуется для строки форматирования "%c"
+C:\Git_repository\mp1-2022-2\vasilev_sa\task2\source.c(58,21): message : этот аргумент используется в качестве размера буфера
+  Создание кода
+  0 of 8 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Создание кода завершено
+  task2.vcxproj -> C:\Git_repository\mp1-2022-2\vasilev_sa\x64\Release\task2.exe

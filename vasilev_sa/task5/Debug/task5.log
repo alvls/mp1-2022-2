@@ -1,0 +1,5 @@
+﻿  source.c
+C:\Git_repository\mp1-2022-2\vasilev_sa\task5\source.c(509,20): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Git_repository\mp1-2022-2\vasilev_sa\task5\source.c(517,20): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Git_repository\mp1-2022-2\vasilev_sa\task5\source.c(529,20): warning C4018: <: несоответствие типов со знаком и без знака
+  task5.vcxproj -> C:\Git_repository\mp1-2022-2\vasilev_sa\Debug\task5.exe
