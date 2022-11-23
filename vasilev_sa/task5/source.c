@@ -246,7 +246,7 @@ long found_dir(void)
 		}
 		do
 		{
-			if (c_file.attrib != 32)
+			if (c_file.attrib != 16)
 				size++;
 		} while (_findnext(hFile, &c_file) == 0);
 		if (size == 0)
@@ -265,7 +265,7 @@ long found_dir(void)
 		hFile = _findfirst(PATH, &c_file);
 		do
 		{
-			if ((c_file.attrib != 32) && (count < size))
+			if ((c_file.attrib != 16) && (count < size))
 				file_buf[count++] = c_file;
 		} while (_findnext(hFile, &c_file) == 0);
 
@@ -312,7 +312,7 @@ void print_info(struct _finddata_t* time_buf, long count, double work_time, long
 		textcolor(TEXT);
 		printf("%12lld байт", (_int64)time_buf[i].size);
 		textcolor(TITLE);
-		printf("|");
+		printf("| %d", time_buf[i].attrib);
 	}
 	textcolor(TITLE);
 	printf("\n --------------------------------------------------------------\n");
