@@ -8,7 +8,8 @@
 
 #define MAXSTACK 2048
 #define MAXSTRING 55
-#define FILESMAX 20
+#define FILESMAX 500
+#define FILESMIN 18
 #define bt_done_id 2
 #define edt1_id 3
 #define cb1_id 4
@@ -42,22 +43,28 @@ int results()
     DestroyWindow(cap3_3);
 
     SetWindowText(cap3, "Отсортированный список\nфайлов:\n");
+    printf("\nОтсортированный список файлов:\n\n");
     for (i = 0; i < cnt; i++)
     {
         for (j = 0; j < cnt; j++)
         {
             if (sizes[i] % 100 == j)
             {
+                printf("%-12.12s   %10lu кбит\n", names[j], sizes[i] / 100);
+
                 char text[20];
                 sprintf_s(text, 20, "%lu", sizes[i] / 100);
-
-                cap3_1 = CreateWindow("static", names[j], WS_VISIBLE | WS_CHILD, 570, 65 + i * 20, 150, 20, hwnd, NULL, NULL, NULL);
-                cap3_2 = CreateWindow("static", text, WS_VISIBLE | WS_CHILD, 700, 65 + i * 20, 100, 20, hwnd, NULL, NULL, NULL);
-                cap3_3 = CreateWindow("static", "Кбит", WS_VISIBLE | WS_CHILD, 780, 65 + i * 20, 40, 20, hwnd, NULL, NULL, NULL);
+                if (i <= FILESMIN)
+                {
+                    cap3_1 = CreateWindow("static", names[j], WS_VISIBLE | WS_CHILD, 570, 65 + i * 20, 150, 20, hwnd, NULL, NULL, NULL);
+                    cap3_2 = CreateWindow("static", text, WS_VISIBLE | WS_CHILD, 700, 65 + i * 20, 100, 20, hwnd, NULL, NULL, NULL);
+                    cap3_3 = CreateWindow("static", "Кбит", WS_VISIBLE | WS_CHILD, 780, 65 + i * 20, 40, 20, hwnd, NULL, NULL, NULL);
+                }
                 break;
             }
         }
     }
+
     char* names = calloc(20, 1);
     int sizes = calloc(20, 1);
 
@@ -657,7 +664,7 @@ void file()
                 
                 do
                 {
-                    if (c_file.size / 1024 > 0 && cnt < FILESMAX) //Если файл весит меньше 1 Кбита, то мы его не учитываем
+                    if (c_file.size / 1024 > 0) //Если файл весит меньше 1 Кбита, то мы его не учитываем
                     {
                         
                         sizes[cnt] = c_file.size / 1024 * 100 + cnt;
@@ -669,15 +676,32 @@ void file()
                         char text[20];
                         sprintf_s(text, 20, "%lu", c_file.size / 1024);
 
-                        cap2_1 = CreateWindow("static", names[cnt], WS_VISIBLE | WS_CHILD, 265, 65 + cnt * 20, 150, 20, hwnd, NULL, NULL, NULL);
-                        cap2_2 = CreateWindow("static", text, WS_VISIBLE | WS_CHILD, 395, 65 + cnt * 20, 100, 20, hwnd, NULL, NULL, NULL);
-                        cap2_3 = CreateWindow("static", "Кбит", WS_VISIBLE | WS_CHILD, 475, 65 + cnt * 20, 40, 20, hwnd, NULL, NULL, NULL);
-
+                        if (cnt <= FILESMIN)
+                        {
+                            cap2_1 = CreateWindow("static", names[cnt], WS_VISIBLE | WS_CHILD, 265, 65 + cnt * 20, 150, 20, hwnd, NULL, NULL, NULL);
+                            cap2_2 = CreateWindow("static", text, WS_VISIBLE | WS_CHILD, 395, 65 + cnt * 20, 100, 20, hwnd, NULL, NULL, NULL);
+                            cap2_3 = CreateWindow("static", "Кбит", WS_VISIBLE | WS_CHILD, 475, 65 + cnt * 20, 40, 20, hwnd, NULL, NULL, NULL);
+                        }
                         cnt++;
                     }
 
                 } while (_findnext(hFile, &c_file) == 0);
 
+                if (cnt > FILESMIN)
+                {
+                    char text[20];
+                    sprintf_s(text, 20, "%d", cnt - FILESMIN);
+
+                    cap2_1 = CreateWindow("static", text, WS_VISIBLE | WS_CHILD, 330, 65 + (FILESMIN + 1) * 20, 150, 20, hwnd, NULL, NULL, NULL);
+                    cap2_2 = CreateWindow("static", "файлов осталось", WS_VISIBLE | WS_CHILD, 350, 65 + (FILESMIN + 1) * 20, 150, 20, hwnd, NULL, NULL, NULL);
+
+                    printf("\n\nСписок файлов в выбранной директории:\n\n");
+                    ShowWindow(GetConsoleWindow(), SW_SHOW);
+                    for (i = 0; i < cnt; i++)
+                    {
+                        printf("%-12.12s   %10lu кбит\n", names[i], sizes[i] / 100);
+                    }
+                }
                 _findclose(hFile);
                 chose_for_switch();
                 return;
@@ -728,6 +752,7 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 
         if (bt_done == lparam)
         {
+            ShowWindow(GetConsoleWindow(), SW_HIDE);
             file();
         }
     }
@@ -783,20 +808,8 @@ void main()
     cap1 = CreateWindow("static", "Введите путь к папке:", WS_VISIBLE | WS_CHILD, 50, 65, 170, 17, hwnd, NULL, NULL, NULL, TEXT("Arial"));
     
     cap2 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 260, 20, 275, 450, hwnd, NULL, NULL, NULL);
-    
-    cap2_1 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 265, 65, 150, 20, hwnd, NULL, NULL, NULL);
-
-    cap2_2 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 395, 65, 100, 20, hwnd, NULL, NULL, NULL);
-
-    cap2_3 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 475, 65, 35, 20, hwnd, NULL, NULL, NULL);
 
     cap3 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 565, 20, 275, 450, hwnd, NULL, NULL, NULL);
-
-    cap3_1 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 570, 65, 150, 20, hwnd, NULL, NULL, NULL);
-
-    cap3_2 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 700, 65, 100, 20, hwnd, NULL, NULL, NULL);
-
-    cap3_3 = CreateWindow("static", "", WS_VISIBLE | WS_CHILD, 780, 65, 35, 20, hwnd, NULL, NULL, NULL);
 
     CB = CreateWindow("combobox", "", WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST, 50, 275, 170, 200, hwnd, cb1_id, NULL, NULL);
 
