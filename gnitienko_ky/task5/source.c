@@ -78,7 +78,7 @@ int main(void)
             if (c_file.size == 0) count--;
         } while (_findnext(hFile, &c_file) == 0);
         _findclose(hFile);
-        printf("\ncount of files: %d\n", count);
+        printf("\ncount of files: %d\n", count+2);
         system("pause");
         char* menu2[7] = { (char*)"1. Сортировка пузырьком", (char*)"2. Сортировка выбором" , (char*)"3. Сортировка вставками", (char*)"4. Сортировка слиянием", (char*)"5. Сортировка Хоара", (char*)"6. Сортировка Шелла", (char*)"7. Сортировка подсчетом" };
         char* menu1[2] = { (char*)"1. Сортировка по возрастанию", (char*)"2. Сортировка по убыванию" };
