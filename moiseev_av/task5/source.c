@@ -8,7 +8,7 @@
 
 #define MAXSTACK 2048
 #define MAXSTRING 55
-#define FILESMAX 500
+#define FILESMAX 5000
 #define FILESMIN 18
 #define bt_done_id 2
 #define edt1_id 3
@@ -664,7 +664,7 @@ void file()
                 
                 do
                 {
-                    if (c_file.size / 1024 > 0) //Åñëè ôàéë âåñèò ìåíüøå 1 Êáèòà, òî ìû åãî íå ó÷èòûâàåì
+                    if (c_file.size / 1024 > 0 && cnt < FILESMAX) //Åñëè ôàéë âåñèò ìåíüøå 1 Êáèòà, òî ìû åãî íå ó÷èòûâàåì
                     {
                         
                         sizes[cnt] = c_file.size / 1024 * 100 + cnt;
@@ -693,7 +693,7 @@ void file()
                     sprintf_s(text, 20, "%d", cnt - FILESMIN);
 
                     cap2_1 = CreateWindow("static", text, WS_VISIBLE | WS_CHILD, 330, 65 + (FILESMIN + 1) * 20, 150, 20, hwnd, NULL, NULL, NULL);
-                    cap2_2 = CreateWindow("static", "ôàéëîâ îñòàëîñü", WS_VISIBLE | WS_CHILD, 350, 65 + (FILESMIN + 1) * 20, 150, 20, hwnd, NULL, NULL, NULL);
+                    cap2_2 = CreateWindow("static", "ôàéëîâ îñòàëîñü", WS_VISIBLE | WS_CHILD, 370, 65 + (FILESMIN + 1) * 20, 150, 20, hwnd, NULL, NULL, NULL);
 
                     printf("\n\nÑïèñîê ôàéëîâ â âûáğàííîé äèğåêòîğèè:\n\n");
                     ShowWindow(GetConsoleWindow(), SW_SHOW);
