@@ -141,32 +141,25 @@ void countingSort(int* array, int n, int k) {
 void pr(int a[], int size, char path[]) {
 	struct _finddata_t c_file;
 	intptr_t hFile;
-	int count = 0;
 	if ((hFile = _findfirst(path, &c_file)) == -1L)
 		printf("No files in current directory!\n");
 	else
 	{
 		do {
-			if (count <= 20)
-				if (a[0] == c_file.size)
-					printf("%-12.12s - %10ld байт\n", c_file.name, c_file.size);
-			count++;
+			if (a[0] == c_file.size)
+				printf("%-12.12s - %10ld байт\n", c_file.name, c_file.size);
 		} while (_findnext(hFile, &c_file) == 0);
 		_findclose(hFile);
 		for (int i = 1; i < size; i++) {
 			if (a[i] != a[i - 1]){
-				count = 0;
 				if ((hFile = _findfirst(path, &c_file)) == -1L)
 					printf("No files in current directory!\n");
 				else
 				{
 					do {
-						if (count <= 20) {
-							if (a[i] == c_file.size) {
-								printf("%-12.12s - %10ld байт\n", c_file.name, c_file.size);
-							}
+						if (a[i] == c_file.size) {
+							printf("%-12.12s - %10ld байт\n", c_file.name, c_file.size);
 						}
-						count++;
 					} while (_findnext(hFile, &c_file) == 0);
 					_findclose(hFile);
 				}
@@ -188,7 +181,7 @@ void main() {
 	int i,ans,maxim=-1,size=0;
 	double t1, t2;
 	char path[200];
-	int count = 0,tmp=0;
+	int tmp=0;
 	int* a;
 	int flag = 1;
 	int* b;
@@ -205,9 +198,7 @@ void main() {
 	else
 	{
 		do {
-			if (count <= 20)
-				size += 1;
-			count++;
+			size += 1;
 		} while (_findnext(hFile, &c_file) == 0);
 		_findclose(hFile);
 	}
@@ -219,15 +210,11 @@ void main() {
 		tmp = 0;
 		if ((hFile = _findfirst(path, &c_file)) != -1L) {
 			tmp = 0;
-			count = 0;
 			do {
-				if (count <= 20) {
-					tmp += 1;
-					if (tmp > 2) {
-						a[tmp - 3] = c_file.size;
-					}
+				tmp += 1;
+				if (tmp > 2) {
+					a[tmp - 3] = c_file.size;		
 				}
-				count++;
 			} while (_findnext(hFile, &c_file) == 0);
 			_findclose(hFile);
 		}
