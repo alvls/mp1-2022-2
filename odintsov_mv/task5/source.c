@@ -248,46 +248,43 @@ void main() {
 		case 1:
 			t1 = omp_get_wtime();
 			Buble_Sort(a,size, path);
+			t2 = omp_get_wtime();
 			if (ans_1 == 1) {
 				pr(a, size, path);
-				t2 = omp_get_wtime();
-				printf("time - %lf\n", t2 - t1);
+				printf("time - %*.10lf\n", t2 - t1);
 			}
 			if (ans_1 == 2) {
 				reverse_a(a, size);
 				pr(a, size, path);
-				t2 = omp_get_wtime();
-				printf("time - %lf\n", t2 - t1);
+				printf("time - %*.10lf\n", t2 - t1);
 			}
 			break;
 		case 2:
 			t1 = omp_get_wtime();
 			SelectSort(a, size, path);
+			t2 = omp_get_wtime();
 			if (ans_1 == 1) {
 				pr(a, size, path);
-				t2 = omp_get_wtime();
-				printf("time - %lf\n", t2 - t1);
+				printf("time - %*.10lf\n", t2 - t1);
 			}
 			if (ans_1 == 2) {
 				reverse_a(a, size);
 				pr(a, size, path);
-				t2 = omp_get_wtime();
-				printf("time - %lf\n", t2 - t1);
+				printf("time - %*.10lf\n", t2 - t1);
 			}
 			break;
 		case 3:
 			t1 = omp_get_wtime();
 			InsertSort(a, size, path);
+			t2 = omp_get_wtime();
 			if (ans_1 == 1) {
 				pr(a, size, path);
-				t2 = omp_get_wtime();
-				printf("time - %lf\n", t2 - t1);
+				printf("time - %*.10lf\n", t2 - t1);
 			}
 			if (ans_1 == 2) {
 				reverse_a(a, size);
 				pr(a, size, path);
-				t2 = omp_get_wtime();
-				printf("time - %lf\n", t2 - t1);
+				printf("time - %*.10lf\n", t2 - t1);
 			}
 	
 			break;
@@ -295,47 +292,44 @@ void main() {
 			t1 = omp_get_wtime();
 			b = (int*)malloc(size * sizeof(struct _finddata_t));
 			merge_sort(0, size - 1, a, b);
+			t2 = omp_get_wtime();
 			if (ans_1 == 1) {
 				pr(a, size, path);
-				t2 = omp_get_wtime();
-				printf("time - %lf\n", t2 - t1);
+				printf("time - %*.10lf\n", t2 - t1);
 			}
 			if (ans_1 == 2) {
 				reverse_a(a, size);
 				pr(a, size, path);
-				t2 = omp_get_wtime();
-				printf("time - %lf\n", t2 - t1);
+				printf("time - %*.10lf\n", t2 - t1);
 			}
 			break;
 		case 5:
 			t1 = omp_get_wtime();
 			quicksort(a, 0, size - 1);
+			t2 = omp_get_wtime();
 			if (ans_1 == 1) {
 				pr(a, size, path);
-				t2 = omp_get_wtime();
-				printf("time - %lf\n", t2 - t1);
+				printf("time - %*.10lf\n", t2 - t1);
 			}
 			if (ans_1 == 2) {
 				reverse_a(a, size);
 				pr(a, size, path);
-				t2 = omp_get_wtime();
-				printf("time - %lf\n", t2 - t1);
+				printf("time - %*.10lf\n", t2 - t1);
 			}
 			
 			break;
 		case 6:
 			t1 = omp_get_wtime();
 			ShellSort(size, a);
+			t2 = omp_get_wtime();
 			if (ans_1 == 1) {
 				pr(a, size, path);
-				t2 = omp_get_wtime();
-				printf("time - %lf\n", t2 - t1);
+				printf("time - %*.10lf\n", t2 - t1);
 			}
 			if (ans_1 == 2) {
 				reverse_a(a, size);
 				pr(a, size, path);
-				t2 = omp_get_wtime();
-				printf("time - %lf\n", t2 - t1);
+				printf("time - %*.10lf\n", t2 - t1);
 			}
 			break;
 		case 7:
@@ -345,16 +339,15 @@ void main() {
 					maxim = a[i];
 			}
 			countingSort(a, size, maxim);
+			t2 = omp_get_wtime();
 			if (ans_1 == 1) {
 				pr(a, size, path);
-				t2 = omp_get_wtime();
-				printf("time - %lf\n", t2 - t1);
+				printf("time - %*.10lf\n", t2 - t1);
 			}
 			if (ans_1 == 2) {
 				reverse_a(a, size);
 				pr(a, size, path);
-				t2 = omp_get_wtime();
-				printf("time - %lf\n", t2 - t1);
+				printf("time - %*.10lf\n", t2 - t1);
 			}
 			break;
 		case 8:
