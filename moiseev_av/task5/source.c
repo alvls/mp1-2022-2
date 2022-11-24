@@ -32,6 +32,8 @@ HWND CB;
 HWND CB2;
 
 int i = 0, j = 0, cnt = 0, min_or_max = 0, user_chose = 0, sizes[FILESMAX];
+int R[FILESMAX] = { 0 };
+int L[FILESMAX] = { 0 };
 double t1, t2, time_spent;
 char dir[MAXSTRING], c[MAXSTRING], ch;
 char* names[FILESMAX];
@@ -43,20 +45,18 @@ int results()
     DestroyWindow(cap3_3);
 
     SetWindowText(cap3, "Отсортированный список\nфайлов:\n");
-    printf("\nОтсортированный список файлов:\n\n");
+
     for (i = 0; i < cnt; i++)
     {
         for (j = 0; j < cnt; j++)
         {
             if (sizes[i] % 100 == j)
             {
-                printf("%-12.12s   %10lu кбит\n", names[j], sizes[i] / 100);
-
                 char text[20];
                 sprintf_s(text, 20, "%lu", sizes[i] / 100);
                 if (i <= FILESMIN)
                 {
-                    cap3_1 = CreateWindow("static", names[j], WS_VISIBLE | WS_CHILD, 570, 65 + i * 20, 150, 20, hwnd, NULL, NULL, NULL);
+                    cap3_1 = CreateWindow("static", names[j], WS_VISIBLE | WS_CHILD, 570, 65 + i * 20, 120, 20, hwnd, NULL, NULL, NULL);
                     cap3_2 = CreateWindow("static", text, WS_VISIBLE | WS_CHILD, 700, 65 + i * 20, 100, 20, hwnd, NULL, NULL, NULL);
                     cap3_3 = CreateWindow("static", "Кбит", WS_VISIBLE | WS_CHILD, 780, 65 + i * 20, 40, 20, hwnd, NULL, NULL, NULL);
                 }
@@ -218,8 +218,6 @@ void merge_min_max(int size[], int l, int m, int r)
     int i, j, k;
     int n1 = m - l + 1;
     int n2 = r - m;
-    int R[20] = { 0 };
-    int L[20] = { 0 };
 
     for (i = 0; i < n1; i++)
     {
@@ -281,8 +279,6 @@ void merge_max_min(int size[], int l, int m, int r)
     int i, j, k;
     int n1 = m - l + 1;
     int n2 = r - m;
-    int R[20] = { 0 };
-    int L[20] = { 0 };
 
     for (i = 0; i < n1; i++)
         L[i] = size[l + i];
@@ -678,7 +674,7 @@ void file()
 
                         if (cnt <= FILESMIN)
                         {
-                            cap2_1 = CreateWindow("static", names[cnt], WS_VISIBLE | WS_CHILD, 265, 65 + cnt * 20, 150, 20, hwnd, NULL, NULL, NULL);
+                            cap2_1 = CreateWindow("static", names[cnt], WS_VISIBLE | WS_CHILD, 265, 65 + cnt * 20, 120, 20, hwnd, NULL, NULL, NULL);
                             cap2_2 = CreateWindow("static", text, WS_VISIBLE | WS_CHILD, 395, 65 + cnt * 20, 100, 20, hwnd, NULL, NULL, NULL);
                             cap2_3 = CreateWindow("static", "Кбит", WS_VISIBLE | WS_CHILD, 475, 65 + cnt * 20, 40, 20, hwnd, NULL, NULL, NULL);
                         }
@@ -692,15 +688,8 @@ void file()
                     char text[20];
                     sprintf_s(text, 20, "%d", cnt - FILESMIN);
 
-                    cap2_1 = CreateWindow("static", text, WS_VISIBLE | WS_CHILD, 330, 65 + (FILESMIN + 1) * 20, 150, 20, hwnd, NULL, NULL, NULL);
-                    cap2_2 = CreateWindow("static", "файлов осталось", WS_VISIBLE | WS_CHILD, 370, 65 + (FILESMIN + 1) * 20, 150, 20, hwnd, NULL, NULL, NULL);
-
-                    printf("\n\nСписок файлов в выбранной директории:\n\n");
-                    ShowWindow(GetConsoleWindow(), SW_SHOW);
-                    for (i = 0; i < cnt; i++)
-                    {
-                        printf("%-12.12s   %10lu кбит\n", names[i], sizes[i] / 100);
-                    }
+                    cap2_1 = CreateWindow("static", text, WS_VISIBLE | WS_CHILD, 320, 65 + (FILESMIN + 1) * 20, 150, 20, hwnd, NULL, NULL, NULL);
+                    cap2_2 = CreateWindow("static", "файлов осталось", WS_VISIBLE | WS_CHILD, 360, 65 + (FILESMIN + 1) * 20, 150, 20, hwnd, NULL, NULL, NULL);
                 }
                 _findclose(hFile);
                 chose_for_switch();
