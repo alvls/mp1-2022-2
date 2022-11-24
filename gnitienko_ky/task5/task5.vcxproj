@@ -111,7 +111,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bubbleSort.c" />
+    <ClCompile Include="countingSort.c" />
+    <ClCompile Include="HoaraSort.c" />
+    <ClCompile Include="insertSort.c" />
+    <ClCompile Include="menu.c" />
+    <ClCompile Include="mergeSort.c" />
+    <ClCompile Include="reverse.c" />
+    <ClCompile Include="selectSort.c" />
+    <ClCompile Include="shellaSort.c" />
     <ClCompile Include="source.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Header.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

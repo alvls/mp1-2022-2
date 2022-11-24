@@ -14,5 +14,37 @@
     <ClCompile Include="source.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="bubbleSort.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="countingSort.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HoaraSort.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="insertSort.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="menu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mergeSort.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="reverse.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="selectSort.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="shellaSort.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Header.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
