@@ -14,9 +14,10 @@ void print(struct _finddata_t* data_set, int count) {
     system("cls");
     for (int i = 0; i < count; i++)
         printf("%-5.15s %20lld \n", data_set[i].name, data_set[i].size);
+
 }
 
-
+struct _finddata_t* buf;
 
 int main(void)
 {
@@ -34,15 +35,18 @@ int main(void)
     intptr_t hFile;
 
     char path[200];
-    int count = 2, size = 0;
-    struct _finddata_t* buf;
-    buf = malloc(1000 * sizeof(struct _finddata_t));
-    data_set = calloc(1000, sizeof(struct _finddata_t));
+    int size = 0;
+    long count = 0;
+    //buf = malloc(1000000 * sizeof(struct _finddata_t));
 
     // Find first file in directory 
     printf("Введите расположение файла\n");
     gets_s(path, 150, stdin);
     strcat(path, "\\*.*");
+
+    count = find_count(path);
+
+    data_set = calloc(count, sizeof(struct _finddata_t));
 
     if ((hFile = _findfirst(("%s", path), &c_file)) == -1L)
         printf("No files in current directory!\n");
@@ -70,12 +74,12 @@ int main(void)
                     buf[i] = c_file;
                 }
                 //printf("%-12.15s | %.24s | %10ld\n", user.name, user.data, user.size);
-                count++;
             }
             if (c_file.size == 0) count--;
         } while (_findnext(hFile, &c_file) == 0);
         _findclose(hFile);
         printf("\ncount of files: %d\n", count);
+        system("pause");
         char* menu2[7] = { (char*)"1. Сортировка пузырьком", (char*)"2. Сортировка выбором" , (char*)"3. Сортировка вставками", (char*)"4. Сортировка слиянием", (char*)"5. Сортировка Хоара", (char*)"6. Сортировка Шелла", (char*)"7. Сортировка подсчетом" };
         char* menu1[2] = { (char*)"1. Сортировка по возрастанию", (char*)"2. Сортировка по убыванию" };
         int answer;
@@ -178,4 +182,40 @@ int main(void)
 
         }
     }
+}
+
+long find_count(char* path)
+{
+    struct _finddata_t c_file;
+    struct _finddata_t* tmp;
+    intptr_t hFile;
+    long count = 0, size = 0;
+    while (1){
+        if ((hFile = _findfirst(("%s", path), &c_file)) == -1L) {   
+            system("pause");
+            continue;
+        }
+        do {
+            if (c_file.size > 0)
+                size++;
+        } while (_findnext(hFile, &c_file) == 0);
+        if (size == 0) {
+            system("pause");
+            continue;
+        }
+        tmp = calloc(size, sizeof(struct _finddata_t));
+        if (tmp != NULL)
+            buf = tmp;
+        else
+            break;
+        hFile = _findfirst(("%s", path), &c_file);
+        do
+        {
+            if ((c_file.size > 0) && (count < size))
+                buf[count++] = c_file;
+        } while (_findnext(hFile, &c_file) == 0);
+        _findclose(hFile);
+        break;
+    }
+    return count;
 }
