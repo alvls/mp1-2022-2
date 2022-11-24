@@ -17,6 +17,16 @@ void print(struct _finddata_t* data_set, int count) {
 
 }
 
+_fsize_t max_file_size(struct _finddata_t* data_set, size_t count) {
+    _fsize_t max = 0;
+    for (int i = 0; i < count; i++) {
+        if (data_set[i].size > max) {
+            max = data_set[i].size;
+        }
+    }
+    return max;
+}
+
 struct _finddata_t* buf;
 
 int main(void)
@@ -128,7 +138,7 @@ int main(void)
                 }
                 case 3: {
                     double t = omp_get_wtime();
-                    mergeSort(data_set, 0, count - 1);
+                    mergeSort(data_set, 0, count-1);
                     double t1 = omp_get_wtime();
                     T = t1 - t;
                     print(data_set, count);
@@ -192,7 +202,6 @@ long find_count(char* path)
     long count = 0, size = 0;
     while (1){
         if ((hFile = _findfirst(("%s", path), &c_file)) == -1L) {   
-            system("pause");
             continue;
         }
         do {
@@ -200,7 +209,6 @@ long find_count(char* path)
                 size++;
         } while (_findnext(hFile, &c_file) == 0);
         if (size == 0) {
-            system("pause");
             continue;
         }
         tmp = calloc(size, sizeof(struct _finddata_t));
