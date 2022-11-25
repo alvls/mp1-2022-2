@@ -203,6 +203,30 @@ void shell_sort(int size)
 
 void counting_sort(int size)
 {
+    int* arr;
+    int  i, ind = 0, k = 0, j;
+    for (i = 0; i < size; i++)
+        if (files2[i].size > files2[ind].size) ind = i;
+    ind = files2[ind].size + 1;
+    arr = (int*)malloc(ind * sizeof(int));
+    memset(arr, 0, (ind * sizeof(int)));
+    for (i = 0; i < size; i++)
+        arr[files2[i].size]++;
+    for (i = 0; i < ind; i++)
+        while (arr[i] > 0)
+        {
+            j = k;
+            while (i != files2[j].size) j++;
+            c_file = files2[k];
+            files2[k] = files2[j];
+            files2[j] = c_file;
+            k++;
+            arr[i]--;
+        }
+    free(arr);
+}
+void radix_sort(int size)
+{
     int count[10] = { 0 };
     int digit = 1;
     int ind, k = 0;
@@ -247,7 +271,8 @@ void counting_sort(int size)
             }
             count[ind]++;
         }
-        if ((arr1[0].size == 0) && (arr2[0].size == 0) && (arr3[0].size == 0) && (arr4[0].size == 0) && (arr5[0].size == 0) && (arr6[0].size == 0) && (arr7[0].size == 0) && (arr8[0].size == 0) && (arr9[0].size == 0)) ind = 0;
+        if (count[0] == size) ind = 0;
+        //if ((arr1[0].size == 0) && (arr2[0].size == 0) && (arr3[0].size == 0) && (arr4[0].size == 0) && (arr5[0].size == 0) && (arr6[0].size == 0) && (arr7[0].size == 0) && (arr8[0].size == 0) && (arr9[0].size == 0)) ind = 0;
         else ind = 1;
         for (int i = 0; i < 10; i++)
         {
@@ -290,7 +315,7 @@ void counting_sort(int size)
             }
             count[i] = 0;
         }
-        digit *= 10;
+        digit = digit * 10;
     } while (ind == 1);
     free(arr0);
     free(arr1);
@@ -311,7 +336,7 @@ void main()
     intptr_t hFile;
     double time_of_starting, time_of_ending, time_of_sort;
     short answer;
-    int i = 0;
+    int i = 0, j = 0;
     files = (struct _finddata_t*)malloc(sizeof(struct _finddata_t) * 1);
     setlocale(LC_ALL, "Rus");
     printf("Добрый день!\n");
@@ -348,7 +373,7 @@ void main()
             files2 = (struct _finddata_t*)malloc(i * sizeof(struct _finddata_t));
             do
             {
-                printf("Введите номер метода сортировки (чтобы выбрать сортировку 'пузырьком' введите '1', сотрировку 'выбором' - '2', сотрировку 'вставками' - '3', сотрировку 'слиянием' - '4', сотрировку 'Хоара' - '5', сотрировку 'Шелла' - '6', сотрировку 'подсчетом' - '7'):\t");
+                printf("Введите номер метода сортировки (чтобы выбрать сортировку 'пузырьком' введите '1', сотрировку 'выбором' - '2', сотрировку 'вставками' - '3', сотрировку 'слиянием' - '4', сотрировку 'Хоара' - '5', сотрировку 'Шелла' - '6', сотрировку 'подсчетом' - '7'(возможна только при максимальном размере файла в 10000 байт), сортировку 'поразрядную' - '8'):\t");
                 answer = 0;
                 scanf_s("%hi", &answer);
                 while (getchar() != '\n');
@@ -438,12 +463,32 @@ void main()
                     printf("Время сортировки: %lf с\n", time_of_sort);
                     answer = 3;
                     break;
-                case 7: answer = increase_or_decrease();
+                case 7: while ((j < i) && (files[j].size < 10000)) j++;
+                    if (i > j)
+                    {
+                        printf("Данный метод сортировки не пременим к выбранной директории\n");
+                        break;
+                    }
+                    answer = increase_or_decrease();
                     if (answer == 3)
                         break;
                     copy_arrays(files, i);
                     time_of_starting = omp_get_wtime();
                     counting_sort(i);
+                    time_of_ending = omp_get_wtime();
+                    time_of_sort = time_of_ending - time_of_starting;
+                    if (answer == 1)
+                        print_of_table_increase(i);
+                    else print_of_table_decrease(i);
+                    printf("Время сортировки: %lf с\n", time_of_sort);
+                    answer = 3;
+                    break;
+                case 8: answer = increase_or_decrease();
+                    if (answer == 3)
+                        break;
+                    copy_arrays(files, i);
+                    time_of_starting = omp_get_wtime();
+                    radix_sort(i);
                     time_of_ending = omp_get_wtime();
                     time_of_sort = time_of_ending - time_of_starting;
                     if (answer == 1)
