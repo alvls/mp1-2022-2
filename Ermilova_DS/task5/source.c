@@ -1,6 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define PATH_LENGTH 200
-#define NAME_LENGTH 50
+#define NAME_LENGTH 1000
 #define STR_NUM 100
 
 
