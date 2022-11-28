@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
-#define PATH_LENGTH 200
-#define NAME_LENGTH 1000
-#define STR_NUM 100
+#define PATH_LENGTH 100
+#define NAME_LENGTH 300
+#define STR_NUM 200
 
 
 #include <stdio.h>
@@ -195,7 +195,7 @@ void shell_sort(myStruct* array, int size)
     }
 }
 void countingSort(myStruct* array, int n, int k) {
-    myStruct* c = (myStruct*)malloc((k + 1) * sizeof(*array));
+    myStruct* c = (myStruct*)malloc((k + 1) * sizeof(myStruct));
     memset(c, 0, sizeof(*array) * (k + 1));
 
     for (int i = 0; i < n; ++i) {
@@ -304,13 +304,13 @@ int main()
         if (sort == 1) {
             for (int i = 0; i < count; i++)
             {
-                printf("%s  %d \n", arr[i].name, arr[i].size);
+                printf("%s  %d - byte \n", arr[i].name, arr[i].size);
             }
         }
         if (sort == 2) {
             for (int i = count-1; i >=0; i--)
             {
-                printf("%s  %d \n", arr[i].name, arr[i].size);
+                printf("%s  %d - byte \n", arr[i].name, arr[i].size);
             }
         }
 
