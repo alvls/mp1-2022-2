@@ -770,7 +770,7 @@ void main()
     ShowWindow(hwnd, SW_SHOWNORMAL);
 
 
-    bt_done = CreateWindow("button", "Отсортировать!", WS_VISIBLE | WS_CHILD, 65, 450, 130, 50, hwnd, bt_done_id, NULL, NULL, TEXT("Arial"));
+    bt_done = CreateWindow("button", "Отсортировать!", WS_VISIBLE | WS_CHILD, 0, 450, 130, 50, hwnd, bt_done_id, NULL, NULL, TEXT("Arial"));
 
     HWND edt;
     edt = CreateWindow("edit", "example: C:\\", WS_VISIBLE | WS_CHILD | WS_BORDER | ES_LEFT | ES_MULTILINE, 50, 90, 170, 20, hwnd, edt1_id, NULL, NULL, NULL);
