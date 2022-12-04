@@ -1,3 +1,2 @@
 ﻿  source.c
-C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(1096,5): error MSB6006: "link.exe" завершилась с кодом 1561.
-LINK : fatal error LNK1561: точка входа должна быть определена
+  task6.vcxproj -> C:\Git_repository\mp1-2022-2\vasilev_sa\x64\Debug\task6.exe

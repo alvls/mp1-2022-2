@@ -312,7 +312,7 @@ void print_info(struct _finddata_t* time_buf, long count, double work_time, long
 		textcolor(TEXT);
 		printf("%12lld байт", (_int64)time_buf[i].size);
 		textcolor(TITLE);
-		printf("| %d", time_buf[i].attrib);
+		printf("|");
 	}
 	textcolor(TITLE);
 	printf("\n --------------------------------------------------------------\n");
