@@ -25,7 +25,7 @@ void myprintf(double a, double b, int count)
 	printf("Эталонное значение: %lf\nРассчитанное значение: %lf\nПогрешность: %lf\nКоличество слагаемых: %d\n", a, b, fabs(a - b), count);
 }
 
-static long long factorial(int x)
+double factorial(int x)
 {
 	long long f;
 	for (f = 1; x > 1; f *= (x--))
@@ -33,7 +33,60 @@ static long long factorial(int x)
 	return f;
 }
 
-void sinus(double x, double pog, int n, int mode)
+void B_arr(double* B, int N)
+{
+	double temp;
+	double a, b, c, d, C;
+
+	B[0] = 1;
+	B[1] = -0.5;
+	for (int n = 2; n < N; n++)
+	{
+		temp = 0;
+		if ((n > 2) && (n % 2 == 1))
+			continue;
+		for (int k = 0; k < n; k++)
+		{
+			a = factorial(n);
+			b = factorial(k);
+			c = factorial(n - k);
+			C = (a) / (b * c);
+			d = B[k];
+			temp += C * d / (n - k + 1);
+		}
+		B[n] = -temp;
+	}
+}
+
+void tg(double x, double pog, int n, void (*pointer)(double, double, int))
+{
+	double a = 0, answer = sin(x) / cos(x);
+	int count = 0;
+	double* B = calloc(n, sizeof(double));
+	B_arr(B, n);
+	do
+	{
+		a += (B[2 * count + 2] * pow(-4, count+1) * (1 - pow(4, count+1))) / factorial(2 * count+2) * pow(x, 2 * count + 1);
+		count++;
+	} while ((fabs(answer - a) > pog) && (count < n));
+	free(B);
+	pointer(answer, a, count);
+}
+
+
+void arth(double x, double pog, int n, void (*pointer)(double, double, int))
+{
+	double a = 0, answer = 0.5 * log((1 + x) / (1 - x));
+	int count = 0;
+	do
+	{
+		a += pow(x, 2 * count + 1) / (2 * count + 1);
+		count++;
+	} while ((fabs(answer - a) > pog) && (count < n));
+	pointer(answer, a, count);
+}
+
+void sinus(double x, double pog, int n, void (*pointer)(double, double, int))
 {
 	double a = 0;
 	int count = 0;
@@ -42,13 +95,10 @@ void sinus(double x, double pog, int n, int mode)
 		a += pow((-1), count) * ((pow(x, 2 * count + 1)) / factorial(2 * count + 1));
 		count++;
 	} while ((fabs(sin(x) - a) > pog) && (count < n));
-	if (mode == 1)
-		myprintf(sin(x), a, count);
-	else
-		myprint(sin(x), a, count);
+	pointer(sin(x), a, count);
 }
 
-void cosinus(double x, double pog, int n, int mode)
+void cosinus(double x, double pog, int n, void (*pointer)(double, double, int))
 {
 	double a = 0;
 	int count = 0;
@@ -57,13 +107,10 @@ void cosinus(double x, double pog, int n, int mode)
 		a += pow((-1), count) * ((pow(x, 2 * count)) / factorial(2 * count));
 		count++;
 	} while ((fabs(cos(x) - a) > pog) && (count < n));
-	if (mode == 1)
-		myprintf(cos(x), a, count);
-	else
-		myprint(cos(x), a, count);
+	pointer(cos(x), a, count);
 }
 
-void exponenta(double x, double pog, int n, int mode)
+void exponenta(double x, double pog, int n, void (*pointer)(double, double, int))
 {
 	double a = 0;
 	int count = 0;
@@ -73,10 +120,7 @@ void exponenta(double x, double pog, int n, int mode)
 		a += pow(x, count) / factorial(count);
 		count++;
 	} while ((fabs(exp(x) - a) > pog) && (count < n));
-	if (mode == 1)
-		myprintf(exp(x), a, count);
-	else
-		myprint(exp(x), a, count);
+	pointer(exp(x), a, count);
 }
 
 double num_eiler(int n)
@@ -90,7 +134,7 @@ double num_eiler(int n)
 	} while (count < n);
 	return E;
 }
-void secans(double x, double pog, int n, int mode)
+void secans(double x, double pog, int n, void (*pointer)(double, double, int))
 {
 	double a = 0;
 	int count = 0, last = 1;
@@ -102,48 +146,39 @@ void secans(double x, double pog, int n, int mode)
 			a += ((-1) * num_eiler(2 * count) * pow(x, 2 * count)) / factorial(2 * count);
 		count++;
 	} while ((fabs((1 / cos(x)) - a) > pog) && (count < n));
-	if (mode == 1)
-		myprintf(1 / cos(x), a, count);
-	else
-		myprint(1 / cos(x), a, count);
+	pointer(1 / cos(x), a, count);
 }
 
-void sh(double x, double pog, int n, int mode)
+void sh(double x, double pog, int n, void (*pointer)(double, double, int))
 {
 
 	double a = 0, answer = (exp(x) - exp((-1) * x) / 2);
 	int count = 0;
 	do
 	{
-		a += pow(x, 2 * count + 1) * (1 / factorial(2 * count + 1));
+		a += pow(x, 2 * count + 1) / factorial(2 * count + 1);
 		count++;
 	} while ((fabs(answer - a) > pog) && (count < n));
-	if (mode == 1)
-		myprintf(answer, a, count);
-	else
-		myprint(answer, a, count);
+	pointer(answer, a, count);
 }
 
 
 
-void ch(double x, double pog, int n, int mode)
+void ch(double x, double pog, int n, void (*pointer)(double, double, int))
 {
 	double a = 0, answer = (exp(x) + exp((-1) * x) / 2);
 	int count = 0;
 	do
 	{
-		a += pow(x, 2 * count) * (1 / factorial(2 * count));
+		a += pow(x, 2 * count) / factorial(2 * count);
 		count++;
 	} while ((fabs(answer - a) > pog) && (count < n));
-	if (mode == 1)
-		myprintf(answer, a, count);
-	else
-		myprint(answer, a, count);
+	pointer(answer, a, count);
 }
 
 
 
-void ln(double x, double pog, int n, int mode)
+void ln(double x, double pog, int n, void (*pointer)(double, double, int))
 {
 	double a = 0;
 	int count = 0;
@@ -155,8 +190,5 @@ void ln(double x, double pog, int n, int mode)
 			a += pow(x, count) / count + 1;
 		count++;
 	} while ((fabs(log(x) - a) > pog) && (count < n));
-	if (mode == 1)
-		myprintf(log(x), a, count);
-	else
-		myprint(log(x), a, count);
+	pointer(log(x), a, count);
 }

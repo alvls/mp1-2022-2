@@ -18,23 +18,23 @@
 #define ENTER 13
 #define SPACE 32
 #define BS 8
-#define pi 3,1415926
-
-enum { True = 1, False = 0, SIZE1 = 2, SIZE2 = 7 };
+#define pi 3.1415926535
+enum { True = 1, False = 0, SIZE1 = 2, SIZE2 = 9 };
 
 char menu1[SIZE1][20] = { "Первый режим", "Второй режим" };
-char menu2[SIZE2][10] = { "sin(x)", "cos(x)", "exp(x)", "sec(x)", "sh(x)", "ch(x)", "ln(1+x)" };
+char menu2[SIZE2][10] = { "sin(x)", "cos(x)", "exp(x)", "sec(x)", "sh(x)", "ch(x)", "ln(1+x)", "arth(x)", "tg(x)"};
 
-int (*pointer)(double, double, int);
+
+
 void main()
 {
 	setlocale(LC_ALL, "Russian");
 	textcolor(GREEN);
 	hidecursor();
 	system("title Рассчёт значений математических функций");
-	short active_menu1 = 0, active_menu2 = 0, var;
+	short active_menu1 = 0, active_menu2 = 0;
 	char znak2, c;
-
+	void (*pointer)(double, double, int);
 	while (True)
 	{
 		system("cls");
@@ -141,6 +141,12 @@ void main()
 				case '7':
 					active_menu2 = 6;
 					break;
+				case '8':
+					active_menu2 = 7;
+				case '9':
+					active_menu2 = 8;
+					break;
+					break;
 				case BS:
 				case LEFT:
 					mode = 0;
@@ -152,7 +158,7 @@ void main()
 					textcolor(GREEN);
 					if (active_menu1 == 0)
 					{
-						var = 1;
+						pointer = myprintf;
 						printf("Введите точку х: ");
 						scanf_s("%lf", &x);
 						while (c = getchar() != '\n');
@@ -183,13 +189,13 @@ void main()
 						switch (active_menu2)
 						{
 						case 0:
-							sinus(x, pog, n, var);
+							sinus(x, pog, n, pointer);
 							break;
 						case 1:
-							cosinus(x, pog, n, var);
+							cosinus(x, pog, n, pointer);
 							break;
 						case 2:
-							exponenta(x, pog, n, var);
+							exponenta(x, pog, n, pointer);
 							break;
 						case 3:
 							if (n > 25)
@@ -200,16 +206,16 @@ void main()
 								system("cls");
 								break;
 							}
-							secans(x, pog, n, var);
+							secans(x, pog, n, pointer);
 							break;
 						case 4:
-							sh(x, pog, n, var);
+							sh(x, pog, n, pointer);
 							break;
 						case 5:
-							ch(x, pog, n, var);
+							ch(x, pog, n, pointer);
 							break;
 						case 6:
-							if (x >= 2 || x <= 0)
+							if (x >= 1 || x <= -1)
 							{
 								textcolor(RED);
 								printf("Значение не определено\n");
@@ -217,7 +223,29 @@ void main()
 								system("cls");
 								break;
 							}
-							ln(x, pog, n, var);
+							ln(x, pog, n, pointer);
+							break;
+						case 7:
+							if (x >= 1 || x <= -1)
+							{
+								textcolor(RED);
+								printf("Значение не определено\n");
+								system("PAUSE");
+								system("cls");
+								break;
+							}
+							arth(x, pog, n, pointer);
+							break;
+						case 8:
+							if (x >= pi/2 || x <= -pi/2)
+							{
+								textcolor(RED);
+								printf("Значение не определено\n");
+								system("PAUSE");
+								system("cls");
+								break;
+							}
+							tg(x, pog, n, pointer);
 							break;
 						}
 						system("PAUSE");
@@ -226,7 +254,7 @@ void main()
 					}
 					else
 					{
-						var = 2;
+						pointer = myprint;
 						printf("Введите точку х: ");
 						scanf_s("%lf", &x);
 						while (c = getchar() != '\n');
@@ -249,22 +277,22 @@ void main()
 							switch (active_menu2)
 							{
 							case 0:
-								sinus(x, -1, i + 1, var);
+								sinus(x, -1, i + 1, pointer);
 								break;
 							case 1:
-								cosinus(x, -1, i + 1, var);
+								cosinus(x, -1, i + 1, pointer);
 								break;
 							case 2:
-								exponenta(x, -1, i + 1, var);
+								exponenta(x, -1, i + 1, pointer);
 								break;
 							case 3:
-								secans(x, -1, i + 1, var);
+								secans(x, -1, i + 1, pointer);
 								break;
 							case 4:
-								sh(x, -1, i + 1, var);
+								sh(x, -1, i + 1, pointer);
 								break;
 							case 5:
-								ch(x, -1, i + 1, var);
+								ch(x, -1, i + 1, pointer);
 								break;
 							case 6:
 								if (x >= 1 || x <= -1)
@@ -273,9 +301,31 @@ void main()
 									printf("Значение не определено\n");
 									system("PAUSE");
 									system("cls");
-									break;
+									continue;
 								}
-								ln(x, -1, i + 1, var);
+								ln(x, -1, i + 1, pointer);
+								break;
+							case 7:
+								if (x >= 1 || x <= -1)
+								{
+									textcolor(RED);
+									printf("Значение не определено\n");
+									system("PAUSE");
+									system("cls");
+									continue;
+								}
+								arth(x, -1, i + 1, pointer);
+								break;
+							case 8:
+								if (x >= pi * 0.5 || x <= pi * (-0.5))
+								{
+									textcolor(RED);
+									printf("Значение не определено\n");
+									system("PAUSE");
+									system("cls");
+									continue;
+								}
+								tg(x, -1, i + 1, pointer);
 								break;
 							}
 						}
@@ -288,3 +338,4 @@ void main()
 		}
 	}
 }
+
