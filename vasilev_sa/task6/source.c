@@ -47,12 +47,12 @@ void input_x(double * X)
 		scanf_s("%lf", X);
 }
 
-void input_deviation(int * adres)
+void input_deviation(double *adres)
 {
 	system("cls");
 	textcolor(WHITE);
-	printf("Задайте точность вычисления в знаках после запятой (от 1 до 6): ");
-	scanf_s("%d", adres);
+	printf("Задайте точность вычисления (>= 0,000001): ");
+	scanf_s("%lf", adres);
 }
 
 void input_count(int* adres, int rezhim)
@@ -77,7 +77,7 @@ double factorial(int n)
 void bernulli_arr(double* B, int N)
 {
 	double temp;
-	double a, b, c, d, sochet;
+	double a, b, deviation, d, sochet;
 	B[0] = 1;
 	B[1] = -0.5;
 	for (int n = 2; n < N; n++)
@@ -89,8 +89,8 @@ void bernulli_arr(double* B, int N)
 		{
 			a = factorial(n);
 			b = factorial(k);
-			c = factorial(n - k);
-			sochet = (a) / (b * c);
+			deviation = factorial(n - k);
+			sochet = (a) / (b * deviation);
 			d = B[k];
 			temp += sochet * d / (n - k + 1);
 		}
@@ -104,7 +104,7 @@ void print_info_1(double* answer_arr, int N, double etalon)
 	system("cls");
 	printf("Эталон: %lf\n", etalon);
 	printf("Функция: %lf\n", answer_arr[k]);
-	printf("Разница: %lf\n", etalon - answer_arr[k]);
+	printf("Разница: %lf\n", fabs(etalon - answer_arr[k]));
 	printf("Выполнено %d / %d\n", k, N);
 	system("pause");
 	system("cls");
@@ -114,7 +114,7 @@ void print_info_2(double* answer_arr, int N, double etalon)
 {
 	printf(" №  Значение    Разница\n");
 	for (int i = 1; i <= N; i++)
-		printf("%2d) %lf    %lf\n", i, answer_arr[i], etalon - answer_arr[i]);
+		printf("%2d) %lf    %lf\n", i, answer_arr[i], fabs(etalon - answer_arr[i]));
 	printf("Эталон: %lf\n", etalon);
 	system("pause");
 	system("cls");
@@ -135,9 +135,10 @@ void print_error(short mode)
 		break;
 	}
 	system("pause");
+	system("cls");
 }
 
-int my_exp(double x, int c, int N, double etalon, double * answer_arr)
+int my_exp(double x, double deviation, int N, double etalon, double * answer_arr)
 {
 	double answer = 0;
 	int p = 0;
@@ -145,17 +146,17 @@ int my_exp(double x, int c, int N, double etalon, double * answer_arr)
 	{
 		answer += (pow(x, i) / factorial(i));
 		answer_arr[i + 1] = answer;
-		if (fabs(etalon - answer) >= pow(10, -(c + 1)))
+		if (fabs(etalon - answer) > deviation)
 			p++;
 	}
 	if (p < N)
-		answer_arr[0] = p;
+		answer_arr[0] = p + 1;
 	else
 		answer_arr[0] = p - 1;
 	return 0;
 }
 
-int my_sin(double x, int c, int N, double etalon, double* answer_arr)
+int my_sin(double x, double deviation, int N, double etalon, double* answer_arr)
 {
 	double answer = 0;
 	int p = 0, p_min = 0;
@@ -163,18 +164,18 @@ int my_sin(double x, int c, int N, double etalon, double* answer_arr)
 	{
 		answer += pow(-1, n) * pow(x, 2 * n + 1) / factorial(2 * n + 1);
 		answer_arr[n + 1] = answer;
-		if (fabs(etalon - answer) >= pow(10, -(c + 1)))
+		if (fabs(etalon - answer) > deviation)
 			p++;
 			
 	}
 	if (p < N)
-		answer_arr[0] = p;
+		answer_arr[0] = p + 1;
 	else
 		answer_arr[0] = p - 1;
 	return 0;
 }
 
-int my_cos(double x, int c, int N, double etalon, double* answer_arr)
+int my_cos(double x, double deviation, int N, double etalon, double* answer_arr)
 {
 	double answer = 0;
 	int p = 0;
@@ -182,17 +183,17 @@ int my_cos(double x, int c, int N, double etalon, double* answer_arr)
 	{
 		answer += pow(-1, n) * pow(x, 2 * n) / factorial(2 * n);
 		answer_arr[n + 1] = answer;
-		if (fabs(etalon - answer) >= pow(10, -(c + 1)))
+		if (fabs(etalon - answer) > deviation)
 			p++;
 	}
 	if (p < N)
-		answer_arr[0] = p;
+		answer_arr[0] = p + 1;
 	else
 		answer_arr[0] = p - 1;
 	return 0;
 }
 
-int my_tg(double x, int c, int N, double etalon, double* answer_arr)
+int my_tg(double x, double deviation, int N, double etalon, double* answer_arr)
 {
 	if (fabs(x) > M_PI_2)
 		return 1;
@@ -208,11 +209,11 @@ int my_tg(double x, int c, int N, double etalon, double* answer_arr)
 	{
 		answer += B[2 * n] * pow(-4, n) * (1 - pow(4, n)) / factorial(2 * n) * pow(x, 2 * n - 1);
 		answer_arr[n + 1] = answer;
-		if (fabs(etalon - answer) >= pow(10, -(c + 1)))
+		if (fabs(etalon - answer) > deviation)
 			p++;
 	}
 	if (p < N)
-		answer_arr[0] = p;
+		answer_arr[0] = p + 1;
 	else
 		answer_arr[0] = p - 1;
 	free(B);
@@ -221,11 +222,12 @@ int my_tg(double x, int c, int N, double etalon, double* answer_arr)
 
 void main(void)
 {
-	int (*my_func[MODE_MENU]) (double, int, int, double, double*) = { my_sin, my_cos, my_exp, my_tg };
+	int (*my_func[MODE_MENU]) (double, double, int, double, double*) = { my_sin, my_cos, my_exp, my_tg };
 	double (*etalon_func[MODE_MENU]) (double) = { sin, cos, exp, tan };
 	short active_menu1 = 0, active_menu2 = 0;
 	char ch;
-	int c, N;
+	int N;
+	double deviation;
 	double x;
 	double etalon;
 	double * answer_arr;
@@ -311,7 +313,7 @@ void main(void)
 					case ENTER:
 						showcursor();
 						input_x(&x);
-						input_deviation(&c);
+						input_deviation(&deviation);
 						input_count(&N, 1);
 						hidecursor();
 
@@ -320,7 +322,7 @@ void main(void)
 							return;
 
 						etalon = etalon_func[active_menu2](x);
-						error = my_func[active_menu2](x, c, N, etalon, answer_arr);
+						error = my_func[active_menu2](x, deviation, N, etalon, answer_arr);
 						if (error)
 							print_error(active_menu2);
 						else
@@ -369,7 +371,7 @@ void main(void)
 					case ENTER:
 						showcursor();
 						input_x(&x);
-						c = 6;
+						deviation = 6;
 						input_count(&N, 2);
 						hidecursor();
 						
@@ -378,7 +380,7 @@ void main(void)
 							return;
 
 						etalon = etalon_func[active_menu2](x);
-						error = my_func[active_menu2](x, c, N, etalon, answer_arr);
+						error = my_func[active_menu2](x, deviation, N, etalon, answer_arr);
 						if (error)
 							print_error(active_menu2);
 						else
