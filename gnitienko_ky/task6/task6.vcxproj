@@ -111,9 +111,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.c" />
     <ClCompile Include="menu.c" />
     <ClCompile Include="func.c" />
+    <ClCompile Include="source.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h" />

@@ -11,13 +11,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="menu.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="func.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
