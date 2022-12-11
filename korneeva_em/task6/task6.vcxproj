@@ -111,7 +111,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="func_acos.c" />
+    <ClCompile Include="func_arth.c" />
+    <ClCompile Include="func_asin.c" />
+    <ClCompile Include="func_acot.c" />
+    <ClCompile Include="func_atan.c" />
+    <ClCompile Include="func_cosh.c" />
+    <ClCompile Include="func_cot.c" />
+    <ClCompile Include="func_csc.c" />
+    <ClCompile Include="func_sinh.c" />
+    <ClCompile Include="console_utils.c" />
+    <ClCompile Include="func_cos.c" />
+    <ClCompile Include="func_exp.c" />
+    <ClCompile Include="func_sin.c" />
+    <ClCompile Include="func_tan.c" />
+    <ClCompile Include="math_bernoulli.c" />
+    <ClCompile Include="math_std_missing.c" />
+    <ClCompile Include="math_utils.c" />
+    <ClCompile Include="mode_serial.c" />
+    <ClCompile Include="mode_single.c" />
     <ClCompile Include="source.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="calc_modes.h" />
+    <ClInclude Include="console_utils.h" />
+    <ClInclude Include="math_functions.h" />
+    <ClInclude Include="math_functions_list.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
