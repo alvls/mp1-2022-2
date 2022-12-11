@@ -238,12 +238,12 @@ void main() {
 			t2 = omp_get_wtime();
 			if (ans_1 == 1) {
 				pr(a, size, path);
-				printf("time - %*.10lf\n", t2 - t1);
+				printf("time - %lf\n", t2 - t1);
 			}
 			if (ans_1 == 2) {
 				reverse_a(a, size);
 				pr(a, size, path);
-				printf("time - %*.10lf\n", t2 - t1);
+				printf("time - %lf\n", t2 - t1);
 			}
 			break;
 		case 2:
@@ -252,12 +252,12 @@ void main() {
 			t2 = omp_get_wtime();
 			if (ans_1 == 1) {
 				pr(a, size, path);
-				printf("time - %*.10lf\n", t2 - t1);
+				printf("time - %lf\n", t2 - t1);
 			}
 			if (ans_1 == 2) {
 				reverse_a(a, size);
 				pr(a, size, path);
-				printf("time - %*.10lf\n", t2 - t1);
+				printf("time - %lf\n", t2 - t1);
 			}
 			break;
 		case 3:
@@ -266,12 +266,12 @@ void main() {
 			t2 = omp_get_wtime();
 			if (ans_1 == 1) {
 				pr(a, size, path);
-				printf("time - %*.10lf\n", t2 - t1);
+				printf("time - %lf\n", t2 - t1);
 			}
 			if (ans_1 == 2) {
 				reverse_a(a, size);
 				pr(a, size, path);
-				printf("time - %*.10lf\n", t2 - t1);
+				printf("time - %lf\n", t2 - t1);
 			}
 	
 			break;
@@ -282,12 +282,12 @@ void main() {
 			t2 = omp_get_wtime();
 			if (ans_1 == 1) {
 				pr(a, size, path);
-				printf("time - %*.10lf\n", t2 - t1);
+				printf("time - %lf\n", t2 - t1);
 			}
 			if (ans_1 == 2) {
 				reverse_a(a, size);
 				pr(a, size, path);
-				printf("time - %*.10lf\n", t2 - t1);
+				printf("time - %lf\n", t2 - t1);
 			}
 			break;
 		case 5:
@@ -296,12 +296,12 @@ void main() {
 			t2 = omp_get_wtime();
 			if (ans_1 == 1) {
 				pr(a, size, path);
-				printf("time - %*.10lf\n", t2 - t1);
+				printf("time - %lf\n", t2 - t1);
 			}
 			if (ans_1 == 2) {
 				reverse_a(a, size);
 				pr(a, size, path);
-				printf("time - %*.10lf\n", t2 - t1);
+				printf("time - %lf\n", t2 - t1);
 			}
 			
 			break;
@@ -311,12 +311,12 @@ void main() {
 			t2 = omp_get_wtime();
 			if (ans_1 == 1) {
 				pr(a, size, path);
-				printf("time - %*.10lf\n", t2 - t1);
+				printf("time - %lf\n", t2 - t1);
 			}
 			if (ans_1 == 2) {
 				reverse_a(a, size);
 				pr(a, size, path);
-				printf("time - %*.10lf\n", t2 - t1);
+				printf("time - %lf\n", t2 - t1);
 			}
 			break;
 		case 7:
@@ -329,12 +329,12 @@ void main() {
 			t2 = omp_get_wtime();
 			if (ans_1 == 1) {
 				pr(a, size, path);
-				printf("time - %*.10lf\n", t2 - t1);
+				printf("time - %lf\n", t2 - t1);
 			}
 			if (ans_1 == 2) {
 				reverse_a(a, size);
 				pr(a, size, path);
-				printf("time - %*.10lf\n", t2 - t1);
+				printf("time - %lf\n", t2 - t1);
 			}
 			break;
 		case 8:
