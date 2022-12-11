@@ -34,7 +34,7 @@ void GetExp(double x, double rate, int N)
 	double temp = 1;
 	for (i = 2; (i <= N) && (fabs(ethalon - answ) > rate); i++)
 	{
-		answ *= x / (i - 1);
+		temp *= x / (i - 1);
 		answ += temp;
 	}
 	printf("%16d   %26.6lf   %32.6lf\n", i - 1, answ, fabs(ethalon - answ));
