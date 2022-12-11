@@ -112,11 +112,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseFunc.c" />
+    <ClCompile Include="MathFunc.c" />
     <ClCompile Include="source.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="design.h" />
-    <ClInclude Include="menu.h" />
+    <ClInclude Include="color.h" />
     <ClInclude Include="MyMath.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

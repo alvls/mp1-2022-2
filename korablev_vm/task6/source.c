@@ -7,32 +7,29 @@ void main()
 	system("title Расчет значений функций");
 	int mode=-1,funct; //выбранный режим и функция
 	double x, ethalon; //выбранная точка и эталон
-	char* func[] = { "\t\tВыберите желаемую функцию","> sin(x)","> cos(x)","> exp(x)","> arctg(x)", "> sinh(x)", "> cosh(x)" };
+	char* func[] = { "\t\tВыберите желаемую функцию","> sin(x)","> cos(x)","> exp(x)","> arctg(x)", "> sinh(x)", "> cosh(x)", "> sec(x)", "> csc(x)" };
 	char* menu[] = { "\t\tВыберите режим программы, с которым хотите работать","> Однократный расчет функции в заданной точке","> Серийный эксперимент" };
 	char* ex_prog[] = { "\t\tВыберите дальнейший шаг","> Рассчет значения для другой точки","> Выйти из программы" };
 	typedef void (*function) (double, double, int);
 	function math_func[6] = { &GetSin, &GetCos, &GetExp, &GetArctg, &GetSh, &GetCosh};
 	typedef double (*eth_function) (double);
-	eth_function eth_func[6] = { &sin, &cos, &exp, &atan, &sinh, &cosh };
+	eth_function eth_func[6] = { &sin, &cos, &exp, &atan, &sinh, &cosh,};
 	hello(Start);
 	Start = 1;
 	mode = menu_mode(menu, 3);
 	funct = menu_mode(func, 7);
 	system("cls");
-	if (funct != 4)
+	if (funct == 4 || funct == 3 )
+	{
+		system("cls");
+		printf("Выберите точку, для которой хотите расчитать значение функции: ");
+		scanf_s("%lf", &x);
+	}
+	else
 	{
 		printf("Выберите точку, для которой хотите расчитать значение функции (в градусах): ");
 		scanf_s("%lf", &x);
 		x = x * M_PI / 180;
-	}
-	else
-	{
-		do
-		{
-			system("cls");
-			printf("Выберите точку, для которой хотите расчитать значение функции (от -1 до 1): ");
-			scanf_s("%lf", &x);
-		} while (x < -1 || x>1);
 	}
 	ethalon = eth_func[funct - 1](x);
 	switch (mode)
