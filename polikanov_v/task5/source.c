@@ -6,13 +6,11 @@
 #include <io.h>  
 #include <time.h>
 #include <malloc.h>
-#include <memory.h>
-
+#include <memory.h> 
 #include <omp.h> 
 
 int count_of_files = 0;
 int max_size_of_file = 0;
-int want_to_continue = 1;
 
 
 typedef struct _finddata_t files_info; 
@@ -176,7 +174,7 @@ void qs(files_info *files, int first, int last){
         } while (left <= right);
         qs(files, first, right);
         qs(files, left, last);
-    }
+    } // C:/windows/system32/*.*
 }
 
 void shell_sort(files_info* files, int size) {
@@ -284,7 +282,7 @@ void sorting_process(files_info* files) {
             break;
         case 4:
             t1 = omp_get_wtime();
-            merge_sort(files, 0, count_of_files);
+            merge_sort(files, 0, count_of_files - 1);
             t2 = omp_get_wtime();
             printf("  Вывести результат по убыванию размеров файлов или по возрастанию? Введите 0 / 1 (дефолтное значение - возрастание)\n  ");
             scanf("%d", &up_or_down);
@@ -304,7 +302,7 @@ void sorting_process(files_info* files) {
             break;
         case 5:
             t1 = omp_get_wtime();
-            qs(files, 0, count_of_files);
+            qs(files, 0, count_of_files - 1);
             t2 = omp_get_wtime();
             printf("  Вывести результат по убыванию размеров файлов или по возрастанию? Введите 0 / 1 (дефолтное значение - возрастание)\n  ");
             scanf("%d", &up_or_down);
@@ -373,12 +371,10 @@ void sorting_process(files_info* files) {
 
  }
 
-
-    void main() {
+void main() {
 
         files_info* files;
         int sort_again = 1;
-
 
         setlocale(LC_ALL, "Rus");
 
@@ -386,23 +382,17 @@ void sorting_process(files_info* files) {
 
         files = finding_files();
 
-
         while (sort_again == 1) {
             sorting_process(files);
             printf("  Хотите отсортировать директорию еще раз, но другим способом? ДА / НЕТ - 1 / 0 (дефолтное значение - НЕТ)\n  ");
             scanf("%d",&sort_again);
-            files = copy_files;
-            
-            
+            files = copy_files;                       
         } 
 
-        for (int i = 0; i < count_of_files; i++) {
-            printf("%s  %d\n", copy_files[i].name, copy_files[i].size);
-        }
-
         printf("  Спасибо за работу!\n");
-
-
         printf("  \n");
+
         system("PAUSE");
 }
+    //C:/windows/system32/*.*
+//C:/Study/Scratch_3/resources/static/assets/*.*

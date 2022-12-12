@@ -14,5 +14,25 @@
     <ClCompile Include="source.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="firstMode.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="secondMode.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mathFunctions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mathFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="secondMode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="firstMode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
