@@ -1,5 +1,3 @@
-// Если пытаться как-то сохранять факториалы и не считать их
-// каждый раз, то в определенный момент они просто не влезут в тип
 long binomial_coefficient(int n, int k)
 {
     long res = 1;
@@ -10,4 +8,9 @@ long binomial_coefficient(int n, int k)
     }
 
     return res;
+}
+
+int sign(int number)
+{
+    return number >= 0 ? 1 : -1;
 }

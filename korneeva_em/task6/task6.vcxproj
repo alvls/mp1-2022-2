@@ -112,20 +112,27 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="func_acos.c" />
-    <ClCompile Include="func_arth.c" />
+    <ClCompile Include="func_atanh.c" />
     <ClCompile Include="func_asin.c" />
     <ClCompile Include="func_acot.c" />
+    <ClCompile Include="func_asinh.c" />
     <ClCompile Include="func_atan.c" />
     <ClCompile Include="func_cosh.c" />
     <ClCompile Include="func_cot.c" />
+    <ClCompile Include="func_coth.c" />
     <ClCompile Include="func_csc.c" />
+    <ClCompile Include="func_lnp1.c" />
+    <ClCompile Include="func_sec.c" />
     <ClCompile Include="func_sinh.c" />
     <ClCompile Include="console_utils.c" />
     <ClCompile Include="func_cos.c" />
     <ClCompile Include="func_exp.c" />
     <ClCompile Include="func_sin.c" />
+    <ClCompile Include="func_sqrt.c" />
     <ClCompile Include="func_tan.c" />
+    <ClCompile Include="func_tanh.c" />
     <ClCompile Include="math_bernoulli.c" />
+    <ClCompile Include="math_euler.c" />
     <ClCompile Include="math_std_missing.c" />
     <ClCompile Include="math_utils.c" />
     <ClCompile Include="mode_serial.c" />

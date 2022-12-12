@@ -53,7 +53,7 @@
     <ClCompile Include="func_acos.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="func_arth.c">
+    <ClCompile Include="func_atanh.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="math_utils.c">
@@ -69,6 +69,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="func_csc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="math_euler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="func_sec.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="func_tanh.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="func_coth.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="func_asinh.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="func_lnp1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="func_sqrt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

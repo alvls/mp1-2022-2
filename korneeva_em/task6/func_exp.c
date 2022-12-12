@@ -1,6 +1,9 @@
-#pragma once
+#include "math_functions.h"
 
-// sigma ((x^n) / n!)
+int validate_range_exp(double x)
+{
+    return 1;
+}
 
 double approx_exp(double x, double term, int n)
 {
@@ -8,5 +11,6 @@ double approx_exp(double x, double term, int n)
     {
         return 1;
     }
+
     return term * (x / n);
 }

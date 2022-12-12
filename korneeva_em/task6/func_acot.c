@@ -1,6 +1,9 @@
 #include "math_functions.h"
 
-// sigma (-1)^n * (x^(2n-1))/(2n-1))
+int validate_range_acot(double x)
+{
+    return (fabs(x) <= 1);
+}
 
 double approx_acot(double x, double term, int n)
 {
@@ -8,5 +11,6 @@ double approx_acot(double x, double term, int n)
     {
         return -x;
     }
-    return term * (-1) * (((2 * (n - 1) + 1) * (x * x)) / ((2 * n) + 1));
+
+    return term * (-1) * (((2. * (n - 1.) + 1) * (x * x)) / ((2. * n) + 1));
 }

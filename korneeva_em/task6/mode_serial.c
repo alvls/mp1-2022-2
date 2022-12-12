@@ -1,13 +1,11 @@
-#pragma once
-
 #include "math_functions.h"
 #include "console_utils.h"
 
 void mode_serial(MathFunctionInfo* func, double x, int NMax)
 {
+	double reference = func->std_func(x);
 	double term = 0, result = func->initial_value;
 	int n;
-	double reference = func->std_func(x);
 
 	textcolor(LIGHTBLUE);
 	gotoxy((wnd.X  - 32) / 2, wherey() + 1);
@@ -30,6 +28,7 @@ void mode_serial(MathFunctionInfo* func, double x, int NMax)
 		printf("%-8d %30.10lf %25.10lf", n+1, result, fabs(reference - result));
 	
 	}
+
 	textcolor(LIGHTGRAY);
 	gotoxy(0, wherey() + 1);
 }

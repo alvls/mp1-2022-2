@@ -4,7 +4,7 @@
 // числа Ѕернулли с индексом 2n используютс€ при расчете тангенсов,
 // значит, нужно иметь в расположении числа Ѕернулли от 0 до 2*NMax = 2000 включительно
 
-double bernoulli_numbers[NMAX_MAX * 2 / 2] = { 1 };
+double bernoulli_numbers[N_MAX * 2 / 2] = { 1 };
 int calculated_bernoulli_numbers = 0;
 
 double calculate_bernoulli_number(int n)
@@ -16,7 +16,7 @@ double calculate_bernoulli_number(int n)
         result += binomial_coefficient(n + 1, k + 1) * bernoulli(n - k);
     }
 
-    result *= (-1.) / (n + 1);
+    result *= (-1.) / (n + 1.);
 
     bernoulli_numbers[n / 2] = result;
     calculated_bernoulli_numbers++;

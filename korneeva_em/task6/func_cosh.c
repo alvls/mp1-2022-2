@@ -1,6 +1,9 @@
-#pragma once
+#include "math_functions.h"
 
-// sigma * (x^(2n))/(2n)!)
+int validate_range_cosh(double x)
+{
+    return 1;
+}
 
 double approx_cosh(double x, double term, int n)
 {
@@ -8,5 +11,6 @@ double approx_cosh(double x, double term, int n)
     {
         return 1;
     }
-    return term * ((x * x) / (((2 * n) - 1) * (2 * n)));
+
+    return term * ((x * x) / (((2. * n) - 1) * (2. * n)));
 }

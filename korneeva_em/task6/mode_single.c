@@ -1,5 +1,3 @@
-#pragma once
-
 #include "math_functions.h"
 #include "console_utils.h"
 
@@ -21,9 +19,9 @@ void glamour_printf(const char* text, const char* format, ...)
 
 void mode_single(MathFunctionInfo* func, double x, int N, double precision)
 {
+	double reference = func->std_func(x);
 	double term = 0, result = func->initial_value;
 	int n;
-	double reference = func->std_func(x);
 
 	for (n = 0; n < N; n++)
 	{
