@@ -327,7 +327,7 @@ _fsize_t max_file_size(struct _finddata_t* arr, size_t lng)
 double countSortIncrease(struct _finddata_t* arr, size_t lng)
 {
     double t1 = omp_get_wtime();
-    int i1;
+    long i1;
     _fsize_t m = max_file_size(arr, lng);
     _fsize_t* m1 = malloc(sizeof(int) * (m + 1));
     memset(m1, 0, sizeof(int) * (m + 1));
@@ -368,13 +368,13 @@ double countSortDecrease(struct _finddata_t* arr, size_t lng)
     for (i1 = lng - 1; i1 >= 0; i1--)
     {
         finalexit[m1[arr[i1].size] - 1] = arr[i1];
-        m1[arr[i1].size--];
+        m1[arr[i1].size]--;
     }
 
     for (i1 = lng - 1; i1 >= 0; i1--)
         arr[i1] = finalexit[lng - 1 - i1];
-    free(m1);
     free(finalexit);
+    free(m1);
     double t2 = omp_get_wtime();
     return(t2 - t1);
 }
