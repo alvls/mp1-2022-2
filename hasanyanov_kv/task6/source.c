@@ -90,7 +90,7 @@ void main()
 			{
 				textcolor(GREEN);
 				gotoxy(0, 0);
-				printf("Выберети функцию:");
+				printf("Выберите функцию:");
 				for (int k = 0; k < SIZE2; k++)
 				{
 					if (active_menu2 == k)
