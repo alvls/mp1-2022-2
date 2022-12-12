@@ -65,9 +65,7 @@ void math_serial_experiment(double x, int n, int number_of_function)
 	printf("-----                    ------------------                    ------------------\n");
 	for (i = 0; i < n; i++)
 	{
-		{
 			result += calculation_step[number_of_function](x, i);
 			printf("%5.2d                    %18.6lf                    %18.6lf\n", i + 1, result, fabs(reference - result));
-		}
 	}
 }
