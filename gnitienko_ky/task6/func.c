@@ -38,8 +38,8 @@ void enterx2(int* x, double* T, int* N) {
 	scanf_s("%d", N);
 }
 
-long factorial(int x) {
-	long fact = 1;
+long long factorial(int x) {
+	long long fact = 1;
 	for (int i = 1; i <= x; i++)
 		fact *= i;
 	return fact;
@@ -79,7 +79,7 @@ void sinus2(double x, double T, int N, void (*pointer)(double, double, int)) {
 	long double sum = 0;
 	printf("Эталонное значение: %lf \n", sin(x));
 	printf("Кол-во слагаемых                       Вычисленное значение                        Разница между значениями\n");
-	for (int i = 0; i <= N && (fabs(sin(x) - sum) > T); i++) {
+	for (int i = 0; i <= N; i++) {
 		sum += pow((-1), i) * ((pow(x, 2 * i + 1)) / factorial(2 * i + 1));
 		pointer(sin(x), sum, i);
 	}
@@ -89,7 +89,7 @@ void cosinus2(double x, double T, int N, void (*pointer)(double, double, int)) {
 	long double sum = 0;
 	printf("Эталонное значение: %lf \n", cos(x));
 	printf("Кол-во слагаемых                       Вычисленное значение                        Разница между значениями\n");
-	for (int i = 0; i <= N && (fabs(cos(x) - sum) > T); i++) {
+	for (int i = 0; i <= N; i++) {
 		sum += pow((-1), i) * ((pow(x, 2 * i)) / factorial(2 * i));
 		pointer(cos(x), sum, i);
 	}
@@ -99,7 +99,7 @@ void exponent2(double x, double T, int N, void (*pointer)(double, double, int)) 
 	long double sum = 0;
 	printf("Эталонное значение: %lf \n", exp(x));
 	printf("Кол-во слагаемых                       Вычисленное значение                        Разница между значениями\n");
-	for (int i = 0; i <= N && (fabs(exp(x) - sum) > T); i++){
+	for (int i = 0; i <= N; i++) {
 		sum += pow(x, i) / factorial(i);
 		pointer(exp(x), sum, i);
 	}
@@ -126,7 +126,7 @@ void tg(double x, double T, int N, void (*pointer)(double, double, int)) {
 	double* B = (double*)malloc(N * sizeof(double));
 	bernulli(B, N);
 	do {
-		sum += (B[2 * count] * pow(-4, count) * (1 - pow(4, count))) / factorial(2 * count) * pow(x, 2 * count - 1);
+		sum += ((B[2 * count] * pow(-4, count) * (1 - pow(4, count))) / factorial(2 * count)) * pow(x, 2 * count - 1);
 		count++;
 	} while ((fabs(tan(x) - sum) > T) && (count < N));
 	free(B);
@@ -140,8 +140,8 @@ void tg2(double x, double T, int N, void (*pointer)(double, double, int)) {
 	bernulli(B, N);
 	printf("Эталонное значение: %lf \n", cos(x));
 	printf("Кол-во слагаемых                       Вычисленное значение                        Разница между значениями\n");
-	for (int i = 0; i <= N && (fabs(tan(x) - sum) > T); i++) {
-		sum += (B[2 * i] * pow(-4, i) * (1 - pow(4, i))) / factorial(2 * i) * pow(x, 2 * i - 1);
+	for (int i = 0; i <= N; i++) {
+		sum += ((B[2 * i] * pow(-4, i) * (1 - pow(4, i))) / factorial(2 * i)) * pow(x, 2 * i - 1);
 		pointer(tan(x), sum, i);
 	}
 }

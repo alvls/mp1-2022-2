@@ -10,7 +10,7 @@ void (*pointer)(double, double, int);
 
 void enterx(int* x, double* T, int* N);
 void enterx2(int* x, double* T, int* N);
-long factorial(int x);
+long long factorial(int x);
 void sinus(double x, double T, int N, void (*pointer)(double, double, int));
 void cosinus(double x, double T, int N, void (*pointer)(double, double, int));
 void exponent(double x, double T, int N, void (*pointer)(double, double, int));
