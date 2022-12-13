@@ -4,6 +4,14 @@
 double (*choice_of_function1[11])(double);
 double (*choice_of_function2[11])(double, int);
 
+double factorial(int n)
+{
+	double factor = 1.0;
+	for (; n > 1; n--)
+		factor *= n;
+	return factor;
+}
+
 double exponent(double x, int i)
 {
 	return (pow(x, i) / factorial(i));
@@ -57,14 +65,6 @@ double hyperbolic_arcsine(double x, int i)
 double hyperbolic_arctanget(double x, int i)
 {
 	return (pow(x, 2 * i + 1) / (2 * i + 1));
-}
-
-int factorial(int n)
-{
-	int factor = 1;
-	for (; n > 1; n--)
-		factor *= n;
-	return factor;
 }
 
 void filling()
