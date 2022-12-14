@@ -4,7 +4,7 @@
 
 double factorial(int x)
 {
-	long long res = 1;
+	double res = 1;
 	for (int i = 2; i <= x; i++)
 		res *= i;
 	return res;

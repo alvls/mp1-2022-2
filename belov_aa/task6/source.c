@@ -10,7 +10,7 @@
 #include "MyMathFuncs.h"
 
 char mod_menu[2][45] = { "Однократный расчёт функции в заданной точке", "Серийный эксперимент" };
-char func_menu[4][10] = { "sin(x)", "cos(x)", "exp(x)", "sqrt(1+x)" };
+char func_menu[4][20] = { "sin(x)", "cos(x)", "exp(x)", "sqrt(1+x), |x| <= 1" };
 
 void printf_mode1(double calculated_value, double etalon_value, int count_of_terms, int N)
 {
