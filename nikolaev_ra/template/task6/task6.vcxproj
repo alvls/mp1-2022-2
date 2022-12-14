@@ -19,7 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source.c" />
+    <ClCompile Include="addfunc.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="mathfunc.c" />
+    <ClCompile Include="mode.c" />
+    <ClCompile Include="navigation.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="addfunc.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="mathfunc.h" />
+    <ClInclude Include="mode.h" />
+    <ClInclude Include="navigation.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
