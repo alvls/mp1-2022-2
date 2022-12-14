@@ -1,0 +1,2 @@
+void second_mode();
+

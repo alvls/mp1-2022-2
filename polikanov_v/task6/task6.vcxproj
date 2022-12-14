@@ -111,7 +111,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="firstMode.c" />
+    <ClCompile Include="mathFunctions.c" />
+    <ClCompile Include="secondMode.c" />
     <ClCompile Include="source.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="firstMode.h" />
+    <ClInclude Include="mathFunctions.h" />
+    <ClInclude Include="secondMode.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
