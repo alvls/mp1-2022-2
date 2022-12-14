@@ -82,8 +82,12 @@ void mode2(double (*myfunc)(double, int), double (*et_func)(double), double x) /
 	textcolor(WHITE);
 }
 
+double sqrt_1plusx_eth(double x)
+{
+	return sqrt(1 + x);
+}
 double (*myFuncs_pointers[4])(double, int) = { sinus, cosinus, exponent, sqrt_1plusx };
-double (*etalonFuncs_pointers[4])(double) = { sin, cos, exp, sqrt };
+double (*etalonFuncs_pointers[4])(double) = { sin, cos, exp, sqrt_1plusx_eth };
 double (*mode_pointers[2])(double (*myfunc)(double, int), double (*et_func)(double), double) = { mode1, mode2 };
 
 
@@ -169,6 +173,15 @@ void main()
 					textcolor(WHITE);
 					printf("Введите точку х, в которой необходимо вычислить значение: ");
 					scanf_s("%lf", &x);
+					if (menu_selection_func == 3 && fabs(x) > 1)
+					{
+						textcolor(RED);
+						printf("Проверьте введенное значение! |x| не должен превышать 1\n");
+						textcolor(WHITE);
+						system("PAUSE");
+						key = -1;
+						break;
+					}
 					mode_pointers[menu_selection_mode](myFuncs_pointers[menu_selection_func], etalonFuncs_pointers[menu_selection_func], x);
 					key = -1;
 					getch();
