@@ -105,18 +105,19 @@ void exponent2(double x, double T, int N, void (*pointer)(double, double, int)) 
 	}
 }
 
-void bernulli(double* B , int N) {
+void bernulli(double* B, int N) {
+	memset(B, 0, N * sizeof(double));
 	int n, k;
 	long double C = 0, sum;
 	B[0] = 1;
 	B[1] = -0.5;
 	for (n = 2; n < N; n += 2) {
 		sum = 0;
-		for (k = 1; k < n; k++) {
-			C = (factorial(n + 1) / (factorial(k + 1) * factorial(n - k))) * B[n - k];
-			sum += (-1 / (n + 1)) * C;
+		for (k = 1; k <= n; k++) {
+			C = (factorial(n + 1) / (factorial(k + 1) * factorial(n - k)));
+			sum += C * B[n - k];
 		}
-		B[n] = -sum;
+		B[n] = sum * (-1.) / (n + 1);
 	}
 }
 
@@ -133,12 +134,12 @@ void tg(double x, double T, int N, void (*pointer)(double, double, int)) {
 		free(B);
 		pointer(tan(x), sum, count);
 	}
-	else printf("¬водите х, где |x| < pi/2");
+	else { printf("¬водите х, где |x| < pi/2\n"); free(B); }
 }
 
 void tg2(double x, double T, int N, void (*pointer)(double, double, int)) {
 	long double sum = 0;
-	long double* B = (long double*)malloc(N * sizeof(long double));
+	double* B = (double*)malloc(N * sizeof(double));
 	bernulli(B, N);
 	if (fabs(x) < (3.141592653 / 2)) {
 		printf("Ёталонное значение: %lf \n", cos(x));
@@ -147,5 +148,7 @@ void tg2(double x, double T, int N, void (*pointer)(double, double, int)) {
 			sum += ((B[2 * i] * pow(-4, i) * (1 - pow(4, i))) / factorial(2 * i)) * pow(x, 2 * i - 1);
 			pointer(tan(x), sum, i);
 		}
+		free(B);
 	}
+	else free(B);
 }
