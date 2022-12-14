@@ -8,14 +8,14 @@
 int menu(char* menu[], int j);
 void (*pointer)(double, double, int);
 
-void enterx(int* x, double* T, int* N);
-void enterx2(int* x, double* T, int* N);
-long long factorial(int x);
+void enterx(double* x, double* T, int* N);
+void enterx2(double* x, double* T, int* N);
+long double factorial(int x);
 void sinus(double x, double T, int N, void (*pointer)(double, double, int));
 void cosinus(double x, double T, int N, void (*pointer)(double, double, int));
 void exponent(double x, double T, int N, void (*pointer)(double, double, int));
 void results(double a, double b, int count);
-void results2(double a, double b, int count);
+void results2(long double a, long double b, int count);
 
 void sinus2(double x, double T, int N, void (*pointer)(double, double, int));
 void cosinus2(double x, double T, int N, void (*pointer)(double, double, int));

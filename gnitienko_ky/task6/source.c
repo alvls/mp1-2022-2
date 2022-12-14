@@ -15,8 +15,8 @@ void main() {
     setlocale(LC_ALL, "Rus");
 
     int method = 0;
-    int x = 0, N = 0;
-    double T = 0;
+    int N = 0;
+    double T = 0, x = 0;
 
     while (method != KEY_EXIT) {
         method = menu(menu1, 3);
