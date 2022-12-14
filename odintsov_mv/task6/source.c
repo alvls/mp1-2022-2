@@ -180,7 +180,7 @@ void rT_sin_r2(double x,int nMax) {
 		else {
 			razn = absol - rT;
 		}
-		printf("%i         |%.11lf   |%.11lf\n", tmp + 1, rT, razn);
+		printf("%i         %.11lf   %.11lf\n", tmp + 1, rT, razn);
 	}
 }
 void rT_cos_r2(double x, int nMax) {
@@ -200,7 +200,7 @@ void rT_cos_r2(double x, int nMax) {
 		else {
 			razn = absol - rT;
 		}
-		printf("%i         |%.11Lf   |%.11Lf\n", tmp + 1, rT, razn);
+		printf("%i         %.11Lf   %.11Lf\n", tmp + 1, rT, razn);
 	}
 }
 void rT_exp_r2(double x, int nMax) {
