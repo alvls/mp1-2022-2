@@ -2,13 +2,13 @@
 #include <math.h>
 
 void results(double a, double b, int count) {
-	printf("Эталонное значение: ");
+	printf("ГќГІГ Г«Г®Г­Г­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ: ");
 	printf("%lf\n", a);
-	printf("Вычисленное значение: ");
+	printf("Г‚Г»Г·ГЁГ±Г«ГҐГ­Г­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ: ");
 	printf("%.6lf\n", b);
-	printf("Разница между значениями: ");
+	printf("ГђГ Г§Г­ГЁГ¶Г  Г¬ГҐГ¦Г¤Гі Г§Г­Г Г·ГҐГ­ГЁГїГ¬ГЁ: ");
 	printf("%.6lf\n", fabs(a - b));
-	printf("Кол-во слагаемых: ");
+	printf("ГЉГ®Г«-ГўГ® Г±Г«Г ГЈГ ГҐГ¬Г»Гµ: ");
 	printf("%d\n", count);
 }
 
@@ -20,21 +20,21 @@ void results2(long double a, long double b, int count) {
 
 void enterx(double* x, double* T, int* N) {
 	system("cls");
-	printf("Введите точку х, в которой необходимо вычислить значение: ");
+	printf("Г‚ГўГҐГ¤ГЁГІГҐ ГІГ®Г·ГЄГі Гµ, Гў ГЄГ®ГІГ®Г°Г®Г© Г­ГҐГ®ГЎГµГ®Г¤ГЁГ¬Г® ГўГ»Г·ГЁГ±Г«ГЁГІГј Г§Г­Г Г·ГҐГ­ГЁГҐ: ");
 	scanf_s("%lf", x);
-	printf("Введите точность вычисления >= 0,000001: ");
+	printf("Г‚ГўГҐГ¤ГЁГІГҐ ГІГ®Г·Г­Г®Г±ГІГј ГўГ»Г·ГЁГ±Г«ГҐГ­ГЁГї >= 0,000001: ");
 	scanf_s("%lf", T);
-	printf("Задайте число элементов ряда N: ");
+	printf("Г‡Г Г¤Г Г©ГІГҐ Г·ГЁГ±Г«Г® ГЅГ«ГҐГ¬ГҐГ­ГІГ®Гў Г°ГїГ¤Г  N: ");
 	scanf_s("%d", N);
 }
 
 void enterx2(double* x, double* T, int* N) {
 	system("cls");
-	printf("Введите точку х, в которой необходимо вычислить значение: ");
+	printf("Г‚ГўГҐГ¤ГЁГІГҐ ГІГ®Г·ГЄГі Гµ, Гў ГЄГ®ГІГ®Г°Г®Г© Г­ГҐГ®ГЎГµГ®Г¤ГЁГ¬Г® ГўГ»Г·ГЁГ±Г«ГЁГІГј Г§Г­Г Г·ГҐГ­ГЁГҐ: ");
 	scanf_s("%lf", x);
-	printf("Введите точность вычисления >= 0,000001: ");
+	printf("Г‚ГўГҐГ¤ГЁГІГҐ ГІГ®Г·Г­Г®Г±ГІГј ГўГ»Г·ГЁГ±Г«ГҐГ­ГЁГї >= 0,000001: ");
 	scanf_s("%lf", T);
-	printf("Задайте кол-во экспериментов N: ");
+	printf("Г‡Г Г¤Г Г©ГІГҐ ГЄГ®Г«-ГўГ® ГЅГЄГ±ГЇГҐГ°ГЁГ¬ГҐГ­ГІГ®Гў N: ");
 	scanf_s("%d", N);
 }
 
@@ -77,8 +77,8 @@ void exponent(double x, double T, int N, void (*pointer)(double, double, int)) {
 
 void sinus2(double x, double T, int N, void (*pointer)(double, double, int)) {
 	long double sum = 0;
-	printf("Эталонное значение: %lf \n", sin(x));
-	printf("Кол-во слагаемых                       Вычисленное значение                        Разница между значениями\n");
+	printf("ГќГІГ Г«Г®Г­Г­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ: %lf \n", sin(x));
+	printf("ГЉГ®Г«-ГўГ® Г±Г«Г ГЈГ ГҐГ¬Г»Гµ                       Г‚Г»Г·ГЁГ±Г«ГҐГ­Г­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ                        ГђГ Г§Г­ГЁГ¶Г  Г¬ГҐГ¦Г¤Гі Г§Г­Г Г·ГҐГ­ГЁГїГ¬ГЁ\n");
 	for (int i = 0; i <= N; i++) {
 		sum += pow((-1), i) * ((pow(x, 2 * i + 1)) / factorial(2 * i + 1));
 		pointer(sin(x), sum, i);
@@ -87,8 +87,8 @@ void sinus2(double x, double T, int N, void (*pointer)(double, double, int)) {
 
 void cosinus2(double x, double T, int N, void (*pointer)(double, double, int)) {
 	long double sum = 0;
-	printf("Эталонное значение: %lf \n", cos(x));
-	printf("Кол-во слагаемых                       Вычисленное значение                        Разница между значениями\n");
+	printf("ГќГІГ Г«Г®Г­Г­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ: %lf \n", cos(x));
+	printf("ГЉГ®Г«-ГўГ® Г±Г«Г ГЈГ ГҐГ¬Г»Гµ                       Г‚Г»Г·ГЁГ±Г«ГҐГ­Г­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ                        ГђГ Г§Г­ГЁГ¶Г  Г¬ГҐГ¦Г¤Гі Г§Г­Г Г·ГҐГ­ГЁГїГ¬ГЁ\n");
 	for (int i = 0; i <= N; i++) {
 		sum += pow((-1), i) * ((pow(x, 2 * i)) / factorial(2 * i));
 		pointer(cos(x), sum, i);
@@ -97,8 +97,8 @@ void cosinus2(double x, double T, int N, void (*pointer)(double, double, int)) {
 
 void exponent2(double x, double T, int N, void (*pointer)(double, double, int)) {
 	long double sum = 0;
-	printf("Эталонное значение: %lf \n", exp(x));
-	printf("Кол-во слагаемых                       Вычисленное значение                        Разница между значениями\n");
+	printf("ГќГІГ Г«Г®Г­Г­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ: %lf \n", exp(x));
+	printf("ГЉГ®Г«-ГўГ® Г±Г«Г ГЈГ ГҐГ¬Г»Гµ                       Г‚Г»Г·ГЁГ±Г«ГҐГ­Г­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ                        ГђГ Г§Г­ГЁГ¶Г  Г¬ГҐГ¦Г¤Гі Г§Г­Г Г·ГҐГ­ГЁГїГ¬ГЁ\n");
 	for (int i = 0; i <= N; i++) {
 		sum += pow(x, i) / factorial(i);
 		pointer(exp(x), sum, i);
@@ -134,7 +134,7 @@ void tg(double x, double T, int N, void (*pointer)(double, double, int)) {
 		free(B);
 		pointer(tan(x), sum, count);
 	}
-	else { printf("Вводите х, где |x| < pi/2\n"); free(B); }
+	else { printf("Г‚ГўГ®Г¤ГЁГІГҐ Гµ, ГЈГ¤ГҐ |x| < pi/2\n"); free(B); }
 }
 
 void tg2(double x, double T, int N, void (*pointer)(double, double, int)) {
@@ -142,8 +142,8 @@ void tg2(double x, double T, int N, void (*pointer)(double, double, int)) {
 	double* B = (double*)malloc(N * sizeof(double));
 	bernulli(B, N);
 	if (fabs(x) < (3.141592653 / 2)) {
-		printf("Эталонное значение: %lf \n", cos(x));
-		printf("Кол-во слагаемых                       Вычисленное значение                        Разница между значениями\n");
+		printf("ГќГІГ Г«Г®Г­Г­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ: %lf \n", tan(x));
+		printf("ГЉГ®Г«-ГўГ® Г±Г«Г ГЈГ ГҐГ¬Г»Гµ                       Г‚Г»Г·ГЁГ±Г«ГҐГ­Г­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ                        ГђГ Г§Г­ГЁГ¶Г  Г¬ГҐГ¦Г¤Гі Г§Г­Г Г·ГҐГ­ГЁГїГ¬ГЁ\n");
 		for (int i = 0; i <= N; i++) {
 			sum += ((B[2 * i] * pow(-4, i) * (1 - pow(4, i))) / factorial(2 * i)) * pow(x, 2 * i - 1);
 			pointer(tan(x), sum, i);
