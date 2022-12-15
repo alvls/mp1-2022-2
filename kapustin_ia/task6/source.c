@@ -11,8 +11,8 @@ void main(void)
     setlocale(LC_ALL, "RUS");
     int number_mode;
     int fun, n;
-    double temp1, temp2, k, count, copy_x, copy_x1; 
-    double x, eps, cosin, sinu, expan, arccosi; 
+    double temp1, temp2, count; 
+    double x, eps; 
     PFunc func[4];
     func[0] = sinus;
     func[1] = cosinus;

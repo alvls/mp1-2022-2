@@ -101,7 +101,7 @@ double arccos(double x0, double epsilon, int n1, int* count)
 			sum1 = sum1 + row_elem;
 			if (epsilon == 0)
 			{
-				printf("%-5d                                         %-5.20lf                                              %-8.20lf\n", count_eteration + 1, sum1, sum1 - acosl(x0));
+				printf("%-5d                                         %-5.20lf                                              %-8.20lf\n", count_eteration + 1, 3.14/2 - sum1,3.14/2 - sum1 - acosl(x0));
 			}
 			row_elem = row_elem * (x0 / (coef + 1)) * (x0 / (coef + 2)) * coef * coef;
 			coef = coef + 2;
