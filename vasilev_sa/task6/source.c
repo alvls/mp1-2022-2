@@ -200,7 +200,7 @@ int my_tg(double x, double deviation, int N, double etalon, double* answer_arr)
 	int temp_N = N * 2;
 	double answer = 0;
 	int p = 0;
-	double* B = calloc((size_t)temp_N, sizeof(double));
+	double* B = calloc((size_t)temp_N + 1, sizeof(double));
 	if (!B)
 		return 1;
 	bernulli_arr(B, temp_N);
@@ -317,7 +317,7 @@ void main(void)
 						input_count(&N, 1);
 						hidecursor();
 
-						answer_arr = calloc((size_t)(N + 1), sizeof(etalon));
+						answer_arr = calloc((size_t)(N + 3), sizeof(etalon));
 						if (!answer_arr)
 							return;
 
@@ -375,7 +375,7 @@ void main(void)
 						input_count(&N, 2);
 						hidecursor();
 						
-						answer_arr = calloc((size_t)(N + 1), sizeof(etalon));
+						answer_arr = calloc((size_t)(N + 3), sizeof(etalon));
 						if (!answer_arr)
 							return;
 
